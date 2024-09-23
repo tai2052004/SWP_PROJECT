@@ -7,3 +7,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Author     : LAPTOP
 */
 
+.header
+{
+    height: 100px;
+    width: 100%;
+    overflow: hidden;
+}
