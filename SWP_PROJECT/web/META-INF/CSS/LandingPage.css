@@ -25,7 +25,7 @@ body {
     margin-right: 10px; /* Space between the image and text */
 }
 .menu{
-    justify-content: space-around;
+    display: contents;
 }
 .logoText {
     font-size: 45px;  /* You can adjust this to make the text larger */
