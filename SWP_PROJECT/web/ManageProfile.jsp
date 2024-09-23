@@ -25,7 +25,7 @@
                 <p>CONTACT</p>
             </div>
             <div class="header-avatar">
-                
+                <<img src="src" alt="alt"/>>
             </div>
         </div>
     </body>
