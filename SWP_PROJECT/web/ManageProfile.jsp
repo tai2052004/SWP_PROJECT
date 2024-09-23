@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
+        <style src="CSS/ManageProfile.css"></style>
     </head>
     <body>
         <div class="header">
@@ -17,11 +18,14 @@
                 <img src="img/Logo.png" alt="alt"/>
                 <p>HESH</p>
             </div>
-            <div>
+            <div class="header-button">
                 <p>HOME</p>
                 <p>SHOP</p>
                 <p>SALES</p>
                 <p>CONTACT</p>
+            </div>
+            <div class="header-avatar">
+                
             </div>
         </div>
     </body>
