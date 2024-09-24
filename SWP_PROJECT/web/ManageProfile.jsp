@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
-        <style src="CSS/ManageProfile.css"></style>
+        <link rel="stylesheet" href="CSS/ManageProfile.css">
     </head>
     <body>
         <div class="header">
@@ -25,7 +25,7 @@
                 <p>CONTACT</p>
             </div>
             <div class="header-avatar">
-                <<img src="src" alt="alt"/>>
+                <img src="src" alt="alt"/>
             </div>
         </div>
     </body>

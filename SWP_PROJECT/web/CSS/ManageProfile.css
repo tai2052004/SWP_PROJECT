@@ -9,7 +9,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .header
 {
+    display: flex;
+    justify-content: space-between;
     height: 100px;
     width: 100%;
     overflow: hidden;
+}
+.logo
+{
+    display: flex;
+}
+.logo img
+{
+    width: 50%;
 }
