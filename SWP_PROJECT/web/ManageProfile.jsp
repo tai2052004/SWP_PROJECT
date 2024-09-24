@@ -26,7 +26,7 @@
             </div>
             <div class="header-avatar">
                 <img src="src" alt="alt"/>
-            </div>
+            </div>abcde
         </div>
     </body>
 </html>
