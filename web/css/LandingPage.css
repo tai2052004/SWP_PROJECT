@@ -4,34 +4,88 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
-.header {
-    background-color: #1c2238;
-    color: white;
-    padding: 10px 20px;
+.header
+{
+    background-color: #191F2B;
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    width: 100%;
+    overflow: hidden;
+    font-weight: 700;
+    padding-left: 20px;
+    padding-right: 30px;
+}
+.logo
+{
+    display: flex;
+    gap : 5px;
+    font-size: 30px;
+    margin-top: 10px;
+}
+.logo p
+{
+   color: #235C63;
+   margin-top: 15px;
+   font-family: 'Great Vibes', cursive;
+}
+.logo img
+{
+    width: 50%;
+    height: 70%;
+}
+.header-button
+{
+    width: 330px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    color : white;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 5px;
+}
+.header-avatar {
+    width: 150px;
+    height: 50%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin : auto 0;
+    cursor: pointer;
 }
-.logo {
-    display: flex;
-    align-items: center; /* Aligns image and text vertically */
+
+.cart {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%; /* Circular shape */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effect */
 }
-.menuText{
-    font-size: 45px;
+
+.cart i {
+    color: #0d6efd; /* Primary blue color */
+    font-size: 2rem; /* Increase icon size */
 }
-.logo-img {
-    width: 130px;  /* Set a fixed width for the image */
-    height: auto; /* Ensures the image maintains its aspect ratio */
-    margin-right: 10px; /* Space between the image and text */
+
+.cart:hover {
+    transform: scale(1.2); /* Slightly enlarge on hover */
 }
-.menu{
-    display: contents;
+
+.cart:hover i {
+    color: #fff; /* Change icon color to white on hover */
 }
-.logoText {
-    font-size: 45px;  /* You can adjust this to make the text larger */
-    font-weight: bold;
-    color: #0c7377;
+
+
+.avatar {
+    height: 100%;
 }
+
+.avatar img{
+    width: 100%;
+    height: 100%;
+}
+
 
 .hero-section {
     background-color: #1c2238;
