@@ -11,6 +11,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
         <link rel="stylesheet" href="CSS/ManageProfile.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     </head>
     <body>
         <div class="header">
@@ -25,8 +28,20 @@
                 <p>CONTACT</p>
             </div>
             <div class="header-avatar">
-                <img src="src" alt="alt"/>
+                <div class="cart">
+                    <i class="bi bi-cart-fill fs-3 text-primary"></i> 
+                </div> 
+                <div class="avatar">
+                    <img src="img/avatar.png" alt="avatar" />
+                </div>                  
             </div>
+        </div>
+        
+        <div class="body">
+            <div class="body-part-1">
+                
+            </div>
+            
         </div>
     </body>
 </html>
