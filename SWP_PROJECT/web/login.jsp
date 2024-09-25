@@ -26,7 +26,7 @@
                     <i class="bi bi-lock"></i>
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
-                <a href="" class="forgot_password">Forgot password?</a>
+                <a href="forgot_password.jsp" class="forgot_password">Forgot password?</a>
                 <input type="submit" class="input_container_submit" value="Login">
                 <div class="google_login">
                     <button id = google-login-btn class="google-button">
@@ -35,7 +35,7 @@
                 </div>
                 
                 <div class="signup_link">
-                    Not a member yet?  <a href="">Register!</a>
+                    Not a member yet?  <a href="register.jsp">Register!</a>
                 </div>
             </form>
         </div>
