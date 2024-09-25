@@ -89,3 +89,168 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     height: 100%;
 }
 
+.body-part-1
+{
+    width: 373px;
+    height: 1115px;
+    background-color: #496A7E;
+}
+
+.part1-first
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 27%;;
+}
+.part1-first-avatar
+{
+    width: 100%;
+    height: 165px;
+    text-align: center;
+}
+.part1-first-avatar img
+{
+    height: 100%;
+    width: 167px;
+}
+.part1-first-name
+{
+    width: 100%;
+    height: 20%;
+    text-align: center;
+}
+.part1-first-name p
+{
+    margin-bottom: 0;
+    color: #fff;
+    font-weight: 700;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.part1-second
+{
+    display: flex;
+    height: 73%;
+    gap: 20px;
+}
+.part1-second-detail
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 24%;
+    height: 240px;
+}
+
+.part1-second-detail2
+{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 240px;
+}
+
+.profile-img
+{
+    flex: 1;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.profile-name
+{
+    flex: 1;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+.profile-name p
+{
+    margin: 0;
+}
+.profile-img i
+{
+    font-size: 2rem;
+}
+.part1-second-detail3
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 240px;
+}
+.profile-arrow {
+    width: 40px;
+    height: 40px;
+    border: 2px solid black; /* Border around the arrow */
+    border-radius: 4px; /* Optional: rounded corners */
+    background-color: transparent;
+}
+
+.profile-arrow i {
+    
+    font-size: 1.5rem;
+    color: black;
+}
+
+/*Footer*/
+
+.footer
+{
+    display: flex;
+    justify-content: center;
+    height: 231px;
+    background-color: #1A202C;
+    color: white;
+    padding : 20px 10px;
+     
+}
+.footer1
+{
+    border-right: 2px solid wheat;
+    width: 40%;
+}
+#infor-detail
+{
+    font-size: 30px;
+    color: #ffeeba;
+}
+
+.footer2-inside-2
+{
+    display: flex;
+    flex-direction: column;
+}
+.contact
+{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: #ffeeba;
+}
+.contact-img
+{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+}
+.contact-img img
+{
+    width: 50px;
+    border-radius: 20%;
+}
+.footer2
+{
+    width: 65%;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
