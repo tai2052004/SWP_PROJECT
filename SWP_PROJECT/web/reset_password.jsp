@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="CSS/login_style.css"/>
+        <link rel="stylesheet" href="CSS/login_style.css?v=1.0.1"/>
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     </head>

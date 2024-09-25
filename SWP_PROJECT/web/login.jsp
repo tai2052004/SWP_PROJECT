@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta name="google-signin-client_id" content="554631662341-oimlcvvoufc6uq3h5f9orj94l7n5fdhq.apps.googleusercontent.com">
-        <link rel="stylesheet" href="CSS/login_style.css"/>
+        <link rel="stylesheet" href="CSS/login_style.css?v=1.0.1"/>
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <script src="https://apis.google.com/js/platform.js" async defer></script>    </head>
@@ -28,12 +28,17 @@
                 </div>
                 <a href="" class="forgot_password">Forgot password?</a>
                 <input type="submit" class="input_container_submit" value="Login">
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div class="google_login">
+                    <button id = google-login-btn class="google-button">
+                        <img class="google_login_logo" src="img/google_logo.png" alt="alt"/> Or, sign-in with Google
+                    </button>
+                </div>
+                
                 <div class="signup_link">
                     Not a member yet?  <a href="">Register!</a>
                 </div>
             </form>
         </div>
-        <script src="js/login.js"></script>
+        <script src="js/login.js" type="module"></script>
     </body>
 </html>

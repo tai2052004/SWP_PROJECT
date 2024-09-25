@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta name="google-signin-client_id" content="554631662341-oimlcvvoufc6uq3h5f9orj94l7n5fdhq.apps.googleusercontent.com">
-        <link rel="stylesheet" href="CSS/login_style.css"/>
+        <link rel="stylesheet" href="CSS/login_style.css?v=1.0.1"/>
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <script src="https://apis.google.com/js/platform.js" async defer></script>    </head>

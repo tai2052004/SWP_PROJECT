@@ -51,7 +51,6 @@ body {
     border: 2px solid #ccc;
     border-radius: 15px; 
     box-sizing: border-box;
-    transition: all 0.3s ease;
     background-color: transparent;
 }
 .input_container input::placeholder {
@@ -78,6 +77,31 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.google_login {
+    background-color: #1A1B22;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px 5px 10px; 
+    margin-bottom: 10px;
+}
+.google_login button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}
+.google_login_logo{
+    height: 37px;
+    width: 37px;
+    margin-right: 20px;
 }
 .signup_link {
     font-family: "PT Sans", sans-serif;
