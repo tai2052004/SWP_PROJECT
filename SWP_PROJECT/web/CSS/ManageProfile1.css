@@ -18,8 +18,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .logo
 {
     display: flex;
+    gap : 5px;
+    font-size: 30px;
 }
 .logo img
 {
     width: 50%;
+    height: 70%;
+}
+.header-button
+{
+    width: 330px;
+    display: flex;
+    justify-content: space-between;
 }
