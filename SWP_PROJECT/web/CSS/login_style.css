@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-image: url(..//img/Login.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.login_container{
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login_container h1 {
+    text-align: center;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+}
+.login_container h5 {
+    margin-bottom: 40px;
+}
+.input_container{
+    position: relative;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.input_container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 37px;
+}
+.input_container input{
+    font-family: "PT Sans", sans-serif;
+    width: 400px;
+    padding: 10px 10px 10px 55px; 
+    border: 2px solid #ccc;
+    border-radius: 15px; 
+    box-sizing: border-box;
+    background-color: transparent;
+}
+.input_container input::placeholder {
+    color: #A5A5A5;
+    font-weight: 700;
+}
+.forgot_password {
+    margin-left: 68%;
+    color: #fff;
+    font-family: "PT Sans", sans-serif;
+}
+.input_container_submit {
+    width: 400px;
+    padding: 10px 10px 10px 10px; 
+    margin: 40px 0px;
+    border: 2px solid #36981D;
+    border-radius: 15px; 
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: #36981D;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.google_login {
+    background-color: #1A1B22;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px 5px 10px; 
+    margin-bottom: 10px;
+}
+.google_login button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}
+.google_login_logo{
+    height: 37px;
+    width: 37px;
+    margin-right: 20px;
+}
+.signup_link {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+.signup_link a{
+    color: #18A6C6;
+    font-style: italic;
+    font-weight: 500;
+}
+.login a{
+    font-style: normal;
+    font-weight: 700;
+}
+.g-signin2 {
+    
+}
