@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="CSS/login_style.css?v=1.0.1"/>
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    </head>
     <body>
         <div class="login_container">
             <h1>Register</h1>
@@ -34,7 +35,7 @@
                 </div>
                 <input type="submit" class="input_container_submit" value="Register">
                 <div class="signup_link">
-                    Already have an Account  <a href="">Login!</a>
+                    Already have an Account  <a href="login.jsp">Login!</a>
                 </div>
             </form>
         </div>

@@ -16,7 +16,7 @@
         <div class="login_container">
             <h1>Register</h1>
             <div class="signup_link login">
-                Remember your password?  <a class="" href="">Login here</a>
+                Remember your password?  <a href="login.jsp">Login here</a>
             </div>
             <form>
                 <div class="input_container">
