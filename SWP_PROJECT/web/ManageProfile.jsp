@@ -39,9 +39,94 @@
         
         <div class="body">
             <div class="body-part-1">
+                <div class="part1-first">
+                    <div class="part1-first-avatar">
+                        <img src="img/avatar.png" alt="">
+                    </div>
+                    <div class="part1-first-name">
+                        <p>TaiDepTrai</p>
+                    </div>                 
+                </div>
+                <div class="part1-second">
+                    <div class="part1-second-detail">
+                        <div class="profile-img">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        
+                        <div class="profile-img">
+                            <i class="bi bi-key"></i>
+                        </div>
+                        <div class="profile-img">
+                            <i class="bi bi-bell"></i>
+                        </div>
+                    </div>
+                    <div class="part1-second-detail2">
+                        <div class="profile-name">
+                            <p>My Profile</p>
+                        </div>
+                        <div class="profile-name">
+                            <p>Change Password</p>
+                        </div>
+                        <div class="profile-name">
+                            <p>Notification</p>
+                        </div>
+                    </div>
+             
+                    <div class="part1-second-detail3">
+                        <div class="profile-arrow">
+                            <i class="bi bi-chevron-right"></i> <!-- Right arrow icon -->
+                        </div>
+                        <div class="profile-arrow">
+                            <i class="bi bi-chevron-right"></i> <!-- Right arrow icon -->
+                        </div>
+                        <div class="profile-arrow">
+                            <i class="bi bi-chevron-right"></i> <!-- Right arrow icon -->
+                        </div>
+                    </div>
+                    
+                </div>
                 
             </div>
             
         </div>
     </body>
+    <footer class="footer">
+    <div class="footer1">
+        <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
+    </div>   
+    <div class="footer2">
+        <div class="footer2-inside-1">
+            <div class="infor">
+                <p id="infor-detail">Information<p>
+            </div>
+            <div class="infor">
+                <p>Email : taidepchai@gmail.com<p>
+            </div>
+            <div class="infor">
+                <p>Phone : 0123456789<p>
+            </div>
+            <div class="infor">
+                <p>Addres : do biet o dau<p>
+            </div>
+        </div>
+        <div class="footer2-inside-2">
+            <div class="contact">
+                <p>Contact us<p>
+            </div>
+            <div class="contact-img">
+                <div class="contact-detail">
+                    <img src="img/facebook.jpg" />
+                </div>
+                <div class="contact-detail">
+                    <img src="img/instagram.jpg" />
+                </div>
+                <div class="contact-detail">
+                    <img src="img/tiktok.png" />
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</footer>
 </html>
