@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url(https://fonts.googleapis.com/earlyaccess/nicomoji.css);
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-image: url(..//img/Login.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.login_container{
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login_container h1 {
+    text-align: center;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+}
+.login_container h5 {
+    margin-bottom: 40px;
+}
+.input_container{
+    position: relative;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.input_container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 37px;
+}
+.input_container input{
+    font-family: "PT Sans", sans-serif;
+    width: 400px;
+    padding: 10px 10px 10px 55px; 
+    border: 2px solid #ccc;
+    border-radius: 15px; 
+    box-sizing: border-box;
+    background-color: transparent;
+}
+.input_container input::placeholder {
+    color: #A5A5A5;
+    font-weight: 700;
+}
+.forgot_password {
+    margin-left: 68%;
+    color: #fff;
+    font-family: "PT Sans", sans-serif;
+}
+.input_container_submit {
+    width: 400px;
+    padding: 10px 10px 10px 10px; 
+    margin: 40px 0px;
+    border: 2px solid #36981D;
+    border-radius: 15px; 
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: #36981D;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.google_login {
+    background-color: #1A1B22;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px 5px 10px; 
+    margin-bottom: 10px;
+}
+.google_login button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}
+.google_login_logo{
+    height: 37px;
+    width: 37px;
+    margin-right: 20px;
+}
+.signup_link {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+.signup_link a{
+    color: #18A6C6;
+    font-style: italic;
+    font-weight: 500;
+}
+.login a{
+    font-style: normal;
+    font-weight: 700;
+}
+.input_container input:focus, .input_container input:not(:placeholder-shown) {
+    color: #fff;
+}
+.alerts {
+    position: absolute;
+    top: 120px;
+    right: 30px;
+    width: 400px;
+    min-height: 300px;
+    overflow: hidden;
+}
+
+.alert {
+    position: relative;
+    border: none !important;
+    margin-bottom: 8px;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.2);
+}
+
+.alert .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: -15px;
+    width: 80px;
+    text-align: center;
+}
+
+.alert .copy {
+    margin-left: 60px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255,255,255,.3);
+    line-height: 1.2;
+}
+
+.alert .copy h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.alert .copy p {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.alert .close {
+    opacity: 1;
+    background-color: #eee;
+    width: 30px;
+    height: 30px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid #333;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+}
+
+.alert.alert-danger {
+    background-color: #C20000;
+    color: #eee;
+    box-shadow: 0 0 20px 5px rgba(194, 0, 0, 0.3);
+}
+
+.alert.alert-danger .close {
+    color: #C20000;
+    border-color: #C20000;
+}
+@keyframes bounceInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes bounceOutRight {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.bounceInRight {
+    animation: bounceInRight 1s forwards;
+}
+
+.bounceOutRight {
+    animation: bounceOutRight 1s forwards;
+}

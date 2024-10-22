@@ -1,0 +1,270 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Sep 28, 2024, 3:33:17 PM
+    Author     : fakesimp6996
+*/
+
+/* header */
+.menu {
+    text-align: center;
+}
+
+.menu a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 5px 15px;
+}
+.menu .active {
+    color: #FE5B0F;
+    border-bottom: 2px solid #FE5B0F;
+}
+
+.menu a:hover {
+    border-bottom: 2px solid #FE5B0F;
+    text-decoration: none;
+}
+.header {
+    background-color: #1A202C;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo img {
+    margin-left: 10px;
+    height: 60px;
+    width: 160px;
+}
+.user-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-actions div {
+    margin: 0px 20px;
+}
+
+.user-actions a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.user-actions a:hover {
+    text-decoration: none;
+}
+
+.login i {
+    margin-right: 5px;
+}
+
+.user-actions i {
+    font-size: 25px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.user-actions :hover {
+    color: #FE5B0F;
+}
+
+.bi-search {
+    color: #fff;
+    width: 30px;
+    height: 30px;
+}
+
+/* BODY */
+.Search{
+    display: grid;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 50px;
+    padding: 5px 15px;
+    width: 1000px;
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.search-container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container i {
+    font-size: 16px;
+    color: gray;
+}
+.container {
+     display: flex;
+    max-width: 2200px;  /* Increased the maximum width */
+    margin: 0 auto;     /* Center the container */
+    padding: 20px;
+    background-color: #f9f9f9; /* Optional background color for contrast */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    margin-top: 50px;
+}
+
+/* Filters Section */
+.filters {
+    width: 200px;
+    border: 2px solid lightgray;
+    padding-right: 20px;
+}
+.filters input[type="checkbox"] {
+    transform: scale(1.5);  /* Increase the size of the checkbox */
+    margin-right: 10px;     /* Adjust the spacing */
+}
+
+
+.filters h3 {
+    margin-bottom: 10px;
+}
+
+.filters label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Product Listing Section */
+.products {
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.sorting {
+    margin-bottom: 20px;
+        display: flex;
+    justify-content: center;
+}
+
+.sorting button {
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    border: 1px solid lightgray;
+    padding: 10px;
+    text-align: center;
+}
+
+.product-card img {
+    width: 50%;
+    height: auto;
+}
+
+.product-card h4 {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+    justify-content: center;
+}
+
+.pagination button {
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination .active {
+    background-color: lightgray;
+}
+.Checkbox{
+        box-sizing: border-box;
+    padding: 0px;
+    width: 25px
+}
+/*Footer*/
+
+.footer
+{
+    display: flex;
+    justify-content: center;
+    height: 231px;
+    background-color: #1A202C;
+    color: white;
+    padding : 20px 10px;
+
+}
+.footer1
+{
+    border-right: 2px solid wheat;
+    width: 40%;
+}
+#infor-detail
+{
+    font-size: 30px;
+    color: #ffeeba;
+}
+
+.footer2-inside-2
+{
+    display: flex;
+    flex-direction: column;
+}
+.contact
+{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: #ffeeba;
+}
+.contact-img
+{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+}
+.contact-img img
+{
+    width: 50px;
+    border-radius: 20%;
+}
+.footer2
+{
+    width: 65%;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+}
+    
