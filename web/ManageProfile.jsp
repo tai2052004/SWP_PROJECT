@@ -111,7 +111,7 @@
                         <img src="img/avatar.png" alt="">
                     </div>
                     <div class="part1-first-name">
-                        <p>TaiDepTrai</p>
+                        <p><%= email%></p>
                     </div>                 
                 </div>
                 <div class="part1-second">
@@ -182,6 +182,10 @@
                                 <td style="padding-right: 20px; font-weight: 500;">Birthday</td>
                                 <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="date" name="birthday" value="<%= dob%>"></td>
                             </tr>
+                            <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+                            <% if (errorMessage != null) { %>
+                                <div style="color: red;"><%= errorMessage %></div>
+                            <% } %>
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Email</td>
                                 <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="email" name="email"value="<%= email%>"></td>

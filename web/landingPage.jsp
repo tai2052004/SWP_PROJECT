@@ -7,6 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
+<%@page import="model.User" %> 
+<%
+    User user = (User) session.getAttribute("user"); 
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +18,7 @@
     <title>HESH-Shoe Selling Website</title>
     <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/LandingPage.css?v=1.0.1"/>
+    <link rel="stylesheet" href="CSS/LandingPage1.css?v=1.0.1"/>
   
 </head>
 <body>
@@ -33,9 +37,20 @@
             </div>
             
             <div class="col-md-3 user-actions">
+                <% if(user == null) {%> 
                 <div class="login">
                     <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
                 </div>
+            <% } else { %>
+                <div class="logout dropdown">
+                    <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                    <div class="dropdown-menu">
+                        <a href="ManageProfile.jsp">My profile</a>
+                        <a href="/TrackMyOrder.jsp">Track my order</a>
+                        <a href="/favorites">Favorite Items</a>
+                    </div>
+                </div>
+            <% } %>
                 <div class="cart">
                     <a href=""><i class="bi bi-cart"></i></a>
                 </div>

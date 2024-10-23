@@ -88,8 +88,8 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user", user);
             if ("admin".equals(user.getUser_role())) {
                 response.sendRedirect("UpdateUser.jsp");
-            } else {
-                response.sendRedirect("ManageProfile.jsp");
+            } else if("user".equals(user.getUser_role())) {
+                response.sendRedirect("landingPage.jsp");
             }
         }  else {
             request.setAttribute("u",username);

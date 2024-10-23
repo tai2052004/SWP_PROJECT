@@ -12,6 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.time.Period;
 import model.User;
 
 /**
@@ -71,12 +73,28 @@ public class ManageProfileServlet extends HttpServlet {
         User user = new User();
         String fulln = request.getParameter("personal-name");
         String dob = request.getParameter("birthday");
+        LocalDate dobStr = LocalDate.parse(dob);
+        LocalDate today = LocalDate.now();
+        int age = Period.between(dobStr, today).getYears();
         String email = request.getParameter("email");
         String phone = request.getParameter("phonenumber");
         String address = request.getParameter("address");
         String gender = request.getParameter("gender");
         User sessionUser = (User) request.getSession().getAttribute("user");
         int userId = sessionUser.getUser_id();
+        if(age < 16) {
+            request.setAttribute("birthday", dob);
+            request.setAttribute("errorMessage", "You must be over 16 years old!");
+            request.getRequestDispatcher("ManageProfile.jsp").forward(request, response);
+            return;
+        }
+        if (phone == null || !phone.matches("0\\d{9}")) {
+        request.setAttribute("numberphone", phone);
+        request.setAttribute("errorMessage", "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0!");
+
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        return;
+    }
         user.setUser_id(userId);
         user.setFullname(fulln);
         user.setDob(dob);
