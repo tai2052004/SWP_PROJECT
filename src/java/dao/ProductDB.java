@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  *
@@ -35,15 +36,14 @@ public class ProductDB implements DatabaseInfo {
         }
         return null;
     }
-    public static ArrayList<Product> searchProduct(String name) {
+    public static ArrayList<Product> allListProduct() {
         ArrayList<Product> productList = new ArrayList<>();
         try (Connection con=getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT product_id, name, brand, price, discount,description, image_urlds "
-                    + "FROM Product Where name contains = ? ");
-            stmt.setString(1, name);
+            PreparedStatement stmt = con.prepareStatement("SELECT product_id, name, brand, price, discount,description, image_urls "
+                    + "FROM Product ");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("ID");
+                int id = rs.getInt("product_id");
                 String product_name = rs.getString("name");
                 String brand = rs.getString("brand");
                 String price = rs.getString("price");
@@ -57,5 +57,11 @@ public class ProductDB implements DatabaseInfo {
             e.printStackTrace();
         }
         return productList;
+    }
+    public static void main(String[] args) {
+        List<Product> product = ProductDB.allListProduct();
+        for(Product products: product) {
+            System.out.println(products);
+        }
     }
 }

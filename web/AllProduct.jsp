@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -89,52 +90,22 @@
 
                 <!-- Product Cards -->
                 <div class="product-grid">
-                    <div class="product-card">
+                    <% 
+                        List<Product> products = ProductDB.allListProduct();
+                        for(Product product : products) {
+                            out.println("<div class='product-card'>");
+                            out.println("<h4>" + product.getProductName() + "</h4>");
+                            out.println("<p>" + product.getPrice() + "</p>");
+                            out.println("</div>");
+                        }
+                    %>
+<!--                    <div class="product-card">
                         <img src="img/shoes_1.png" alt="Nike Full Force Low">
                         <h4>Nike Full Force Low - Black / Fire Red</h4>
                         <p>2.190.000</p>
-                    </div>
+                    </div>-->
 
-                    <div class="product-card">
-                        <img src="img/shoes_2.png" alt="Jordan 1 Low Alternate Royal Toe">
-                        <h4>Jordan 1 Low Alternate Royal Toe</h4>
-                        <p>1.550.000</p>
-                    </div>
-
-                    <div class="product-card">
-                        <img src="img/shoes_3.png" alt="New Balance 530">
-                        <h4>New Balance 530 - Dark Olive</h4>
-                        <p>2.050.000</p>
-                    </div>
-
-                    <div class="product-card">
-                        <img src="img/shoes_4.png" alt="Reebok Club C Revenge">
-                        <h4>Reebok Club C Revenge - Pink Clay</h4>
-                        <p>2.350.000</p>
-                    </div>
-                    <div class="product-card">
-                        <img src="img/shoes_1.png" alt="Nike Full Force Low">
-                        <h4>Nike Full Force Low - Black / Fire Red</h4>
-                        <p>2.190.000</p>
-                    </div>
-
-                    <div class="product-card">
-                        <img src="img/shoes_2.png" alt="Jordan 1 Low Alternate Royal Toe">
-                        <h4>Jordan 1 Low Alternate Royal Toe</h4>
-                        <p>1.550.000</p>
-                    </div>
-
-                    <div class="product-card">
-                        <img src="img/shoes_3.png" alt="New Balance 530">
-                        <h4>New Balance 530 - Dark Olive</h4>
-                        <p>2.050.000</p>
-                    </div>
-
-                    <div class="product-card">
-                        <img src="img/shoes_4.png" alt="Reebok Club C Revenge">
-                        <h4>Reebok Club C Revenge - Pink Clay</h4>
-                        <p>2.350.000</p>
-                    </div>
+                    
                  
                     <!-- Add more product cards as needed -->
 
