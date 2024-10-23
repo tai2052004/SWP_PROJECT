@@ -23,7 +23,7 @@ select * from Users
 CREATE TABLE Coupon (
     coupon_id INT IDENTITY(1,1) PRIMARY KEY,      -- ID của mã giảm giá
     code VARCHAR(50) UNIQUE NOT NULL,              -- Mã giảm giá
-    discount_name VARCHAR(20) NOT NULL,            -- Loại giảm giá: Percentage hoặc Fixed
+    discount_name VARCHAR(100) NOT NULL,
     discount_value FLOAT NOT NULL,                  -- Giá trị giảm giá
     quantity INT NOT NULL,                          -- Số lượng mã giảm giá có sẵn
 );
@@ -108,5 +108,69 @@ CREATE TABLE CartItem (
 CREATE TABLE Payment (
 	payment_id int identity(1,1) primary key,
 	payment_method varchar(20),
-	amount float
 );
+
+
+INSERT INTO Coupon (code, discount_name, discount_value, quantity) 
+VALUES 
+('SUMMER2024', 'COUPON FOR SUMMER 2024', 20, 100),
+('FREESHIP', 'COUPON FOR FREESHIP', 50, 50);
+
+INSERT INTO Product (name, brand, price, discount, description, image_urls) 
+VALUES 
+('Reebok Club C Revenge', 'Reebok', 2350000, 0, 'Reebok Club C classic design, comfortable and stylish.', 'img/shoes_1.png'),
+('Nike Air Max 270', 'Nike', 1930000, 0, 'Nike Air Max 270 with the signature air cushion, ideal for running.', 'img/shoes_5.png'),
+('New Balance 530', 'New Balance', 2050000, 0, 'New Balance 530, perfect for casual wear and sports.', 'img/shoes_2.png');
+
+--Reebok Club C Revenge
+INSERT INTO ProductDetail (product_id, size, quantity) 
+VALUES 
+--Reebok Club C Revenge
+(1, '42', 10),
+(1, '43', 8),
+--Nike Air Max 270
+(2, '41', 12),
+(2, '42', 15),
+--New Balance 530
+(3, '40', 9),
+(3, '41', 11);
+
+INSERT INTO "Order" (user_id, order_date, status, pay, total_price, feeship, address, coupon_id, create_time) 
+VALUES 
+(1, GETDATE(), 'Pending', 0, 200, 20, '12 My Da Tay 8, Da Nang', 1, GETDATE()),
+(2, GETDATE(), 'Confirmed', 1, 300, 15, '12 My Da Tay 8, Da Nang', 2, GETDATE());
+
+INSERT INTO OrderDetail (order_id, product_id, quantity, price) 
+VALUES 
+(1, 1, 2, 150),
+(1, 2, 1, 180),
+(2, 1, 1, 150),
+(2, 2, 2, 180);
+
+
+INSERT INTO Comment (content, star, id_user, product_id) 
+VALUES 
+('Great shoes!', 5, 1, 1),
+('Not bad but a bit tight.', 4, 2, 2);
+
+INSERT INTO Favorite (user_id, product_id) 
+VALUES 
+(1, 1),
+(2, 2);
+
+INSERT INTO ShoppingCart (user_id) 
+VALUES 
+(1),
+(2);
+
+INSERT INTO CartItem (cart_id, product_id, quantity, price) 
+VALUES 
+(1, 1, 2, 150),
+(1, 2, 1, 180),
+(2, 1, 1, 150);
+
+INSERT INTO Payment (payment_method) 
+VALUES 
+('VNPAY'),
+('Payment upon receipt');
+
