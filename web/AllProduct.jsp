@@ -10,6 +10,10 @@
 <%
     User user = (User) session.getAttribute("user"); 
     Product product = (Product) request.getAttribute("product");
+     String maxPriceParam = request.getParameter("maxPrice");
+    int maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000000;
+    boolean a = true;
+    
 %>
 <html>
     <head>
@@ -23,25 +27,25 @@
 
     </head>
     <body>
-         <header>
-        
-        <div class="row header">
-            <div class="col-md-3 logo">
-                <img src="img/logo1.png">
-            </div>
+        <header>
 
-            <div class="col-md-6 menu">
-                <a href="landingPage.jsp" class="menuText active">HOME</a>
-                <a href="AllProduct.jsp" class="menuText">SHOP</a>
-                <a href="#footer" class="menuText">CONTACT</a>
-            </div>
-            
-            <div class="col-md-3 user-actions">
-                <% if(user == null) {%> 
+            <div class="row header">
+                <div class="col-md-3 logo">
+                    <img src="img/logo1.png">
+                </div>
+
+                <div class="col-md-6 menu">
+                    <a href="landingPage.jsp" class="menuText active">HOME</a>
+                    <a href="AllProduct.jsp" class="menuText">SHOP</a>
+                    <a href="#footer" class="menuText">CONTACT</a>
+                </div>
+
+                <div class="col-md-3 user-actions">
+                    <% if(user == null) {%> 
                     <div class="login">
                         <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
                     </div>
-                <% } else { %>
+                    <% } else { %>
                     <div class="logout dropdown">
                         <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
                         <div class="dropdown-menu">
@@ -50,16 +54,16 @@
                             <a href="/favorites">Favorite Items</a>
                         </div>
                     </div>
-                <% } %>
-                <div class="cart">
-                    <a href=""><i class="bi bi-cart"></i></a>
-                </div>
-                <div class="search">
-                    <i class="bi bi-search"></i>
+                    <% } %>
+                    <div class="cart">
+                        <a href=""><i class="bi bi-cart"></i></a>
+                    </div>
+                    <div class="search">
+                        <i class="bi bi-search"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
         <div class="Search">
             <form action="SearchProductServlet" method="post">
@@ -80,7 +84,25 @@
                 <label><input class="Checkbox" type="checkbox" checked> Converse</label><br>
 
                 <h3>Price</h3>
-                <input  type="range" min="0" max="100" value="50"><span>$0-100</span>
+                <form id="priceForm" action="AllProduct.jsp" method="get">
+                    <!-- Set the range value dynamically based on the maxPrice parameter -->
+                    <input type="range" min="0" max="10000000" value="<%= (maxPriceParam != null) ? maxPrice : 5000000 %>" id="priceRange" name="maxPrice">
+                    <span id="priceDisplay">$<%= (maxPriceParam != null) ? maxPrice : 5000000 %></span>
+                </form>
+
+                <script>
+                    document.getElementById('priceRange').addEventListener('input', function () {
+                        // Get the current value of the range input
+                        var priceValue = this.value;
+
+                        // Update the displayed price
+                        document.getElementById('priceDisplay').textContent = '$' + priceValue;
+
+                        // Automatically submit the form when the slider is moved
+                        document.getElementById('priceForm').submit();
+                    });
+                    
+                </script>
 
                 <h3>Color</h3>
                 <label><input class="Checkbox" type="checkbox" checked> Yellow</label><br>
@@ -96,28 +118,55 @@
             <!-- Product Listing Section -->
             <section class="products">
                 <!-- Sorting and Filters Row -->
-                <div class="sorting">
-                    <button>New</button>
-                    <button>Price ascending</button>
-                    <button>Price descending</button>
-                    <button>Rating</button>
-                </div>
+                
 
                 <!-- Product Cards -->
                 <div class="product-grid">
-                    
-                    <% 
-                        List<Product> products = ProductDB.allListProduct();
-                        for(Product product1 : products) {
+
+                    <%
+    // Get the maxPrice from the form submission (default to 1000 if not provided)
+     maxPriceParam = request.getParameter("maxPrice");
+     maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000;
+     
+    // Fetch all products
+    List<Product> products = ProductDB.allListProduct();
+
+    // Filter products that are less than or equal to the maxPrice
+    List<Product> filteredProducts = new ArrayList<>();
+    for (Product p : products) {
+        if (p.getPrice() <= maxPrice) {
+            filteredProducts.add(p);
+            a = false;
+            
+        }                                                  
+        
+    }
                     %>
-                        <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)'>
-                            <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
-                            <h4><%= product1.getProductName() %></h4>
-                            <p><%= product1.getPrice() %></p>
-                        </div>
+                    <% 
+            // Display the filtered products
+            if(a){
+            for (Product product1 : products) {
+                    %>
+                    <div class='product-card'>
+                        <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
+                        <h4><%= product1.getProductName() %></h4>
+                        <p>$<%= product1.getPrice() %></p>
+                    </div>
                     <% 
                         }
+                        
+                    }else{
+                                    for (Product product2 : filteredProducts) {
                     %>
+                    <div class='product-card'>
+                        <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
+                        <h4><%= product2.getProductName() %></h4>
+                        <p>$<%= product2.getPrice() %></p>
+                    </div>
+                        <%
+                            }}
+
+                            %>
                 </div>
                 <form id="productSelectionForm" action="ProductDetailServlet" method="GET">
                     <input type="hidden" id="selectedProduct" name="productId" value="">
@@ -127,7 +176,7 @@
 
             </section>
         </div>
-         <div class="footer">
+        <div class="footer">
             <div class="footer1">
                 <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
             </div>   
@@ -166,15 +215,15 @@
 
             </div>
         </div>
-                    <script src="js/AllProduct.js"></script>
+        <script src="js/AllProduct.js"></script>
 
     </body>
     <script>
-function chooseProduct(productId) {
+                    function chooseProduct(productId) {
 
-    document.getElementById('selectedProduct').value = productId;
+                        document.getElementById('selectedProduct').value = productId;
 
-    document.getElementById('productSelectionForm').submit();
-}
-</script>
+                        document.getElementById('productSelectionForm').submit();
+                    }
+    </script>
 </html>
