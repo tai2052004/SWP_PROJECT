@@ -24,6 +24,10 @@
         <servlet-name>UpdateUserServlet</servlet-name>
         <servlet-class>Servlet.UpdateUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductToCartAndPayServlet</servlet-name>
+        <servlet-class>Servlet.ProductToCartAndPayServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>UpdateUserServlet</servlet-name>
         <url-pattern>/UpdateUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductToCartAndPayServlet</servlet-name>
+        <url-pattern>/ProductToCartAndPayServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>landingPage.jsp</welcome-file>

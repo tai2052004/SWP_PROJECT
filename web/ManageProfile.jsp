@@ -139,8 +139,8 @@
                             </div>
                         </a>
                         <a>
-                            <div class="profile-name" id="notification">
-                                <p>Notification</p>
+                            <div class="profile-name" id="view-order-history">
+                                <p>View Order History</p>
                             </div>
                         </a>
                         

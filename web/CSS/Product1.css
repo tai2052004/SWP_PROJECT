@@ -19,6 +19,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     padding-left: 20px;
     padding-right: 30px;
 }
+.header-button p
+{
+    margin-bottom: 0;
+}
+.header-button a:hover {
+    text-decoration: none;
+    transform: scale(1.2); /* Slightly enlarge on hover */
+    color: #ffdf7e;
+}
 .logo
 {
     display: flex;
@@ -57,6 +66,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     align-items: center;
     font-family: 'Roboto', sans-serif;
     margin-top: 5px;
+}
+.header-button a
+{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
 }
 .header-avatar {
     width: 150px;

@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product.css"/>
+        <link rel="stylesheet" href="CSS/Product1.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -23,10 +23,10 @@
                 <p>HESH</p>
             </div>
             <div class="header-button">
-                <p>HOME</p>
-                <p>SHOP</p>
-                <p>SALES</p>
-                <p>CONTACT</p>
+                <a href="landingPage.jsp"><p>HOME</p></a>
+                <a href="AllProduct.jsp"><p>SHOP</p></a>
+                <a href=""><p>SALES</p></a>
+                <a href=""><p>CONTACT</p></a>
             </div>
             <div class="header-avatar">
                 <div class="cart">
@@ -88,10 +88,39 @@
                     <input type="text" id="quantity" value="1" readonly>
                     <button class="quantity-btn" id="increase">+</button>
                 </div>
-                 <div class="product-buttons">
-                <button class="add-to-cart">Add to cart</button>
-                <button class="buy-now">Buy now</button>
-            </div>
+                <div class="product-buttons">                    
+                    <input type="hidden" id="selectedSize" name="selectedSize">
+                    <input type="hidden" id="selectedImage" name="selectedImage">
+                    <input type="hidden" id="productTitleHidden" name="productTitleHidden">
+                    <input type="hidden" id="productPriceHidden" name="productPriceHidden">
+                    <input type="hidden" id="selectedColor" name="selectedColor">
+                    <input type="hidden" id="selectedQuantity" name="selectedQuantity">
+
+                    <form action="ProductToCartAndPayServlet" method="post">
+                        <input type="hidden" id="selectedSizeForm1" name="selectedSize">
+                        <input type="hidden" id="selectedImageForm1" name="selectedImage">
+                        <input type="hidden" id="productTitleHiddenForm1" name="productTitleHidden">
+                        <input type="hidden" id="productPriceHiddenForm1" name="productPriceHidden">
+                        <input type="hidden" id="selectedColorForm1" name="selectedColor">
+                        <input type="hidden" id="selectedQuantity1" name="selectedQuantity">
+
+                        <input type="hidden" name="action" value="ToCart">
+                        <button class="add-to-cart">Add to cart</button>
+                    </form>
+
+                    <form action="ProductToCartAndPayServlet" method="post">
+                        <input type="hidden" id="selectedSizeForm2" name="selectedSize">
+                        <input type="hidden" id="selectedImageForm2" name="selectedImage">
+                        <input type="hidden" id="productTitleHiddenForm2" name="productTitleHidden">
+                        <input type="hidden" id="productPriceHiddenForm2" name="productPriceHidden">
+                        <input type="hidden" id="selectedColorForm2" name="selectedColor">
+                        <input type="hidden" id="selectedQuantity2" name="selectedQuantity">
+
+                        <input type="hidden" name="action" value="ToPay">
+                        <button class="buy-now">Buy now</button>
+                    </form>
+
+                </div>
             </div>
 
             <!-- Buttons for Cart and Buy -->

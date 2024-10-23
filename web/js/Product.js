@@ -123,6 +123,7 @@ additionalImages.forEach((image, index) => {
         image.classList.add('active-thumbnail');
         // Update the main image and other product details
         updateProductDetails(index);
+        updateImage();
     });
 });
 
@@ -153,6 +154,7 @@ sizeButtons.forEach(button => {
     button.addEventListener('click', function() {
         sizeButtons.forEach(btn => btn.classList.remove('active'));
         this.classList.add('active');
+        updateSize();
     });
 });
 
@@ -161,6 +163,7 @@ colorButtons.forEach(button => {
     button.addEventListener('click', function() {
         colorButtons.forEach(btn => btn.classList.remove('active'));
         this.classList.add('active');
+        updateColor();
     });
 });
 
@@ -168,6 +171,7 @@ colorButtons.forEach(button => {
 increaseBtn.addEventListener('click', () => {
     let currentQuantity = parseInt(quantityInput.value);
     quantityInput.value = currentQuantity + 1;
+    updateQuantity();
 });
 
 decreaseBtn.addEventListener('click', () => {
@@ -175,4 +179,51 @@ decreaseBtn.addEventListener('click', () => {
     if (currentQuantity > 1) {
         quantityInput.value = currentQuantity - 1;
     }
+    updateQuantity();
 });
+
+// Lấy thông tin title và price từ trang sản phẩm
+var title = document.getElementById("productTitle").innerText;
+var price = document.getElementById("productPrice").innerText;
+
+// Gán giá trị ban đầu cho title và price vào thẻ input hidden
+document.getElementById("productTitleHidden").value = title;
+document.getElementById("productPriceHidden").value = price;
+var selectedQuantityInput = document.getElementById("selectedQuantity");
+
+// Khởi tạo giá trị số lượng ban đầu
+selectedQuantityInput.value = quantityInput.value;
+
+function updateSize() {
+    // Lấy size đang được chọn (nút có class "active")
+    var activeSizeButton = document.querySelector(".size-button.active");
+    if (activeSizeButton) {
+        document.getElementById("selectedSize").value = activeSizeButton.innerText;
+    }
+}
+
+function updateImage() {
+    // Lấy ảnh đang được chọn (ảnh có class "active-thumbnail")
+    var activeThumbnail = document.querySelector(".additional-image.active-thumbnail");
+    if (activeThumbnail) {
+        document.getElementById("selectedImage").value = activeThumbnail.src;
+    }
+}
+
+function updateColor() {
+    // Lấy màu đang được chọn (nút có class "active")
+    var activeColorButton = document.querySelector(".color-button.active");
+    if (activeColorButton) {
+        // Lấy giá trị màu từ thuộc tính background-color của nút
+        var color = activeColorButton.style.backgroundColor;
+        document.getElementById("selectedColor").value = color;
+    }
+}
+
+function updateQuantity() {
+    selectedQuantityInput.value = quantityInput.value;
+}
+
+updateSize();
+updateImage();
+updateColor();
