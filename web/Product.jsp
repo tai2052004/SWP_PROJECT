@@ -148,7 +148,7 @@
                 <div class="foot-img">  <img src="img/giay5.png" alt="Product Image"> </div>
     
             </div>-->
-    <div class="product-info">
+    <div class="product-info" style="margin-top: 250px;">
         <div class="review-title">
             <button class="review-button" id="descriptionBtn" class="active">Product Description</button>
             <button class="review-button" id="reviewBtn">Review</button>
