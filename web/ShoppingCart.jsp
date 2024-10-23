@@ -12,13 +12,21 @@
         String selectedSize = (String) request.getAttribute("selectedSize");
         String selectedImage = (String) request.getAttribute("selectedImage");
         String productTitle = (String) request.getAttribute("productTitle");
-        String productPrice = (String) request.getAttribute("productPrice");
+        String priceStr = (String) request.getAttribute("productPrice");
+        if (priceStr != null) {  
+            priceStr = priceStr.replace(",", ".");
+        }
+    
+        Float productPrice = (priceStr != null) ? Float.parseFloat(priceStr) : null;
+        Integer productQuantity = (Integer) request.getAttribute("productQuantity");
         OrderDetail od = new OrderDetail();
         od.setProductName(productTitle);
         od.setPrice(productPrice);
-        od.setSize(String size);
-        od.
-        List<OrderDetail> listCart = session.getAttribute("listCart");
+        od.setSize(selectedSize);
+        od.setQuantity(productQuantity);
+        od.setProductName(productTitle);
+        List<OrderDetail> listCart = (List<OrderDetail>) session.getAttribute("listCart");
+        listCart.add(od);
 %>
 <html lang="en">
 <head>

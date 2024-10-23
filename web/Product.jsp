@@ -103,7 +103,7 @@
                     <input type="hidden" class="selectedColor" name="selectedColor">
                     <input type="hidden" class="selectedQuantity" name="selectedQuantity">
 
-                    <form action="ProductToCart" method="post">
+                    <form action="ProductToCartAndPayServlet" method="post">
                         <input type="hidden" class="selectedSize" name="selectedSize">
                         <input type="hidden" class="selectedImage" name="selectedImage">
                         <input type="hidden" class="productTitleHidden" name="productTitleHidden">
@@ -111,11 +111,11 @@
                         <input type="hidden" class="selectedColor" name="selectedColor">
                         <input type="hidden" class="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" name="action" value="ToCart">
-                        <button class="add-to-cart">Add to cart</button>
+                        <button type="submit" class="add-to-cart">Add to cart</button>
                     </form>
 
                     <!-- Form 2: Buy now -->
-                    <form action="ProductToCart" method="post">
+                    <form action="ProductToCartAndPayServlet" method="post">
                         <input type="hidden" class="selectedSize" name="selectedSize">
                         <input type="hidden" class="selectedImage" name="selectedImage">
                         <input type="hidden" class="productTitleHidden" name="productTitleHidden">
@@ -123,7 +123,7 @@
                         <input type="hidden" class="selectedColor" name="selectedColor">
                         <input type="hidden" class="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" name="action" value="ToPay">
-                        <button class="buy-now">Buy now</button>
+                        <button type="submit" class="buy-now">Buy now</button>
                     </form>
 
                 </div>
@@ -132,7 +132,6 @@
             <!-- Buttons for Cart and Buy -->
 
         </div>
-
 
 
 
@@ -171,7 +170,6 @@
             <button class="submit-button" type="submit">Submit Review</button>
         </div>
     </div>
-    <script src="js/Product.js"></script>
 
     <div class="footer">
         <div class="footer1">
@@ -212,5 +210,8 @@
 
         </div>
     </div>
+   
 </body>
+ <p id="sizeDisplay"></p>
+<script src="js/Product.js"></script>
 </html>

@@ -72,6 +72,9 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        List<OrderDetail> lo = new ArrayList<OrderDetail>();
+        session.setAttribute("listCart", lo);
         if ( "login".equalsIgnoreCase(action)) {
             Login(request,response);
         }
@@ -83,16 +86,14 @@ public class LoginServlet extends HttpServlet {
     throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        List<OrderDetail> lo = new ArrayList<OrderDetail>();
         User user = UserDB.login(username, password);
         HttpSession session = request.getSession();
-        if (user != null) {
-            
+        if (user != null) {            
             session.setAttribute("user", user);
             if ("admin".equals(user.getUser_role())) {
                 response.sendRedirect("UpdateUser.jsp");
             } else if("user".equals(user.getUser_role())) {
-                session.setAttribute("listCart", lo);
+                
                 response.sendRedirect("landingPage.jsp");
             }
         }  else {
