@@ -198,4 +198,4 @@ INSERT INTO Payment (payment_method)
 VALUES 
 ('VNPAY'),
 ('Payment upon receipt');
-
+select * from Product

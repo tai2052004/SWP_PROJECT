@@ -6,6 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    Product product = (Product) request.getAttribute("product");
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -49,7 +53,7 @@
                 <i class="far fa-heart favorite-heart"></i>
 
                 <!-- Main Product Image -->
-                <img id="productImg" src="img/giay1.png" alt="Product Image">
+                <img id="productImg" src="<%= product.getImg_url()%>" alt="Product Image">
                 <!-- Additional Images -->
                 <div class="additional-images">
                     <img src="img/giay1.png" alt="Product Thumbnail" class="additional-image active-thumbnail">
@@ -60,20 +64,24 @@
 
             <!-- Product Details Section -->
             <div class="product-details">
-                <div id="productTitle" class="product-title">Nike Full Force Low - Black / Fire Red</div>
-                <div id="productPrice" class="product-price">2.190.000</div>
+                
+                <div id="productTitle" class="product-title"><%= product.getProductName()%></div>
+                <div id="productPrice" class="product-price"><%= product.getPrice()%></div>
 
                 <!-- Size options -->
                 <p class="size">Size</p>
                 <div class="sizes">
-                    <button class="size-button active">38</button>
-                    <button class="size-button">39</button>
-                    <button class="size-button">40</button>
-                    <button class="size-button">41</button>
-                    <button class="size-button">42</button>
-                    <button class="size-button">43</button>
+                    <%
+                        List<ProductDetail> productDetails = product.getProductDetails();
+                        for (ProductDetail detail : productDetails) {
+                    %>
+<!--                    <button class="size-button active">38</button>-->
+                    <button class="size-button"><%= detail.getSize()%></button>
+                    <%
+                        }
+                    %>
+                    
                 </div>
-
                 <!-- Color options -->
                 <div class="colors">
                     <button class="color-button active" style="background-color: red;"></button>
@@ -124,7 +132,7 @@
             <!-- Buttons for Cart and Buy -->
 
         </div>
-    </div>
+
 
 
 
@@ -147,7 +155,7 @@
         </div>
         <div id="descriptionContent" class="content active">
             <h2 class="title">Product Description</h2>
-            <p class="decription">Nike Full Force Low - Black / Fire Red is a great choice for those who love a sporty style. Featuring a striking design with three colors—white, red, and black—the shoe offers an eye-catching and dynamic look. The midsole is made with cushioning technology, providing a soft feel and maximum support for the feet. The outsole is crafted from rubber, offering high durability and excellent grip on various surfaces. This ensures users can move confidently, whether on the streets or the training field. The shoe’s upper is made from synthetic leather, providing durability and a solid feel when worn.</p>
+            <p class="decription"><%= product.getDescription()%></p>
         </div>
 
         <div id="reviewContent" class="content">

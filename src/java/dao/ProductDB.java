@@ -8,6 +8,7 @@ import static dao.DatabaseInfo.DBURL;
 import static dao.DatabaseInfo.DRIVERNAME;
 import static dao.DatabaseInfo.PASSDB;
 import static dao.DatabaseInfo.USERDB;
+import static dao.UserDB.getConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,6 +17,8 @@ import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import model.ProductDetail;
+import model.User;
 
 /**
  *
@@ -46,7 +49,7 @@ public class ProductDB implements DatabaseInfo {
                 int id = rs.getInt("product_id");
                 String product_name = rs.getString("name");
                 String brand = rs.getString("brand");
-                String price = rs.getString("price");
+                double price = rs.getDouble("price");
                 String discount = rs.getString("discount");
                 String description = rs.getString("description");
                 String url = rs.getString("image_urls");
@@ -57,6 +60,38 @@ public class ProductDB implements DatabaseInfo {
             e.printStackTrace();
         }
         return productList;
+    }
+    public static Product getProductById(int productID) {
+        Product product = null;
+        try (Connection con = getConnect()) {
+            String query = "SELECT p.*, pd.size, pd.quantity FROM Product p " +
+                       "LEFT JOIN ProductDetail pd ON p.product_id = pd.product_id " +
+                       "WHERE p.product_id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, productID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                product = new Product();
+                product.setProductID(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setBrand(rs.getString("brand"));
+                product.setPrice(rs.getDouble("price"));
+                product.setDescription(rs.getString("description"));
+                product.setDiscount(rs.getString("discount"));
+                product.setImg_url(rs.getString("image_urls"));
+                List<ProductDetail> productDetails = new ArrayList<>();
+            do {
+                ProductDetail detail = new ProductDetail();
+                detail.setSize(rs.getString("size"));
+                productDetails.add(detail);
+            } while (rs.next());
+            product.setProductDetails(productDetails);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return product;
     }
     public static void main(String[] args) {
         List<Product> product = ProductDB.allListProduct();

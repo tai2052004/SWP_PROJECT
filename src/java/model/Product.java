@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author ngoct
@@ -12,15 +14,15 @@ public class Product {
     private int productID;
     private String productName;
     private String brand;
-    private String price;
+    private double price;
     private String discount;
     private String description;
     private String img_url;
-
+    private List<ProductDetail> productDetails;
     public Product() {
     }
 
-    public Product(int productID, String productName, String brand, String price, String discount, String description, String img_url) {
+    public Product(int productID, String productName, String brand, double price, String discount, String description, String img_url) {
         this.productID = productID;
         this.productName = productName;
         this.brand = brand;
@@ -29,8 +31,14 @@ public class Product {
         this.description = description;
         this.img_url = img_url;
     }
-    
-    public Product(String productName, String brand, String price, String discount, String description, String img_url) {
+    public List<ProductDetail> getProductDetails() {
+        return productDetails;
+    }
+
+    public void setProductDetails(List<ProductDetail> productDetails) {
+        this.productDetails = productDetails;
+    }
+    public Product(String productName, String brand, double price, String discount, String description, String img_url) {
         this.productName = productName;
         this.brand = brand;
         this.price = price;
@@ -63,11 +71,11 @@ public class Product {
         this.brand = brand;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
