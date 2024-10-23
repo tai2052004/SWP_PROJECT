@@ -46,11 +46,12 @@
     </header>
 
         <div class="Search">
-            <div class="search-container">
-                <input type="text" placeholder="Search">
-                <button type="submit"><i class="fa fa-search"></i></button>
-            </div>
-
+            <form action="SearchProductServlet" method="post">
+                <div class="search-container">
+                    <input type="text" placeholder="Search" name="search" value="${s}">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
         </div>
         <!-- Filters and Product Listing -->
         <div class="container">

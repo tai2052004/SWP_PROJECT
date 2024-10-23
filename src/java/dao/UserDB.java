@@ -105,7 +105,7 @@ public class UserDB implements DatabaseInfo{
         }
         return false;
     }
-     public static ArrayList<User> listAllUsers() {
+    public static ArrayList<User> listAllUsers() {
         ArrayList<User> userList = new ArrayList<>();
         try (Connection con=getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT ID, User_name, User_password,User_email,User_role FROM Users");

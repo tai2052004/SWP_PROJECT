@@ -52,27 +52,13 @@
 
         </div>
         <div class="product-grid">
-            <div class="product-card">
+            <%%>
+<!--            <div class="product-card">
                 <img src="img/shoes_4.png" alt="Product Name">
                 <h3>Nike Full Force Low - Black / Fire Red</h3>
                 <p class="price">2.190.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/shoes_2.png" alt="Product Name">
-                <h3>New Balance 530 - Dark Olivine</h3>
-                <p class="price">2.190.000</p>
-                <span class="discount">10%</span>
-            </div>
-            <div class="product-card">
-                <img src="img/shoes_4.png" alt="Product Name">
-                <h3>Nike Full Force Low - Black / Fire Red</h3>
-                <p class="price">2.190.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/shoes_4.png" alt="Product Name">
-                <h3>Nike Full Force Low - Black / Fire Red</h3>
-                <p class="price">2.190.000</p>
-            </div>
+            </div>-->
+            
         </div>
         <div class="page">
             <button><i class="bi bi-arrow-left"></i></button>
