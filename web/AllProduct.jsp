@@ -123,16 +123,8 @@
                     <input type="hidden" id="selectedProduct" name="productId" value="">
                 </form>
                 <!-- Pagination -->
-                <div class="pagination">
-                    <button><i class="fas fa-chevron-left"></i></button>
-                    <button class="active">1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>6</button>
-                    <button><i class="fas fa-chevron-right"></i></button>
-                </div>
+                <div id="pagination-buttons"></div>
+
             </section>
         </div>
          <div class="footer">
@@ -174,6 +166,8 @@
 
             </div>
         </div>
+                    <script src="js/AllProduct.js"></script>
+
     </body>
     <script>
 function chooseProduct(productId) {

@@ -302,4 +302,43 @@ input[type="range"] {
 .dropdown:hover .dropdown-toggle {
     color: #FE5B0F;
 }
-    
+    /* General button style for pagination */
+#pagination-buttons button {
+    background-color: #f1f1f1;  /* Light gray background */
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333; /* Text color */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for buttons */
+#pagination-buttons button:hover {
+    background-color: #ddd;  /* Darker gray on hover */
+}
+
+/* Style for active page button */
+#pagination-buttons button.active {
+    background-color: #4CAF50;  /* Green background for active page */
+    color: white;  /* White text for active button */
+}
+
+/* Disabled button style (for prev/next when at limits) */
+#pagination-buttons button:disabled {
+    background-color: #e0e0e0;  /* Light gray for disabled buttons */
+    color: #999;  /* Lighter gray text for disabled buttons */
+    cursor: not-allowed;  /* No pointer cursor on disabled */
+}
+
+/* Icon button styling (for arrows) */
+#pagination-buttons button i {
+    font-size: 16px;
+    color: #333;
+}
+
+#pagination-buttons button i:hover {
+    color: #4CAF50;  /* Change color on hover */
+}
