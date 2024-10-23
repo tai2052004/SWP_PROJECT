@@ -6,6 +6,20 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.User , dao.UserDB, model.OrderDetail" %> 
+<%@ page import="java.util.*" %>
+<%
+        String selectedSize = (String) request.getAttribute("selectedSize");
+        String selectedImage = (String) request.getAttribute("selectedImage");
+        String productTitle = (String) request.getAttribute("productTitle");
+        String productPrice = (String) request.getAttribute("productPrice");
+        OrderDetail od = new OrderDetail();
+        od.setProductName(productTitle);
+        od.setPrice(productPrice);
+        od.setSize(String size);
+        od.
+        List<OrderDetail> listCart = session.getAttribute("listCart");
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

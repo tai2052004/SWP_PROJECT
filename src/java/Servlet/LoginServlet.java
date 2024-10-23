@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.*;
+import model.OrderDetail;
 import model.User;
 
 /**
@@ -81,6 +83,7 @@ public class LoginServlet extends HttpServlet {
     throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        List<OrderDetail> lo = new ArrayList<OrderDetail>();
         User user = UserDB.login(username, password);
         HttpSession session = request.getSession();
         if (user != null) {
@@ -89,6 +92,7 @@ public class LoginServlet extends HttpServlet {
             if ("admin".equals(user.getUser_role())) {
                 response.sendRedirect("UpdateUser.jsp");
             } else if("user".equals(user.getUser_role())) {
+                session.setAttribute("listCart", lo);
                 response.sendRedirect("landingPage.jsp");
             }
         }  else {

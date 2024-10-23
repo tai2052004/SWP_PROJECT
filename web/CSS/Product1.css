@@ -173,7 +173,6 @@ body {
 
 .product-details {
     display: block;
-    width: 45%;
     font-size: 1.5rem; /* Increases the size of the text */
     transform: scale(1.5); /* Scale up the whole div by 10% */
     transform-origin: top left; /* Keep the scaling starting from the top left */

@@ -42,7 +42,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
-        <link rel="stylesheet" href="CSS/ViewOrderHistory1.css?v=1.0.1">
+        <link rel="stylesheet" href="CSS/ViewHistoryOrder.css?v=1.0.1">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -135,7 +135,7 @@
                         </div>
                         <div class="profile-img active" id="notification-icon">
                             <i class="bi bi-bell"></i>
-                        </div>
+                        </div>x
                     </div>
                     <div class="part1-second-detail2">
                         <a href="ManageProfile.jsp">

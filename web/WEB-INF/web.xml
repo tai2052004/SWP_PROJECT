@@ -28,6 +28,10 @@
         <servlet-name>ProductToCartAndPayServlet</servlet-name>
         <servlet-class>Servlet.ProductToCartAndPayServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutControl</servlet-name>
+        <servlet-class>Servlet.LogoutControl</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -56,6 +60,13 @@
         <servlet-name>ProductToCartAndPayServlet</servlet-name>
         <url-pattern>/ProductToCartAndPayServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutControl</servlet-name>
+        <url-pattern>/LogoutControl</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
     <welcome-file-list>
         <welcome-file>landingPage.jsp</welcome-file>
     </welcome-file-list>

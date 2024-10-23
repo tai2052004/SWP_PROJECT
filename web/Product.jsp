@@ -25,7 +25,6 @@
             <div class="header-button">
                 <a href="landingPage.jsp"><p>HOME</p></a>
                 <a href="AllProduct.jsp"><p>SHOP</p></a>
-                <a href=""><p>SALES</p></a>
                 <a href=""><p>CONTACT</p></a>
             </div>
             <div class="header-avatar">
@@ -89,33 +88,32 @@
                     <button class="quantity-btn" id="increase">+</button>
                 </div>
                 <div class="product-buttons">                    
-                    <input type="hidden" id="selectedSize" name="selectedSize">
-                    <input type="hidden" id="selectedImage" name="selectedImage">
-                    <input type="hidden" id="productTitleHidden" name="productTitleHidden">
-                    <input type="hidden" id="productPriceHidden" name="productPriceHidden">
-                    <input type="hidden" id="selectedColor" name="selectedColor">
-                    <input type="hidden" id="selectedQuantity" name="selectedQuantity">
+                    <input type="hidden" class="selectedSize" name="selectedSize">
+                    <input type="hidden" class="selectedImage" name="selectedImage">
+                    <input type="hidden" class="productTitleHidden" name="productTitleHidden">
+                    <input type="hidden" class="productPriceHidden" name="productPriceHidden">
+                    <input type="hidden" class="selectedColor" name="selectedColor">
+                    <input type="hidden" class="selectedQuantity" name="selectedQuantity">
 
-                    <form action="ProductToCartAndPayServlet" method="post">
-                        <input type="hidden" id="selectedSizeForm1" name="selectedSize">
-                        <input type="hidden" id="selectedImageForm1" name="selectedImage">
-                        <input type="hidden" id="productTitleHiddenForm1" name="productTitleHidden">
-                        <input type="hidden" id="productPriceHiddenForm1" name="productPriceHidden">
-                        <input type="hidden" id="selectedColorForm1" name="selectedColor">
-                        <input type="hidden" id="selectedQuantity1" name="selectedQuantity">
-
+                    <form action="ProductToCart" method="post">
+                        <input type="hidden" class="selectedSize" name="selectedSize">
+                        <input type="hidden" class="selectedImage" name="selectedImage">
+                        <input type="hidden" class="productTitleHidden" name="productTitleHidden">
+                        <input type="hidden" class="productPriceHidden" name="productPriceHidden">
+                        <input type="hidden" class="selectedColor" name="selectedColor">
+                        <input type="hidden" class="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" name="action" value="ToCart">
                         <button class="add-to-cart">Add to cart</button>
                     </form>
 
-                    <form action="ProductToCartAndPayServlet" method="post">
-                        <input type="hidden" id="selectedSizeForm2" name="selectedSize">
-                        <input type="hidden" id="selectedImageForm2" name="selectedImage">
-                        <input type="hidden" id="productTitleHiddenForm2" name="productTitleHidden">
-                        <input type="hidden" id="productPriceHiddenForm2" name="productPriceHidden">
-                        <input type="hidden" id="selectedColorForm2" name="selectedColor">
-                        <input type="hidden" id="selectedQuantity2" name="selectedQuantity">
-
+                    <!-- Form 2: Buy now -->
+                    <form action="ProductToCart" method="post">
+                        <input type="hidden" class="selectedSize" name="selectedSize">
+                        <input type="hidden" class="selectedImage" name="selectedImage">
+                        <input type="hidden" class="productTitleHidden" name="productTitleHidden">
+                        <input type="hidden" class="productPriceHidden" name="productPriceHidden">
+                        <input type="hidden" class="selectedColor" name="selectedColor">
+                        <input type="hidden" class="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" name="action" value="ToPay">
                         <button class="buy-now">Buy now</button>
                     </form>
@@ -124,7 +122,7 @@
             </div>
 
             <!-- Buttons for Cart and Buy -->
-           
+
         </div>
     </div>
 

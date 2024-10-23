@@ -128,7 +128,7 @@
                                 <p>Change Password</p>
                             </div>
                         </a>
-                        <a>
+                        <a href="ViewHistoryOrder.jsp">
                             <div class="profile-name" id="view-order-history">
                                 <p>View Order History</p>
                             </div>

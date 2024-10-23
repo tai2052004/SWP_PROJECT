@@ -63,12 +63,14 @@ public class ProductToCartAndPayServlet extends HttpServlet {
         String productTitle = request.getParameter("productTitleHidden");
         String productPrice = request.getParameter("productPriceHidden");
         String selectedColor = request.getParameter("selectedColor");
+        String productQuantity = request.getParameter("selectedQuantity");
         String ChoseAction = request.getParameter("action");
         
         request.setAttribute("selectedSize", selectedSize);
         request.setAttribute("selectedImage", selectedImage);
         request.setAttribute("productTitle", productTitle);
         request.setAttribute("productPrice", productPrice);
+        request.setAttribute("productQuantity", productQuantity);
         
         if ( ChoseAction.equalsIgnoreCase("ToCart"))
         {

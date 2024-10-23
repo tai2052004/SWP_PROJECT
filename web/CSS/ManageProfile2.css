@@ -41,12 +41,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 {
     width: 430px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     font-size: 18px;
     color : white;
     align-items: center;
     font-family: 'Roboto', sans-serif;
     margin-top: 5px;
+    margin-left: 100px;
 }
 .header-button a
 {

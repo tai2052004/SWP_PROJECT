@@ -32,7 +32,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
-        <link rel="stylesheet" href="CSS/ManageProfile3.css?v=1.0.1">
+        <link rel="stylesheet" href="CSS/ManageProfile2.css?v=1.0.1">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -81,10 +81,9 @@
                 <p>HESH</p>
             </div>
             <div class="header-button">
-                <a href=""><p>HOME</p></a>
-                <a href=""><p>SHOP</p></a>
-                <a href=""><p>SALES</p></a>
-                <a href=""><p>CONTACT</p></a>
+                <a href="landingPage.jsp"><p>HOME</p></a>
+                <a href="AllProduct.jsp"><p>SHOP</p></a>
+                <a href="#footer"><p>CONTACT</p></a>
             </div>
             <div class="col-md-3 user-actions header-avatar">
                 <div class="cart">
@@ -138,7 +137,7 @@
                                 <p>Change Password</p>
                             </div>
                         </a>
-                        <a>
+                        <a href="ViewHistoryOrder.jsp">
                             <div class="profile-name" id="view-order-history">
                                 <p>View Order History</p>
                             </div>
