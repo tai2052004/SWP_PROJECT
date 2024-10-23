@@ -101,7 +101,6 @@ CREATE TABLE CartItem (
     cart_id INT,                                  -- ID của giỏ hàng
     product_id INT,                               -- ID của sản phẩm
     quantity INT,                                 -- Số lượng sản phẩm
-    price FLOAT,                                  -- Giá tại thời điểm thêm vào giỏ hàng
     FOREIGN KEY (cart_id) REFERENCES ShoppingCart(cart_id),  -- Liên kết với bảng ShoppingCart
     FOREIGN KEY (product_id) REFERENCES Product(product_id)   -- Liên kết với bảng Product
 );
@@ -114,60 +113,86 @@ CREATE TABLE Payment (
 INSERT INTO Coupon (code, discount_name, discount_value, quantity) 
 VALUES 
 ('SUMMER2024', 'COUPON FOR SUMMER 2024', 20, 100),
-('FREESHIP', 'COUPON FOR FREESHIP', 50, 50);
+('FREESHIP', 'COUPON FOR FREESHIP', 50, 50),
+('WELCOME10', 'WELCOME DISCOUNT', 10, 200),
+('SAVE50', 'SAVE 50 ON PURCHASES OVER 1M', 50, 100),
+('VIPCUSTOMER', 'SPECIAL DISCOUNT FOR VIP', 30, 300);
+
 
 INSERT INTO Product (name, brand, price, discount, description, image_urls) 
 VALUES 
 ('Reebok Club C Revenge', 'Reebok', 2350000, 0, 'Reebok Club C classic design, comfortable and stylish.', 'img/shoes_1.png'),
 ('Nike Air Max 270', 'Nike', 1930000, 0, 'Nike Air Max 270 with the signature air cushion, ideal for running.', 'img/shoes_5.png'),
-('New Balance 530', 'New Balance', 2050000, 0, 'New Balance 530, perfect for casual wear and sports.', 'img/shoes_2.png');
+('New Balance 530', 'New Balance', 2050000, 0, 'New Balance 530, perfect for casual wear and sports.', 'img/shoes_2.png'),
+('Adidas Ultraboost', 'Adidas', 2700000, 0, 'Adidas Ultraboost provides unmatched comfort.', 'img/shoes_3.png'),
+('Converse Chuck 70', 'Converse', 1500000, 0, 'Classic high-top style with modern updates.', 'img/shoes_4.png'),
+('Puma Suede Classic', 'Puma', 1800000, 0, 'Iconic Puma Suede sneakers for everyday wear.', 'img/shoes_6.png');
+
 
 --Reebok Club C Revenge
 INSERT INTO ProductDetail (product_id, size, quantity) 
 VALUES 
---Reebok Club C Revenge
-(1, '42', 10),
-(1, '43', 8),
---Nike Air Max 270
-(2, '41', 12),
-(2, '42', 15),
---New Balance 530
-(3, '40', 9),
-(3, '41', 11);
+-- Reebok Club C Revenge
+(1, '42', 10), (1, '43', 8), (1, '44', 6),
+-- Nike Air Max 270
+(2, '41', 12), (2, '42', 15), (2, '43', 9),
+-- New Balance 530
+(3, '40', 9), (3, '41', 11), (3, '42', 7),
+-- Adidas Ultraboost
+(4, '42', 20), (4, '43', 15), (4, '44', 10),
+-- Converse Chuck 70
+(5, '40', 14), (5, '41', 13), (5, '42', 12),
+-- Puma Suede Classic
+(6, '40', 8), (6, '41', 10), (6, '42', 9);
+
 
 INSERT INTO "Order" (user_id, order_date, status, pay, total_price, feeship, address, coupon_id, create_time) 
 VALUES 
 (1, GETDATE(), 'Pending', 0, 200, 20, '12 My Da Tay 8, Da Nang', 1, GETDATE()),
-(2, GETDATE(), 'Confirmed', 1, 300, 15, '12 My Da Tay 8, Da Nang', 2, GETDATE());
+(2, GETDATE(), 'Confirmed', 1, 300, 15, '12 My Da Tay 8, Da Nang', 2, GETDATE()),
+(1, GETDATE(), 'Shipping', 1, 400, 25, '15 Tran Hung Dao, Da Nang', 3, GETDATE()),
+(2, GETDATE(), 'Delivered', 1, 500, 30, '22 Hai Ba Trung, Hanoi', 4, GETDATE()),
+(1, GETDATE(), 'Cancelled', 0, 100, 10, '8 Nguyen Trai, HCMC', 5, GETDATE());
+
 
 INSERT INTO OrderDetail (order_id, product_id, quantity, price) 
 VALUES 
 (1, 1, 2, 150),
 (1, 2, 1, 180),
 (2, 1, 1, 150),
-(2, 2, 2, 180);
+(2, 2, 2, 180),
+(3, 3, 1, 205),
+(3, 4, 2, 270),
+(4, 5, 3, 150),
+(4, 6, 1, 180),
+(5, 1, 1, 150),
+(5, 4, 1, 270);
 
 
 INSERT INTO Comment (content, star, id_user, product_id) 
 VALUES 
 ('Great shoes!', 5, 1, 1),
-('Not bad but a bit tight.', 4, 2, 2);
+('Not bad but a bit tight.', 4, 2, 2),
+('Excellent quality and comfort.', 5, 1, 3),
+('Average fit, not my style.', 3, 1, 4),
+('Worth the price.', 5, 1, 5),
+('Comfortable and stylish.', 5, 2, 6);
+
 
 INSERT INTO Favorite (user_id, product_id) 
 VALUES 
-(1, 1),
-(2, 2);
+(1, 1), (2, 2), (1, 3), (1, 4), (1, 5), (2, 6);
+
 
 INSERT INTO ShoppingCart (user_id) 
 VALUES 
-(1),
-(2);
+(1), (2);
 
-INSERT INTO CartItem (cart_id, product_id, quantity, price) 
+
+INSERT INTO CartItem (cart_id, product_id, quantity) 
 VALUES 
-(1, 1, 2, 150),
-(1, 2, 1, 180),
-(2, 1, 1, 150);
+(1, 1, 2), (1, 2, 1), (2, 3, 1),
+(1, 4, 1), (2, 5, 2);
 
 INSERT INTO Payment (payment_method) 
 VALUES 
