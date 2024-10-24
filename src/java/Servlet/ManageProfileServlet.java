@@ -70,7 +70,7 @@ public class ManageProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        User user = new User();
+        
         String fulln = request.getParameter("personal-name");
         String dob = request.getParameter("birthday");
         LocalDate dobStr = LocalDate.parse(dob);
@@ -83,18 +83,29 @@ public class ManageProfileServlet extends HttpServlet {
         User sessionUser = (User) request.getSession().getAttribute("user");
         int userId = sessionUser.getUser_id();
         if(age < 16) {
-            request.setAttribute("birthday", dob);
-            request.setAttribute("errorMessage", "You must be over 16 years old!");
+            request.getSession().setAttribute("temp_fullname", fulln);
+            request.getSession().setAttribute("temp_gender", gender);
+            request.getSession().setAttribute("temp_birthday", dob);  
+            request.getSession().setAttribute("temp_email", email);
+            request.getSession().setAttribute("temp_phone",phone);
+            request.getSession().setAttribute("temp_address", address);
+            request.setAttribute("errorBirthday", "You must be over 16 years old!");
             request.getRequestDispatcher("ManageProfile.jsp").forward(request, response);
             return;
         }
         if (phone == null || !phone.matches("0\\d{9}")) {
-        request.setAttribute("numberphone", phone);
+        request.getSession().setAttribute("temp_fullname", fulln);
+        request.getSession().setAttribute("temp_gender", gender);
+        request.getSession().setAttribute("temp_birthday", dob);  
+        request.getSession().setAttribute("temp_email", email);
+        request.getSession().setAttribute("temp_phone",phone);
+        request.getSession().setAttribute("temp_address", address);
         request.setAttribute("errorMessage", "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0!");
 
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        request.getRequestDispatcher("ManageProfile.jsp").forward(request, response);
         return;
     }
+        User user = (User) request.getSession().getAttribute("user");
         user.setUser_id(userId);
         user.setFullname(fulln);
         user.setDob(dob);
@@ -105,6 +116,12 @@ public class ManageProfileServlet extends HttpServlet {
         boolean success = UserDB.UpdateProfile(user);
         if(success) {
             request.getSession().setAttribute("user", user);
+            request.getSession().removeAttribute("temp_fullname");
+            request.getSession().removeAttribute("temp_gender");
+            request.getSession().removeAttribute("temp_birthday");
+            request.getSession().removeAttribute("temp_email");
+            request.getSession().removeAttribute("temp_phone");
+            request.getSession().removeAttribute("temp_address");
             request.getRequestDispatcher("ManageProfile.jsp?success=true").forward(request,response);
         }
         else{

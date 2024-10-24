@@ -20,7 +20,7 @@
     if(fulln == null) {
     fulln = "";
     }
-    String dob = user.getDob();
+//    String dob = user.getDob();
     String address= user.getAddress();
     if(address == null) {
     address = "";
@@ -159,7 +159,7 @@
                         <table>
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Personal name</td>
-                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="text" name="personal-name" value="<%= fulln %>" ></td>
+                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="text" name="personal-name" value="<%= session.getAttribute("temp_fullname") != null ? session.getAttribute("temp_fullname") : fulln %>" ></td>
                             </tr>
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Gender</td>
@@ -167,35 +167,61 @@
 <!--                                    <input type="radio" id="male" name="gender" value="male"><label for="male" class="gender-option">Male</label>
                                     <input type="radio" id="female" name="gender" value="female"><label for="female" class="gender-option">Female</label>
                                     <input type="radio" id="orther" name="gender" value="orther"><label for="orther" class="gender-option">Other</label>-->
-                                    <input type="radio" id="male" name="gender" value="male" <%= "male".equals(gender) ? "checked" : "" %> >
+                                    <input type="radio" id="male" name="gender" value="male" <%= "male".equals(session.getAttribute("temp_gender") != null ? session.getAttribute("temp_gender") : gender) ? "checked" : "" %> >
                                     <label for="male" class="gender-option">Male</label>
 
-                                    <input type="radio" id="female" name="gender" value="female" <%= "female".equals(gender) ? "checked" : "" %> >
+                                    <input type="radio" id="female" name="gender" value="female" <%= "female".equals(session.getAttribute("temp_gender") != null ? session.getAttribute("temp_gender") : gender) ? "checked" : "" %> >
                                     <label for="female" class="gender-option">Female</label>
 
-                                    <input type="radio" id="orther" name="gender" value="orther" <%= "orther".equals(gender) ? "checked" : "" %> >
+                                    <input type="radio" id="orther" name="gender" value="orther" <%= "orther".equals(session.getAttribute("temp_gender") != null ? session.getAttribute("temp_gender") : gender) ? "checked" : "" %> >
                                     <label for="orther" class="gender-option">Other</label>
                                 </td>                                                                  
                             </tr>
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Birthday</td>
-                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="date" name="birthday" value="<%= dob%>"></td>
+                                <td>
+                                    <div style="position: relative;">
+                                        <input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" 
+                                               type="date" 
+                                               name="birthday" 
+                                               value="<%= session.getAttribute("temp_birthday") != null ? session.getAttribute("temp_birthday") : user.getDob() %>">
+                                        <% String errorBirthday = (String) request.getAttribute("errorBirthday"); %>
+                                        <% if (errorBirthday != null) { %>
+                                            <div style="color: red; position: absolute; font-size: 14px; margin-top: 5px;">
+                                                <%= errorBirthday %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </td>
                             </tr>
-                            <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-                            <% if (errorMessage != null) { %>
-                                <div style="color: red;"><%= errorMessage %></div>
-                            <% } %>
+                            
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Email</td>
-                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="email" name="email"value="<%= email%>"></td>
+                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="email" name="email"value="<%= session.getAttribute("temp_email") != null ? session.getAttribute("temp_email") : email %>"></td>
                             </tr>
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Phone number</td>
-                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="number" name="phonenumber"value="<%= phone%>"></td>
+                                <td>
+                                    <div style="position: relative;">
+                                        <input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" 
+                                               type="number" 
+                                               name="phonenumber"
+                                               value="<%= session.getAttribute("temp_phone") != null ? session.getAttribute("temp_phone") : phone %>">
+                                        <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+                                        <% if (errorMessage != null) { %>
+                                            <div style="color: red; position: absolute; font-size: 14px; margin-top: 5px;">
+                                                <%= errorMessage %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </td>
                             </tr>
+                           
+                            
+                            
                             <tr>
                                 <td style="padding-right: 20px; font-weight: 500;">Address</td>
-                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="text" name="address" value="<%= address%>"></td>
+                                <td><input style="width: 500px; height: 40px; border-radius: 10px; padding: 15px;" type="text" name="address" value="<%= session.getAttribute("temp_address") != null ? session.getAttribute("temp_address") : address %>"></td>
                             </tr>
                             <tr>
                                 <td></td>
