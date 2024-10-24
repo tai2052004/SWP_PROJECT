@@ -147,7 +147,7 @@
             if(a){
             for (Product product1 : products) {
                     %>
-                    <div class='product-card'>
+                    <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)'>
                         <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
                         <h4><%= product1.getProductName() %></h4>
                         <p>$<%= product1.getPrice() %></p>
@@ -158,7 +158,7 @@
                     }else{
                                     for (Product product2 : filteredProducts) {
                     %>
-                    <div class='product-card'>
+                    <div class='product-card' onclick='chooseProduct(<%= product2.getProductID() %>)'>
                         <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
                         <h4><%= product2.getProductName() %></h4>
                         <p>$<%= product2.getPrice() %></p>
