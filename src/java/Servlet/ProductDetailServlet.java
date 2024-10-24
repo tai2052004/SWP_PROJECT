@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Product;
 
 /**
@@ -60,6 +61,8 @@ public class ProductDetailServlet extends HttpServlet {
         String productId = request.getParameter("productId");
         Product product = ProductDB.getProductById(Integer.parseInt(productId));
         request.setAttribute("product", product);
+        HttpSession session = request.getSession();
+        session.setAttribute("product", product);
         request.getRequestDispatcher("Product.jsp").forward(request, response);
     }
 

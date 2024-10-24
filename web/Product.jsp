@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product1.css"/>
+        <link rel="stylesheet" href="CSS/Product2.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -56,7 +56,7 @@
                 <img id="productImg" src="<%= product.getImg_url()%>" alt="Product Image">
                 <!-- Additional Images -->
                 <div class="additional-images">
-                    <img src="img/giay1.png" alt="Product Thumbnail" class="additional-image active-thumbnail">
+                    <img src="<%= product.getImg_url()%>" alt="Product Thumbnail" class="additional-image active-thumbnail">
                     <img src="img/giay3.png" alt="Product Thumbnail" class="additional-image">
                     <img src="img/giay4.png" alt="Product Thumbnail" class="additional-image">
                 </div>
@@ -97,18 +97,10 @@
                 </div>
                 <div class="product-buttons">                    
                     <input type="hidden" class="selectedSize" name="selectedSize">
-                    <input type="hidden" class="selectedImage" name="selectedImage">
-                    <input type="hidden" class="productTitleHidden" name="productTitleHidden">
-                    <input type="hidden" class="productPriceHidden" name="productPriceHidden">
-                    <input type="hidden" class="selectedColor" name="selectedColor">
                     <input type="hidden" class="selectedQuantity" name="selectedQuantity">
 
                     <form action="ProductToCartAndPayServlet" method="post">
                         <input type="hidden" class="selectedSize" name="selectedSize">
-                        <input type="hidden" class="selectedImage" name="selectedImage">
-                        <input type="hidden" class="productTitleHidden" name="productTitleHidden">
-                        <input type="hidden" class="productPriceHidden" name="productPriceHidden">
-                        <input type="hidden" class="selectedColor" name="selectedColor">
                         <input type="hidden" class="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" name="action" value="ToCart">
                         <button type="submit" class="add-to-cart">Add to cart</button>
@@ -117,10 +109,6 @@
                     <!-- Form 2: Buy now -->
                     <form action="ProductToCartAndPayServlet" method="post">
                         <input type="hidden" class="selectedSize" name="selectedSize">
-                        <input type="hidden" class="selectedImage" name="selectedImage">
-                        <input type="hidden" class="productTitleHidden" name="productTitleHidden">
-                        <input type="hidden" class="productPriceHidden" name="productPriceHidden">
-                        <input type="hidden" class="selectedColor" name="selectedColor">
                         <input type="hidden" class="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" name="action" value="ToPay">
                         <button type="submit" class="buy-now">Buy now</button>
@@ -212,6 +200,33 @@
     </div>
    
 </body>
- <p id="sizeDisplay"></p>
 <script src="js/Product.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.querySelector(".add-to-cart").addEventListener("click", function(event) {
+        var selectedSize = document.querySelector(".selectedSize").value;
+        if (!selectedSize) {
+            event.preventDefault(); // Ngăn chặn việc gửi form
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please choose size before add to cart!',
+                confirmButtonText: 'Chọn size'
+            });
+        }
+    });
+
+    document.querySelector(".buy-now").addEventListener("click", function(event) {
+        var selectedSize = document.querySelector(".selectedSize").value;
+        if (!selectedSize) {
+            event.preventDefault(); // Ngăn chặn việc gửi form
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please choose size before check out!',
+                confirmButtonText: 'Chọn size'
+            });
+        }
+    });
+</script>
 </html>

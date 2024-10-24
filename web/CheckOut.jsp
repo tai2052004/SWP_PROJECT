@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    Product p = (Product) session.getAttribute("product");
+
+%>
 <!DOCTYPE html>
 <html>
     <head>

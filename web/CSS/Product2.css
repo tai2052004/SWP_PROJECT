@@ -359,7 +359,10 @@ body {
     opacity: 0.8;
 }
 
-
+#productImg
+{
+    height: 400px;
+}
 /* Star Rating Style */
 .star-rating {
     display: flex;

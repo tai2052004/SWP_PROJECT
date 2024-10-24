@@ -11,15 +11,18 @@ import java.time.LocalDateTime;
  * @author LAPTOP
  */
 public class OrderDetail {
+    private int order_id;
     private int user_id;
+    private int product_id;
     private String productName;
     private String brand;
-    private float price;
+    private double price;
     private String size;
     private int quantity;
     private LocalDateTime orderDate;
-
-    public OrderDetail(String productName, String brand, float price, String size, int quantity, LocalDateTime orderDate) {
+    private String status;
+    public OrderDetail(int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate) {
+        this.product_id = product_id;
         this.productName = productName;
         this.brand = brand;
         this.price = price;
@@ -27,10 +30,18 @@ public class OrderDetail {
         this.quantity = quantity;
         this.orderDate = orderDate;
     }
-
+    
     public OrderDetail() {
     }
 
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+    
     public int getUser_id() {
         return user_id;
     }
@@ -55,11 +66,11 @@ public class OrderDetail {
         this.brand = brand;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

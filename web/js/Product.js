@@ -11,11 +11,7 @@ const descriptionContent = document.getElementById('descriptionContent');
 const reviewContent = document.getElementById('reviewContent');
 document.addEventListener('DOMContentLoaded', function() {
     updateSize();
-    updateImage();
-    updateColor();
     updateQuantity();
-    updateTitle();
-    updatePrice();
 });
 function updateSize() {
     // Lấy size đang được chọn (nút có class "active")
@@ -62,10 +58,11 @@ function updatePrice()
 }
 window.onload = function () {
             var size = document.querySelector('.selectedSize').value;
-            var price = document.querySelector('.productPriceHidden').value;
-            document.getElementById("sizeDisplay").innerHTML = "Selected Size: " + size +"price : " + price;  // In ra nội dung
+            var quantity = document.querySelector('.selectedQuantity').value;
+            document.getElementById("sizeDisplay").innerHTML = "Selected Size: " + size +"quantity : " + quantity;  // In ra nội dung
         };
 // Add event listeners
+
 descriptionBtn.addEventListener('click', function() {
     // Show description content and hide review content
     descriptionContent.classList.add('active');
@@ -131,7 +128,7 @@ function highlightStars(rating) {
 // Product data: an array of objects with image, title, and price
 const products = [
     {
-        img: 'img/giay1.png',
+        img: 'img/shoes_2.png',
         title: 'Nike Full Force Low - Black / Fire Red',
         price: '2.190.000'
     },
@@ -165,11 +162,7 @@ function updateProductQuantity()
 // Function to update the product details
 function updateProductDetails(index) {
     productImg.src = products[index].img;
-    productTitle.textContent = products[index].title;
-    productPrice.textContent = products[index].price;
     updateImage();
-    updateTitle();
-    updatePrice();
 }
 
 // Function to remove active state from thumbnails
