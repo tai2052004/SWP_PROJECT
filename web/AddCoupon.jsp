@@ -1,6 +1,6 @@
 <%-- 
-    Document   : UpdateUser
-    Created on : Oct 24, 2024, 3:08:05 PM
+    Document   : AddCoupon
+    Created on : Oct 24, 2024, 3:25:23 PM
     Author     : fakesimp6996
 --%>
 
@@ -19,7 +19,7 @@
     <link href="CSS/styles.css" rel="stylesheet" />
     </head>
     <body>
-         <div class="header">
+        <div class="header">
         <div>
             <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
             <img src="assets/logo2.png" width="110" height="27" />
@@ -28,7 +28,7 @@
             <span class="title" style="margin-left: 25px">HOME</span>
             <img src="assets/forward.svg" width="24" height="35" style="margin-left: 25px" />
             <span class="title accent-text" style="margin-left: 40px">
-                        User Manage
+                        Coupon Management
                     </span>
         </div>
         <div>
@@ -55,17 +55,17 @@
                                     " :class="isOpen && 'is-arrow-down'" />
                     </div>
 
-                    <div class="collapsible" :class="isOpen && 'is-open'" :style="isOpen && {height: '100%'}">
+                   <div class="collapsible" :class="isOpen && 'is-open'" :style="isOpen && {height: '100%'}">
                         <a class="sidebar-button " href="OrderList.jsp">
                             <img src="assets/cart.svg" width="36" height="36" style="margin-right: 13px" /> Orders Management
                         </a>
                         <a class="sidebar-button" href="SaleStatistic.jsp">
                             <img src="assets/sales.svg" width="36" height="36" style="margin-right: 13px" /> Sales Statistics
                         </a>
-                        <a class="sidebar-button is-active" href="UserManage.jsp">
+                        <a class="sidebar-button " href="UserManage.jsp">
                             <img src="assets/user.svg" width="36" height="36" style="margin-right: 13px" /> User Management
                         </a>
-                        <a class="sidebar-button" href="CouponList.jsp">
+                        <a class="sidebar-button is-active" href="CouponList.jsp">
                             <img src="assets/coupon.svg" width="36" height="36" style="margin-right: 13px" /> Coupon Management
                         </a>
                     </div>
@@ -73,67 +73,41 @@
             </div>
         </div>
         <div class="content">
-            <div class="user-info-container">
-                <div class="user-info-form">
-                    <h2 class="form-header">User Information</h2>
+            <div class="add-coupon-container">
+                <div class="add-coupon-form">
+                    <h2 class="form-header">Add New Coupon</h2>
 
-                    <!-- Avatar section -->
-                    <div class="avatar-section">
-                        <img src="path-to-default-avatar.png" alt="User Avatar" class="user-avatar">
+                    <div class="form-group">
+                        <label for="coupon-id">Coupon ID</label>
+                        <input type="text" id="coupon-id" class="form-control" placeholder="1">
                     </div>
 
-                    <div class="form-grid">
-                        <!-- Left Column -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="user-id">ID</label>
-                                <input type="text" id="user-id" class="form-control" value="1" readonly>
-                            </div>
+                    <div class="form-group">
+                        <label for="coupon-name">Coupon Name</label>
+                        <input type="text" id="coupon-name" class="form-control" placeholder="Daily Day">
+                    </div>
 
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" value="abc-xyz@gmail.com">
-                            </div>
+                    <div class="form-group">
+                        <label for="coupon-code">Coupon Code</label>
+                        <input type="text" id="coupon-code" class="form-control" placeholder="#DailyDay">
+                    </div>
 
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <select id="gender" class="form-control">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="discount-value">Discount Value</label>
+                        <input type="text" id="discount-value" class="form-control" placeholder="100.000">
+                    </div>
 
-                        <!-- Right Column -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="full-name">Full Name</label>
-                                <input type="text" id="full-name" class="form-control" value="Tran Ngoc Thien">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" class="form-control" value="0702411147">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="role">Role</label>
-                                <select id="role" class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                    <option value="manager">Manager</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" class="form-control" placeholder="100">
                     </div>
 
                     <div class="form-actions">
-                        <a href="UserManage.jsp" class="btn btn-save" style="text-decoration: none;">
-                            Save update
+                        <a href="CouponList.jsp" class="btn btn-confirm" style="text-decoration: none;">
+                            Confirm add
                         </a>
-                        <a href="UserManage.jsp" class="btn btn-cancel" style="text-decoration: none;">
-                            Cancel update
+                        <a href="CouponList.jsp" class="btn btn-cancel" style="text-decoration: none;">
+                            Cancel Add
                         </a>
                     </div>
 
@@ -141,6 +115,6 @@
             </div>
         </div>
     </div>
-  
+   
     </body>
 </html>

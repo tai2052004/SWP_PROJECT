@@ -1,194 +1,139 @@
-
+<%-- 
+    Document   : AddUser
+    Created on : Oct 24, 2024, 3:02:26 PM
+    Author     : fakesimp6996
+--%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="CSS/AddUser.css?v=1.0.1">
-</head>
-<body>
-    <% 
-    if (request.getParameter("error") != null && request.getParameter("error").equals("invalid")) { %>
-        <div class="alerts">    
-            <div class="alert alert-danger animated bounceInRight">
-                <div class="icon pull-left">
-                    <i class='fa fa-exclamation-triangle fa-2x'></i>
-                </div>
-                <div class="copy">
-                    <h4>ERROR</h4>
-                    <p>Username has been existed!.</p>
-                </div>
-                <a class="close">
-                    <i class="fa fa-times"></i>
-                </a>
-            </div>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+    <link href="CSS/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+         <div class="header">
+        <div>
+            <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
+            <img src="assets/logo2.png" width="110" height="27" />
+            <img src="assets/back-arrow.svg" width="24" height="30" style="margin-left: 27px" />
+            <img src="assets/home.svg" width="36" height="36" style="margin-left: 55px" />
+            <span class="title" style="margin-left: 25px">HOME</span>
+            <img src="assets/forward.svg" width="24" height="35" style="margin-left: 25px" />
+            <span class="title accent-text" style="margin-left: 40px">
+                        User Manage
+                    </span>
         </div>
-        <% }
-        %>
-    <% 
-    if (request.getParameter("success") != null && request.getParameter("success").equals("true")) { %>
-        <div class="alerts">    
-            <div class="alert alert-success animated bounceInRight">
-                <div class="icon pull-left">
-                    <i class="fa fa-check-circle fa-2x"></i>
-                </div>
-                <div class="copy">
-                    <h4>SUCCESS</h4>
-                    <p>Add user successful!</p>
-                </div>
-                <a class="close">
-                    <i class="fa fa-times"></i>
-                </a>
+        <div>
+            <div class="logout-button">
+                <span class="title black-text">Logout</span>
+                <img src="assets/logout.svg" width="30" height="30" />
             </div>
-        </div>
-        <% }
-        %>
-
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
-                <div class="position-sticky py-5">
-                    
-                    <div class="admin-info p-3 d-flex flex-column">
-                        <i class="bi bi-shield-fill text-light fs-1"></i>
-                        <span class="text-light ms-2 fs-4 fw-bold">Administrator.</span> <!-- Sử dụng fs-3 cho chữ to hơn -->
-                    </div>
-                    
-
-                    
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">
-                                <i class="bi bi-speedometer2"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">
-                                <i class="bi bi-cart"></i>
-                                Orders Manage
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">
-                                <i class="bi bi-graph-up"></i>
-                                Sales Statistics
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <i class="bi bi-people"></i>
-                                Users Manage
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="#">
-                                <i class="bi bi-tag"></i>
-                                Coupon Manage
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <header class="d-flex justify-content-between align-items-center py-3 bg-dark ">
-                <div class="logo-container">
-                    <img src="logo.png" alt="Hesh Logo" class="img-fluid">
-                    <span class="text-light fs-4">Hesh</span>
-                </div>
-                
-                <div class="breadcrumb-nav d-flex align-items-center">
-                   
-                    <a href="#" class="text-decoration-none text-light px-4"><i class="bi bi-arrow-left"></i></a>
-                    <a href="#" class="text-decoration-none text-light mx-2"><i class="bi bi-house-door"></i> HOME</a>
-                    <span class="text-light px-4">&gt;</span>
-                    <span class="text-warning">Users Manage</span>
-                </div>
-                <button class="btn btn-warning ms-auto">Logout <i class="bi bi-box-arrow-right"></i></button>
-            </header>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 ">
-                
-                <div class="content-area bg-white p-4 rounded">
-                    <h2 class="bg-secondary text-white p-2 rounded-top mb-0">Add New User</h2>
-                    <form class="p-3 border rounded-bottom" action="AddUserServlet" method="post">
-                        <div class="mb-3 row">
-                            <label for="username" class="col-sm-3 col-form-label">Username</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="username" name="username"  value="${u}" placeholder="Username" >
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="password" class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="password" name="password" value="${p}" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="personalName" class="col-sm-3 col-form-label">Personal name</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="personalName" name="fullname" value="${f}" placeholder="Full name">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="email" class="col-sm-3 col-form-label">Email</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="email" name ="email" value="${e}" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="phone" class="col-sm-3 col-form-label">Phone number</label>
-                            <div class="col-sm-9">
-                                <input type="tel" class="form-control" id="phone" name="phone"  value="${p}" placeholder="Phone number">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="address" class="col-sm-3 col-form-label">Address</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="address" name="address" value="${a}" placeholder="Address">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Role</label>
-                            <div class="col-sm-9">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="role" id="adminRole" placeholder="admin" value="admin">
-                                    <label class="form-check-label" for="adminRole">Admin</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="role" id="warehouseRole" placeholder="warehouse" value="warehouse">
-                                    <label class="form-check-label" for="warehouseRole">WareHouse</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="role" id="customerRole" placeholder="customer" value="user">
-                                    <label class="form-check-label" for="customerRole">Customer</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success me-2">Confirm add</button>
-                            <button type="button" class="btn btn-danger">Cancel Add</button>
-                        </div>
-                    </form>
-                </div>
-            </main>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-    const closeButtons = document.querySelectorAll('.alert .close');
-    
-    closeButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            this.closest('.alert').style.display = 'none';
-        });
-    });
-});
-        </script>
-</body>
+    <div class="body">
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <img src="assets/sidebar-logo.svg" width="76" height="71" />
+                <span>Administrator.</span>
+            </div>
+            <div class="sidebar-bottom">
+                <div x-data="{ isOpen: false}" style="width: 100%">
+                    <div @click="isOpen= !isOpen" class="sidebar-button">
+                        <img src="assets/dashboard.svg" width="36" height="36" style="margin-right: 13px" />
+                        <span style="margin-right: auto"> Dashboard </span>
+                        <img src="assets/arrow-down.svg" width="24" height="24" style="
+                                        margin-right: 13px;
+                                        transition: ease 0.2s;
+                                    " :class="isOpen && 'is-arrow-down'" />
+                    </div>
+
+                    <div class="collapsible" :class="isOpen && 'is-open'" :style="isOpen && {height: '100%'}">
+                        <a class="sidebar-button " href="OrderList.jsp">
+                            <img src="assets/cart.svg" width="36" height="36" style="margin-right: 13px" /> Orders Management
+                        </a>
+                        <a class="sidebar-button" href="SaleStatistic.jsp">
+                            <img src="assets/sales.svg" width="36" height="36" style="margin-right: 13px" /> Sales Statistics
+                        </a>
+                        <a class="sidebar-button is-active" href="UserManage.Jsp">
+                            <img src="assets/user.svg" width="36" height="36" style="margin-right: 13px" /> User Management
+                        </a>
+                        <a class="sidebar-button" href="CouponList.jsp">
+                            <img src="assets/coupon.svg" width="36" height="36" style="margin-right: 13px" /> Coupon Management
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="add-user-container">
+                <div class="add-user-form">
+                    <h2 class="form-header">Add New User</h2>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="abcxyz">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="**********">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="personal-name">Personal name</label>
+                        <input type="text" id="personal-name" class="form-control" placeholder="Nguyen Van A">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="abc@gmail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="0123456789">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" class="form-control" placeholder="128 - xyz">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Role</label>
+                        <div class="role-options">
+                            <div class="role-option">
+                                <input type="radio" id="admin" name="role" value="admin">
+                                <label for="admin">Admin</label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="warehouse" name="role" value="warehouse">
+                                <label for="warehouse">Ware House</label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" id="customer" name="role" value="customer" checked>
+                                <label for="customer">Customer</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn btn-confirm" onclick="window.location.href='UserManage.jsp'">Confirm add</button>
+                        <button class="btn btn-cancel" onclick="window.location.href='UserManage.jsp'">Cancel Add</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    </body>
 </html>

@@ -125,7 +125,7 @@
                                     />
                                 Sales Statistics
                             </a>
-                            <a class="sidebar-button" href="user-list.html">
+                            <a class="sidebar-button" href="UserManage.jsp">
                                 <img
                                     src="assets/user.svg"
                                     width="36"
@@ -134,7 +134,7 @@
                                     />
                                 User Management
                             </a>
-                            <a class="sidebar-button" href="coupon-list.html">
+                            <a class="sidebar-button" href="CouponList.jsp">
                                 <img
                                     src="assets/coupon.svg"
                                     width="36"
