@@ -158,7 +158,7 @@
             <button class="submit-button" type="submit">Submit Review</button>
         </div>
     </div>
-
+        
     <div class="footer">
         <div class="footer1">
             <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
@@ -198,8 +198,9 @@
 
         </div>
     </div>
-   
+   <h2 id="displayQuantity"></h2>
 </body>
+
 <script src="js/Product.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

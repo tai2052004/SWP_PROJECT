@@ -9,15 +9,24 @@ const descriptionBtn = document.getElementById('descriptionBtn');
 const reviewBtn = document.getElementById('reviewBtn');
 const descriptionContent = document.getElementById('descriptionContent');
 const reviewContent = document.getElementById('reviewContent');
-document.addEventListener('DOMContentLoaded', function() {
+const quantityInput = document.getElementById('quantity');
+window.onload = function() {
     updateSize();
     updateQuantity();
-});
+//    document.getElementById("displayQuantity").innerHTML = "Quantity : " + quantityInput.value;
+};
+function updateQuantity() {
+    document.querySelectorAll(".selectedQuantity").forEach(input => input.value = quantityInput.value);
+}
 function updateSize() {
-    // Lấy size đang được chọn (nút có class "active")
-    var activeSizeButton = document.querySelector(".size-button.active").innerText;
+    var activeSizeButton = document.querySelector(".size-button.active");
     if (activeSizeButton) {
-        document.querySelectorAll(".selectedSize").forEach(input => input.value = activeSizeButton);
+        var activeSizeText = activeSizeButton.innerText;
+        // Chỉ cập nhật khi tìm thấy input có class .selectedSize
+        const selectedSizes = document.querySelectorAll(".selectedSize");
+        if (selectedSizes.length > 0) {
+            selectedSizes.forEach(input => input.value = activeSizeText);
+        }
     }
 }
 
@@ -38,9 +47,7 @@ function updateColor() {
     }
 }
 
-function updateQuantity() {
-    document.querySelectorAll(".selectedQuantity").forEach(input => input.value = quantityInput.value);
-}
+
 
 function updateTitle()
 {
@@ -56,11 +63,11 @@ function updatePrice()
         document.querySelectorAll(".productPriceHidden").forEach(input => input.value = productPrice);
     }
 }
-window.onload = function () {
-            var size = document.querySelector('.selectedSize').value;
-            var quantity = document.querySelector('.selectedQuantity').value;
-            document.getElementById("sizeDisplay").innerHTML = "Selected Size: " + size +"quantity : " + quantity;  // In ra nội dung
-        };
+//window.onload = function () {
+//            var size = document.querySelector('.selectedSize').value;
+//            var quantity = document.querySelector('.selectedQuantity').value;
+//            document.getElementById("sizeDisplay").innerHTML = "Selected Size: " + size +"quantity : " + quantity;  // In ra nội dung
+//        };
 // Add event listeners
 
 descriptionBtn.addEventListener('click', function() {
@@ -154,10 +161,7 @@ const productTitle = document.getElementById('productTitle');
 const productPrice = document.getElementById('productPrice');
 const additionalImages = document.querySelectorAll('.additional-image');
 
-function updateProductQuantity()
-{
-    var quantityHidden = document.getElementById('');
-}
+
 
 // Function to update the product details
 function updateProductDetails(index) {
@@ -201,7 +205,7 @@ document.querySelector('.arrow-right').addEventListener('click', () => {
 // Select all size and color buttons
 const sizeButtons = document.querySelectorAll('.size-button');
 const colorButtons = document.querySelectorAll('.color-button');
-const quantityInput = document.getElementById('quantity');
+
 const increaseBtn = document.getElementById('increase');
 const decreaseBtn = document.getElementById('decrease');
 
@@ -247,43 +251,4 @@ document.getElementById("productTitleHidden").value = title;
 document.getElementById("productPriceHidden").value = price;
 var selectedQuantityInput = document.getElementById("selectedQuantity");
 
-
-// Hàm cập nhật tất cả giá trị
-//function updateAllValues(form) {
-//    // Cập nhật size
-//    const activeSize = document.querySelector('.size-button.active');
-//    if (activeSize) {
-//        form.querySelector('.selectedSize').value = activeSize.innerText;
-//    }
-//    
-//    // Cập nhật image
-//    const activeImage = document.querySelector('.additional-image.active-thumbnail');
-//    if (activeImage) {
-//        form.querySelector('.selectedImage').value = activeImage.src;
-//    }
-//    
-//    // Cập nhật color
-//    const activeColor = document.querySelector('.color-button.active');
-//    if (activeColor) {
-//        form.querySelector('.selectedColor').value = activeColor.style.backgroundColor;
-//    }
-//    
-//    // Cập nhật quantity
-//    const quantity = document.getElementById('quantity');
-//    if (quantity) {
-//        form.querySelector('.selectedQuantity').value = quantity.value;
-//    }
-//    
-//    // Cập nhật title
-//    const title = document.getElementById('productTitle');
-//    if (title) {
-//        form.querySelector('.productTitleHidden').value = title.innerText;
-//    }
-//    
-//    // Cập nhật price
-//    const price = document.getElementById('productPrice');
-//    if (price) {
-//        form.querySelector('.productPriceHidden').value = price.innerText;
-//    }
-//}
 

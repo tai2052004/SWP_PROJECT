@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
  * @author LAPTOP
  */
 public class OrderDetail {
+    private int order_detail_id;
+    private int cart_id;
     private int order_id;
     private int user_id;
     private int product_id;
@@ -22,7 +24,8 @@ public class OrderDetail {
     private int quantity;
     private LocalDateTime orderDate;
     private String status;
-    public OrderDetail(int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate) {
+    public OrderDetail(int cart_id, int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate) {
+        this.cart_id = cart_id;
         this.product_id = product_id;
         this.productName = productName;
         this.brand = brand;
@@ -33,6 +36,22 @@ public class OrderDetail {
     }
     
     public OrderDetail() {
+    }
+
+    public int getCart_id() {
+        return cart_id;
+    }
+
+    public void setCart_id(int cart_id) {
+        this.cart_id = cart_id;
+    }
+
+    public int getOrder_detail_id() {
+        return order_detail_id;
+    }
+
+    public void setOrder_detail_id(int order_detail_id) {
+        this.order_detail_id = order_detail_id;
     }
 
     public int getProduct_id() {
