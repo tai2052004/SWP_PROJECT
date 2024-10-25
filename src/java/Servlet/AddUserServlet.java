@@ -106,7 +106,7 @@ public class AddUserServlet extends HttpServlet {
         }
         boolean succes = UserDB.addUserDetailS(newUser);
         if(succes) {
-            request.getRequestDispatcher("AddUser.jsp?success=true").forward(request,response);
+            request.getRequestDispatcher("UserManage.jsp?success=true").forward(request,response);
         }
         else{
             response.sendRedirect("register.jsp");

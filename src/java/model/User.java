@@ -47,10 +47,19 @@ public class User {
         this.address = address;
     }
     
-    public User(int user_id, String user_name, String user_password, String user_email, String user_role) {
-        this.user_id = 0;
+    public User(int user_id, String user_name, String user_password, String user_email, String user_role,String phone) {
+        this.user_id = user_id;
         this.user_name = user_name;
         this.user_password = user_password;
+        this.user_email = user_email;
+        this.user_role = user_role;
+        this.phone = phone;
+    }
+    public User(String fullname, int user_id , String gender, String phone, String user_email,String user_role) {
+        this.fullname= fullname;
+        this.user_id = user_id;
+        this.gender = gender;
+        this.phone= phone;
         this.user_email = user_email;
         this.user_role = user_role;
     }

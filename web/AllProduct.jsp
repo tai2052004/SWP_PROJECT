@@ -10,7 +10,7 @@
 <%
     User user = (User) session.getAttribute("user"); 
     Product product = (Product) request.getAttribute("product");
-     String maxPriceParam = request.getParameter("maxPrice");
+    String maxPriceParam = request.getParameter("maxPrice");
     int maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000000;
     boolean a = true;
     
@@ -147,7 +147,7 @@
             if(a){
             for (Product product1 : products) {
                     %>
-                    <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)'>
+                    <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)' style="cursor: pointer;">
                         <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
                         <h4><%= product1.getProductName() %></h4>
                         <p>$<%= product1.getPrice() %></p>

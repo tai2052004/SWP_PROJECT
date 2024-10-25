@@ -6,6 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    User user = (User) request.getAttribute("user"); 
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,10 +19,46 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-    <link href="CSS/styles.css" rel="stylesheet" />
+    <link href="CSS/styles1.css?v=1.0.1" rel="stylesheet" />
     </head>
     <body>
+        <% if (request.getParameter("success") != null && request.getParameter("success").equals("true")) { %>
+        <div class="alerts">    
+            <div class="alert alert-success animated bounceInRight">
+                <div class="icon pull-left">
+                    <i class="fa fa-check-circle fa-2x"></i>
+                </div>
+                <div class="copy">
+                    <h4>SUCCESS</h4>
+                    <p>Add user successful!</p>
+                </div>
+                <a class="close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <% }
+        %>
+        <% 
+    if (request.getParameter("successUpdate") != null && request.getParameter("successUpdate").equals("true")) { %>
+        <div class="alerts">    
+            <div class="alert alert-success animated bounceInRight">
+                <div class="icon pull-left">
+                    <i class="fa fa-check-circle fa-2x"></i>
+                </div>
+                <div class="copy">
+                    <h4>SUCCESS</h4>
+                    <p>Update User successful!</p>
+                </div>
+                <a class="close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <% }
+        %>
        <div class="header">
         <div>
             <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
@@ -32,7 +72,7 @@
                     </span>
         </div>
         <div>
-            <div class="logout-button">
+            <div class="logout-button" onclick="window.location.href='landingPage.jsp'" style="cursor: pointer;">
                 <span class="title black-text">Logout</span>
                 <img src="assets/logout.svg" width="30" height="30" />
             </div>
@@ -153,7 +193,8 @@
                         <!-- Table header -->
                         <div style="
                             display: grid;
-                            grid-template-columns: 80px 200px 200px 150px 150px 100px;
+                            grid-template-columns: 80px 200px 250px 150px 150px 100px;
+                            gap: 10px;
                             padding: 16px;
                             border-bottom: 1px solid #eee;
                         ">
@@ -167,104 +208,41 @@
 
                         <!-- Table rows -->
                         <div>
+                            <%
+                                List<User> user1 = UserDB.listAllUsers();
+                                for(User users : user1) {
+                            %>
                             <!-- Row 1 -->
                             <div style="
                                 display: grid;
-                                grid-template-columns: 80px 200px 200px 150px 150px 100px;
+                                grid-template-columns: 80px 200px 250px 150px 150px 100px;
+                                gap: 10px;
                                 padding: 16px;
                                 border-bottom: 1px solid #eee;
                             ">
-                                <div>1</div>
-                                <div>Tran Ngoc Thien</div>
-                                <div>abc@gmail.com</div>
-                                <div>0702411147</div>
-                                <div>Admin</div>
+                                <div><%= users.getUser_id()%></div>
+                                <div><%= users.getUser_name()%></div>
+                                <div><%= users.getUser_email()%></div>
+                                <div><%= users.getPhone()%></div>
+                                <div><%= users.getUser_role()%></div>
                                 <div style="display: flex; gap: 8px;">
-                                    <a href="UpdateUser.jsp" style="border: none; background: none; cursor: pointer; text-decoration: none;">
-                                        <button style="border: none; background: none; cursor: pointer;">
-                                            <img src="assets/edit.svg" alt="edit" width="20" height="20">
-                                        </button>
-                                    </a>
+                                    <form id="userSelectionForm<%= users.getUser_id() %>" action="UpdateUserServlet" method="GET">
+                                        <div style="border: none; background: none; cursor: pointer; text-decoration: none;">
+                                            <button type="submit" style="border: none; background: none; cursor: pointer;" onclick="chooseUser(<%= users.getUser_id() %>)"> 
+                                                <img src="assets/edit.svg" alt="edit" width="20" height="20">
+                                            </button>
+                                            <input type="hidden" id="selectedUser<%= users.getUser_id() %>" name="userId" value="">
+                                        </div>
+                                    </form>
                                     <button style="border: none; background: none; cursor: pointer;">
                                         <img src="assets/delete.svg" alt="delete" width="20" height="20">
                                     </button>
                                 </div>
                             </div>
-
-                            <!-- Row 2 -->
-                            <div style="
-                                display: grid;
-                                grid-template-columns: 80px 200px 200px 150px 150px 100px;
-                                padding: 16px;
-                                border-bottom: 1px solid #eee;
-                            ">
-                                <div>2</div>
-                                <div>Nguyen Minh Quang</div>
-                                <div>xyz@gmail.com</div>
-                                <div>0913411197</div>
-                                <div>Ware House</div>
-                                <div style="display: flex; gap: 8px;">
-                                    <a href="UpdateUser.jsp" style="border: none; background: none; cursor: pointer; text-decoration: none;">
-                                        <button style="border: none; background: none; cursor: pointer;">
-                                            <img src="assets/edit.svg" alt="edit" width="20" height="20">
-                                        </button>
-                                    </a>
-
-                                    <button style="border: none; background: none; cursor: pointer;">
-                                        <img src="assets/delete.svg" alt="delete" width="20" height="20">
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Row 3 -->
-                            <div style="
-                                display: grid;
-                                grid-template-columns: 80px 200px 200px 150px 150px 100px;
-                                padding: 16px;
-                                border-bottom: 1px solid #eee;
-                            ">
-                                <div>3</div>
-                                <div>Nguyen Van A</div>
-                                <div>x123@gmail.com</div>
-                                <div>0123415697</div>
-                                <div>Customer</div>
-                                <div style="display: flex; gap: 8px;">
-                                    <a href="UpdateUser.jsp" style="border: none; background: none; cursor: pointer; text-decoration: none;">
-                                        <button style="border: none; background: none; cursor: pointer;">
-                                            <img src="assets/edit.svg" alt="edit" width="20" height="20">
-                                        </button>
-                                    </a>
-
-                                    <button style="border: none; background: none; cursor: pointer;">
-                                        <img src="assets/delete.svg" alt="delete" width="20" height="20">
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Row 4 -->
-                            <div style="
-                                display: grid;
-                                grid-template-columns: 80px 200px 200px 150px 150px 100px;
-                                padding: 16px;
-                                border-bottom: 1px solid #eee;
-                            ">
-                                <div>4</div>
-                                <div>Nguyen Thi Suong</div>
-                                <div>xyz@gmail.com</div>
-                                <div>0904411145</div>
-                                <div>Customer</div>
-                                <div style="display: flex; gap: 8px;">
-                                    <a href="UpdateUser.jsp" style="border: none; background: none; cursor: pointer; text-decoration: none;">
-                                        <button style="border: none; background: none; cursor: pointer;">
-                                            <img src="assets/edit.svg" alt="edit" width="20" height="20">
-                                        </button>
-                                    </a>
-
-                                    <button style="border: none; background: none; cursor: pointer;">
-                                        <img src="assets/delete.svg" alt="delete" width="20" height="20">
-                                    </button>
-                                </div>
-                            </div>
+                            <%
+                                }
+                            %>
+                            
                         </div>
                     </div>
                 </div>
@@ -273,4 +251,21 @@
     </div>
     
     </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.alert .close');
+    
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                this.closest('.alert').style.display = 'none';
+            });
+        });
+    });
+    </script>
+    <script>
+    function chooseUser(userId) {
+        document.getElementById('selectedUser' + userId).value = userId;
+        document.getElementById('userSelectionForm' + userId).submit();
+    }
+</script
 </html>

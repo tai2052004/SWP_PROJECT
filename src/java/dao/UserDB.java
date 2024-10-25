@@ -108,7 +108,7 @@ public class UserDB implements DatabaseInfo{
     public static ArrayList<User> listAllUsers() {
         ArrayList<User> userList = new ArrayList<>();
         try (Connection con=getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT ID, User_name, User_password,User_email,User_role FROM Users");
+            PreparedStatement stmt = con.prepareStatement("SELECT ID, User_name, User_password,User_email,User_role, User_phone FROM Users");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("ID");
@@ -116,7 +116,8 @@ public class UserDB implements DatabaseInfo{
                 String password = rs.getString("User_password");
                 String email = rs.getString("User_email");
                 String role = rs.getString("User_role");
-                User user = new User(id,user_name, password, email, role);
+                String phone = rs.getString("User_phone");
+                User user = new User(id,user_name, password, email, role, phone);
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -259,8 +260,8 @@ public class UserDB implements DatabaseInfo{
     }
 
     public static void main(String[] args){
-        User user = UserDB.login("ngocthien2503", "ngocthien"); 
-        System.out.println(user);
+        User user = new User("tran ngoc thien",1,"male","0702411147","ngocthien2902@gmail.com","user");
+        System.out.println(UserDB.UpdateUser(user));
     }
 }
 

@@ -6,6 +6,23 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    User user = (User) request.getAttribute("user"); 
+    String gender = user.getGender();
+    if(gender == null) {
+        gender = "";
+    }
+    String fullname = user.getFullname();
+    if(fullname == null) {
+        fullname = "";
+    }
+    String phone = user.getPhone();
+    if(phone == null) {
+        phone= "";
+    }
+
+%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,9 +33,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-    <link href="CSS/styles.css" rel="stylesheet" />
+    <link href="CSS/styles1.css" rel="stylesheet" />
     </head>
     <body>
+        <% 
+    if (request.getParameter("error") != null && request.getParameter("error").equals("invalid")) { %>
+        <div class="alerts">    
+            <div class="alert alert-danger animated bounceInRight">
+                <div class="icon pull-left">
+                    <i class='fa fa-exclamation-triangle fa-2x'></i>
+                </div>
+                <div class="copy">
+                    <h4>ERROR</h4>
+                    <p>Update user fail!.</p>
+                </div>
+                <a class="close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <% }
+        %>    
+    
          <div class="header">
         <div>
             <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
@@ -81,62 +117,65 @@
                     <div class="avatar-section">
                         <img src="path-to-default-avatar.png" alt="User Avatar" class="user-avatar">
                     </div>
+                    <form action="UpdateUserServlet" method="post"> 
+                        <div class="form-grid">
+                            <!-- Left Column -->
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="user-id">ID</label>
+                                  <input type="text" id="user-id" class="form-control" name="id" value="<%=user != null ? user.getUser_id() : ""%>" readonly>
+                                </div>
 
-                    <div class="form-grid">
-                        <!-- Left Column -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="user-id">ID</label>
-                                <input type="text" id="user-id" class="form-control" value="1" readonly>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                     <input type="email" id="email" class="form-control" name="email" 
+                                               value="${user.user_email}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select id="gender" name="gender" class="form-control" required>
+                                        <option value="male" ${gender eq 'male' ? 'selected' : ''}>Male</option>
+                                        <option value="female" ${gender eq 'female' ? 'selected' : ''}>Female</option>
+                                        <option value="other" ${gender eq 'other' ? 'selected' : ''}>Other</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" value="abc-xyz@gmail.com">
-                            </div>
+                            <!-- Right Column -->
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="full-name">Full Name</label>
+                                    <input type="text" id="full-name" class="form-control" name="fullname" 
+                                               value="${fullname}" required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="gender">Gender</label>
-                                <select id="gender" class="form-control">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" class="form-control" name="phone" 
+                                               value="${phone}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <select id="role" name="role" class="form-control" required>
+                                        <option value="admin" ${user.user_role eq 'admin' ? 'selected' : ''}>Admin</option>
+                                        <option value="warehouse" ${user.user_role eq 'warehouse' ? 'selected' : ''}>Warehouse</option>
+                                        <option value="user" ${user.user_role eq 'user' ? 'selected' : ''}>Customer</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Right Column -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="full-name">Full Name</label>
-                                <input type="text" id="full-name" class="form-control" value="Tran Ngoc Thien">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" class="form-control" value="0702411147">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="role">Role</label>
-                                <select id="role" class="form-control">
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                    <option value="manager">Manager</option>
-                                </select>
-                            </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-save" style="text-decoration: none;">
+                                Save update
+                            </button>
+                            <a href="UserManage.jsp" class="btn btn-cancel" style="text-decoration: none;">
+                                Cancel update
+                            </a>
                         </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <a href="UserManage.jsp" class="btn btn-save" style="text-decoration: none;">
-                            Save update
-                        </a>
-                        <a href="UserManage.jsp" class="btn btn-cancel" style="text-decoration: none;">
-                            Cancel update
-                        </a>
-                    </div>
-
+                    </form>
                 </div>
             </div>
         </div>

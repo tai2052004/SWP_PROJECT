@@ -91,7 +91,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null) {            
             session.setAttribute("user", user);
             if ("admin".equals(user.getUser_role())) {
-                response.sendRedirect("UpdateUser.jsp");
+                response.sendRedirect("UserManage.jsp");
             } else if("user".equals(user.getUser_role())) {
                 session.setAttribute("listCart", lo);
                 response.sendRedirect("landingPage.jsp");

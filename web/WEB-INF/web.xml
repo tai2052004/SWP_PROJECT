@@ -79,7 +79,6 @@
         <filter-name>Authentication</filter-name>
         <filter-class>Filter.NewFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>Authentication</filter-name>
         <url-pattern>/AllProduct.jsp</url-pattern>

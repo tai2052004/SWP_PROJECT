@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 
 /**
@@ -58,7 +59,12 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String userId = request.getParameter("userId");
+        User user = UserDB.getUserDetailById(Integer.parseInt(userId));
+        request.setAttribute("user", user);
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+        request.getRequestDispatcher("UpdateUser.jsp").forward(request, response); 
     }
 
     /**
@@ -78,9 +84,9 @@ public class UpdateUserServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
         String role = request.getParameter("role");
-        User sessionUser = (User) request.getSession().getAttribute("user");
-        int userId = sessionUser.getUser_id();
-        user.setUser_id(userId);
+        String userId = request.getParameter("id");
+        int id = Integer.parseInt(userId);
+        user.setUser_id(id);
         user.setFullname(fullname);
         user.setUser_email(email);
         user.setPhone(phone);
@@ -89,7 +95,7 @@ public class UpdateUserServlet extends HttpServlet {
         boolean success = UserDB.UpdateUser(user);
         if(success) {
             request.getSession().setAttribute("user", user);
-            request.getRequestDispatcher("UpdateUser.jsp?success=true").forward(request,response);
+            request.getRequestDispatcher("UserManage.jsp?successUpdate=true").forward(request,response);
         }
         else{
             response.sendRedirect("UpdateUser.jsp?error=invalid");
