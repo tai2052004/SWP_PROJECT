@@ -36,6 +36,10 @@
         <servlet-name>ProductDetailServlet</servlet-name>
         <servlet-class>Servlet.ProductDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <servlet-class>Servlet.CheckOutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -72,6 +76,10 @@
         <servlet-name>ProductDetailServlet</servlet-name>
         <url-pattern>/ProductDetailServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <url-pattern>/CheckOutServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
@@ -81,7 +89,11 @@
     </filter>
     <filter-mapping>
         <filter-name>Authentication</filter-name>
-        <url-pattern>/AllProduct.jsp</url-pattern>
+        <url-pattern>/ProductDetailServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Authentication</filter-name>
+        <url-pattern>/Product.jsp</url-pattern>
     </filter-mapping>
     <welcome-file-list>
         <welcome-file>landingPage.jsp</welcome-file>

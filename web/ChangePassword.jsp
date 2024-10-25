@@ -71,10 +71,9 @@
                 <p>HESH</p>
             </div>
             <div class="header-button">
-                <a href=""><p>HOME</p></a>
-                <a href=""><p>SHOP</p></a>
-                <a href=""><p>SALES</p></a>
-                <a href=""><p>CONTACT</p></a>
+                <a href="landingPage.jsp"><p>HOME</p></a>
+                <a href="AllProduct.jsp"><p>SHOP</p></a>
+                <a href="#footer"><p>CONTACT</p></a>
             </div>
             <div class="col-md-3 user-actions header-avatar">
                 <div class="cart">

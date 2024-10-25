@@ -93,8 +93,7 @@
             <div class="header-button">
                 <a href="landingPage.jsp"><p>HOME</p></a>
                 <a href="AllProduct.jsp"><p>SHOP</p></a>
-                <a href=""><p>SALES</p></a>
-                <a href=""><p>CONTACT</p></a>
+                <a href="#footer"><p>CONTACT</p></a>
             </div>
             <div class="col-md-3 user-actions header-avatar">
                 <div class="cart">
@@ -135,7 +134,7 @@
                         </div>
                         <div class="profile-img active" id="notification-icon">
                             <i class="bi bi-bell"></i>
-                        </div>x
+                        </div>
                     </div>
                     <div class="part1-second-detail2">
                         <a href="ManageProfile.jsp">

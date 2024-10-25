@@ -57,7 +57,7 @@
                     </div>
                     <% } %>
                     <div class="cart">
-                        <a href=""><i class="bi bi-cart"></i></a>
+                        <a href="ShoppingCart.jsp"><i class="bi bi-cart"></i></a>
                     </div>
                     <div class="search">
                         <i class="bi bi-search"></i>
