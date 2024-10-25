@@ -38,7 +38,6 @@ create table "Order" (
     feeship float,                -- Phí giao hàng
     address varchar(200),         -- Địa chỉ giao hàng của khách hàng
 	coupon_id int,    -- Mã giảm giá đã áp dụng
-    create_time datetime,         -- Thời gian tạo đơn hàng
     foreign key (user_id) references "Users"(ID),
 	foreign key (coupon_id) references "Coupon"(coupon_id)
 );
@@ -50,7 +49,8 @@ CREATE TABLE Product (
     price FLOAT,  -- Sử dụng kiểu float cho giá
     discount FLOAT,  -- Sử dụng kiểu float cho giảm giá
     description TEXT,
-    image_urls TEXT  -- Lưu nhiều URL hình ảnh
+    image_urls TEXT,  -- Lưu nhiều URL hình ảnh
+	status int
 );
 
 CREATE TABLE ProductDetail (
@@ -65,11 +65,11 @@ CREATE TABLE ProductDetail (
 create table OrderDetail (
     order_detail_id int identity(1,1) primary key,
     order_id int,       -- ID của đơn hàng
-    product_id int,     -- ID của sản phẩm
+    product_detail_id int,     -- ID của sản phẩm
     quantity int,               -- Số lượng của sản phẩm này trong đơn hàng
     price float,                -- Giá tại thời điểm đặt (để không bị thay đổi khi giá gốc của sản phẩm thay đổi)
     foreign key (order_id) references "Order"(order_id),
-    foreign key (product_id) references Product(product_id)
+    foreign key (product_detail_id) references ProductDetail(id)
 );
 
 create table Comment (
@@ -119,14 +119,14 @@ VALUES
 ('VIPCUSTOMER', 'SPECIAL DISCOUNT FOR VIP', 30, 300);
 
 
-INSERT INTO Product (name, brand, price, discount, description, image_urls) 
+INSERT INTO Product (name, brand, price, discount, description, image_urls,status) 
 VALUES 
-('Reebok Club C Revenge', 'Reebok', 2350000, 0, 'Reebok Club C classic design, comfortable and stylish.', 'img/shoes_1.png'),
-('Nike Air Max 270', 'Nike', 1930000, 0, 'Nike Air Max 270 with the signature air cushion, ideal for running.', 'img/shoes_5.png'),
-('New Balance 530', 'New Balance', 2050000, 0, 'New Balance 530, perfect for casual wear and sports.', 'img/shoes_2.png'),
-('Adidas Ultraboost', 'Adidas', 2700000, 0, 'Adidas Ultraboost provides unmatched comfort.', 'img/shoes_3.png'),
-('Converse Chuck 70', 'Converse', 1500000, 0, 'Classic high-top style with modern updates.', 'img/shoes_4.png'),
-('Puma Suede Classic', 'Puma', 1800000, 0, 'Iconic Puma Suede sneakers for everyday wear.', 'img/shoes_6.png');
+('Reebok Club C Revenge', 'Reebok', 2350000, 0, 'Reebok Club C classic design, comfortable and stylish.', 'img/shoes_1.png', 1),
+('Nike Air Max 270', 'Nike', 1930000, 0, 'Nike Air Max 270 with the signature air cushion, ideal for running.', 'img/shoes_5.png',1),
+('New Balance 530', 'New Balance', 2050000, 0, 'New Balance 530, perfect for casual wear and sports.', 'img/shoes_2.png',1),
+('Adidas Ultraboost', 'Adidas', 2700000, 0, 'Adidas Ultraboost provides unmatched comfort.', 'img/shoes_3.png',1),
+('Converse Chuck 70', 'Converse', 1500000, 0, 'Classic high-top style with modern updates.', 'img/shoes_4.png',1),
+('Puma Suede Classic', 'Puma', 1800000, 0, 'Iconic Puma Suede sneakers for everyday wear.', 'img/shoes_6.png',1);
 
 
 --Reebok Club C Revenge
@@ -146,16 +146,16 @@ VALUES
 (6, '40', 8), (6, '41', 10), (6, '42', 9);
 
 
-INSERT INTO "Order" (user_id, order_date, status, pay, total_price, feeship, address, coupon_id, create_time) 
+INSERT INTO "Order" (user_id, order_date, status, pay, total_price, feeship, address, coupon_id) 
 VALUES 
-(1, GETDATE(), 'Pending', 0, 200, 20, '12 My Da Tay 8, Da Nang', 1, GETDATE()),
-(2, GETDATE(), 'Confirmed', 1, 300, 15, '12 My Da Tay 8, Da Nang', 2, GETDATE()),
-(1, GETDATE(), 'Shipping', 1, 400, 25, '15 Tran Hung Dao, Da Nang', 3, GETDATE()),
-(2, GETDATE(), 'Delivered', 1, 500, 30, '22 Hai Ba Trung, Hanoi', 4, GETDATE()),
-(1, GETDATE(), 'Cancelled', 0, 100, 10, '8 Nguyen Trai, HCMC', 5, GETDATE());
+(1, GETDATE(), 'Pending', 0, 200, 20, '12 My Da Tay 8, Da Nang', 1),
+(2, GETDATE(), 'Confirmed', 1, 300, 15, '12 My Da Tay 8, Da Nang', 2),
+(1, GETDATE(), 'Shipping', 1, 400, 25, '15 Tran Hung Dao, Da Nang', 3),
+(2, GETDATE(), 'Delivered', 1, 500, 30, '22 Hai Ba Trung, Hanoi', 4),
+(1, GETDATE(), 'Cancelled', 0, 100, 10, '8 Nguyen Trai, HCMC', 5);
 
 
-INSERT INTO OrderDetail (order_id, product_id, quantity, price) 
+INSERT INTO OrderDetail (order_id, product_detail_id, quantity, price) 
 VALUES 
 (1, 1, 2, 150),
 (1, 2, 1, 180),
@@ -199,3 +199,26 @@ VALUES
 ('VNPAY'),
 ('Payment upon receipt');
 select * from Product
+
+
+SELECT 
+    o.order_id,
+    u.ID,
+    p.name AS product_name,
+	pd.size,
+    od.quantity,
+    o.total_price,
+    o.order_date,
+    o.status
+FROM 
+    "Order" o
+JOIN 
+    Users u ON o.user_id = u.ID
+JOIN 
+    OrderDetail od ON o.order_id = od.order_id
+JOIN 
+    ProductDetail pd ON od.product_detail_id = pd.id
+JOIN 
+    Product p ON pd.product_id = p.product_id
+ORDER BY 
+    o.order_id;

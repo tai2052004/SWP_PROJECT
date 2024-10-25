@@ -23,7 +23,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-        <link rel="stylesheet" href="CSS/AllProduct1.css"/>
+        <link rel="stylesheet" href="CSS/AllProduct1.css?v=1.0.1"/>
 
     </head>
     <body>
@@ -35,9 +35,10 @@
                 </div>
 
                 <div class="col-md-6 menu">
-                    <a href="landingPage.jsp" class="menuText active">HOME</a>
-                    <a href="AllProduct.jsp" class="menuText">SHOP</a>
+                    <a href="landingPage.jsp" class="menuText">HOME</a>
+                    <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                     <a href="#footer" class="menuText">CONTACT</a>
+                    <a href="#" class="menuText">CHAT</a>
                 </div>
 
                 <div class="col-md-3 user-actions">
@@ -79,15 +80,15 @@
             <!-- Filters Section -->
             <aside class="filters">
                 <h3>Keywords</h3>
-                <label><input class="Checkbox" class="Checkbox" type="checkbox" checked> Nike</label><br>
+                <label><input class="Checkbox" type="checkbox" checked> Nike</label><br>
                 <label><input class="Checkbox" type="checkbox" checked> Adidas</label><br>
                 <label><input class="Checkbox" type="checkbox" checked> Converse</label><br>
 
                 <h3>Price</h3>
                 <form id="priceForm" action="AllProduct.jsp" method="get">
                     <!-- Set the range value dynamically based on the maxPrice parameter -->
-                    <input type="range" min="0" max="10000000" value="<%= (maxPriceParam != null) ? maxPrice : 5000000 %>" id="priceRange" name="maxPrice">
-                    <span id="priceDisplay">$<%= (maxPriceParam != null) ? maxPrice : 5000000 %></span>
+                    <input type="range" min="0" max="5000000" value="<%= (maxPriceParam != null) ? maxPrice : 5000000 %>" id="priceRange" name="maxPrice">
+                    <span id="priceDisplay"><%= (maxPriceParam != null) ? maxPrice : 5000000 %></span>
                 </form>
 
                 <script>
@@ -118,29 +119,36 @@
             <!-- Product Listing Section -->
             <section class="products">
                 <!-- Sorting and Filters Row -->
-                
+                <div class="sort">
+                    <select>
+                        <option>New</option>
+                        <option>Price ascending</option>
+                        <option>Price descending</option>
+                        <option>Rating</option>
+                    </select>
+                </div>
 
                 <!-- Product Cards -->
                 <div class="product-grid">
 
                     <%
-    // Get the maxPrice from the form submission (default to 1000 if not provided)
-     maxPriceParam = request.getParameter("maxPrice");
-     maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000;
-     
-    // Fetch all products
-    List<Product> products = ProductDB.allListProduct();
+                        // Get the maxPrice from the form submission (default to 1000 if not provided)
+                         maxPriceParam = request.getParameter("maxPrice");
+                         maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000;
 
-    // Filter products that are less than or equal to the maxPrice
-    List<Product> filteredProducts = new ArrayList<>();
-    for (Product p : products) {
-        if (p.getPrice() <= maxPrice) {
-            filteredProducts.add(p);
-            a = false;
-            
-        }                                                  
-        
-    }
+                        // Fetch all products
+                        List<Product> products = ProductDB.allListProduct();
+
+                        // Filter products that are less than or equal to the maxPrice
+                        List<Product> filteredProducts = new ArrayList<>();
+                        for (Product p : products) {
+                            if (p.getPrice() <= maxPrice) {
+                                filteredProducts.add(p);
+                                a = false;
+
+                            }                                                  
+
+                        }
                     %>
                     <% 
             // Display the filtered products
@@ -150,7 +158,7 @@
                     <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)' style="cursor: pointer;">
                         <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
                         <h4><%= product1.getProductName() %></h4>
-                        <p>$<%= product1.getPrice() %></p>
+                        <p><%= product1.getPrice() %></p>
                     </div>
                     <% 
                         }
@@ -176,45 +184,22 @@
 
             </section>
         </div>
-        <div class="footer">
-            <div class="footer1">
+        <footer class="row footer" id="footer">
+            <div class="col-md-4 footer-text">
                 <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
-            </div>   
-            <div class="footer2">
-                <div class="footer2-inside-1">
-                    <div class="infor">
-                        <p id="infor-detail">Information<p>
-                    </div>
-                    <div class="infor">
-                        <p>Email : taidepchai@gmail.com<p>
-                    </div>
-                    <div class="infor">
-                        <p>Phone : 0123456789<p>
-                    </div>
-                    <div class="infor">
-                        <p>Addres : do biet o dau<p>
-                    </div>
-                </div>
-                <div class="footer2-inside-2">
-                    <div class="contact">
-                        <p>Contact us<p>
-                    </div>
-                    <div class="contact-img">
-                        <div class="contact-detail">
-                            <img src="img/facebook.jpg" />
-                        </div>
-                        <div class="contact-detail">
-                            <img src="img/instagram.jpg" />
-                        </div>
-                        <div class="contact-detail">
-                            <img src="img/tiktok.png" />
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
-        </div>
+            <div class="col-md-4 information">
+                <h3>Information</h3>
+                <a href="landingPage.jsp">Home</a>
+                <a href="AllProduct.jsp">Shop</a>
+            </div>
+            <div class="col-md-4 contact">
+                <h3>Contact us</h3>
+                <span><i class="bi bi-telephone"></i>0702411147</span>
+                <span><i class="bi bi-geo-alt"></i>12 My Da Tay 8, Khue My, Ngu Hanh Son,<br>Da Nang City</span>
+                <span><i class="bi bi-envelope"></i>hesh-shoe-selling@gmail.com</span>
+            </div>
+        </footer>
         <script src="js/AllProduct.js"></script>
 
     </body>

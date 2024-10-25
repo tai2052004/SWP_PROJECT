@@ -127,14 +127,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 }
 
 /* Filters Section */
-.filters {
+/*.filters {
     width: 200px;
     border: 2px solid lightgray;
     padding-right: 20px;
 }
 .filters input[type="checkbox"] {
-    transform: scale(1.5);  /* Increase the size of the checkbox */
-    margin-right: 10px;     /* Adjust the spacing */
+    transform: scale(1.5);   Increase the size of the checkbox 
+    margin-right: 10px;      Adjust the spacing 
 }
 
 
@@ -145,6 +145,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .filters label {
     display: block;
     margin-bottom: 5px;
+}*/
+
+.filters {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.filters h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.filters label {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: 18px;
 }
 
 input[type="range"] {
@@ -153,7 +170,7 @@ input[type="range"] {
 }
 
 /* Product Listing Section */
-.products {
+/*.products {
     flex-grow: 1;
     padding-left: 20px;
 }
@@ -169,9 +186,22 @@ input[type="range"] {
     padding: 10px;
     margin-right: 10px;
     cursor: pointer;
+}*/
+.products {
+    flex: 3;
+    margin-left: 1rem;
 }
 
-.product-grid {
+.sort {
+    text-align: right;
+    margin-right: 3rem;
+    margin-bottom: 1rem;
+}
+
+.sort select {
+    padding: 0.5rem;
+}
+/*.product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
@@ -186,20 +216,50 @@ input[type="range"] {
 .product-card img {
     width: 50%;
     height: auto;
+}*/
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin: 2rem;
+}
+
+.product-card {
+    height: 330px;
+    width: 320px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.product-card img {
+    padding: 50px 20px 20px 20px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .product-card h4 {
+    font-size: 22px;
     margin: 10px 0;
-    font-size: 16px;
+    font-weight: 400;
 }
-
-.pagination {
+.product-card p {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+.pagination-buttons {
     margin-top: 20px;
     text-align: center;
     justify-content: center;
+    align-items: center;
 }
 
-.pagination button {
+.pagination-buttons button {
     border: 1px solid lightgray;
     padding: 10px;
     margin: 0 5px;
@@ -216,57 +276,40 @@ input[type="range"] {
 }
 /*Footer*/
 
-.footer
-{
-    display: flex;
-    justify-content: center;
-    height: 231px;
+.footer {
     background-color: #1A202C;
-    color: white;
-    padding : 20px 10px;
-
+    color: #fff;
+    padding: 20px 10px;
 }
-.footer1
-{
-    border-right: 2px solid wheat;
-    width: 40%;
+.footer-text {
+    border-right: 2px solid #fff ;
+    font-weight: 200;
+    padding-top: 10px;
+    padding-left: 50px;
 }
-#infor-detail
-{
-    font-size: 30px;
-    color: #ffeeba;
+.information {
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
 }
-
-.footer2-inside-2
-{
+.information a {
+    color: #fff;
+    margin-top: 10px;
+}
+.information a:hover {
+    text-decoration: none;
+}
+.contact {
     display: flex;
     flex-direction: column;
 }
-.contact
-{
-    display: flex;
-    justify-content: center;
-    font-size: 30px;
-    color: #ffeeba;
+.contact span{
+    margin-top: 2px;
 }
-.contact-img
-{
-    display: flex;
-    justify-content: space-between;
-    width: 250px;
+.contact i {
+    margin-right: 15px;
 }
-.contact-img img
-{
-    width: 50px;
-    border-radius: 20%;
-}
-.footer2
-{
-    width: 65%;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-}
+
 .dropdown {
     position: relative;
     display: inline-block;
