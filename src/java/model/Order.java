@@ -18,7 +18,7 @@ public class Order {
     private float feeship;
     private String address;
     private int coupon;
-
+    private float couponValue;
     public Order() {
     }
 
@@ -106,6 +106,14 @@ public class Order {
         this.coupon = coupon;
     }
 
+    public float getCouponValue() {
+        return couponValue;
+    }
+
+    public void setCouponValue(float couponValue) {
+        this.couponValue = couponValue;
+    }
+    
     @Override
     public String toString() {
         return "Order{" + "order_id=" + order_id + ", user_id=" + user_id + ", order_date=" + order_date + ", status=" + status + ", pay=" + pay + ", total_price=" + total_price + ", feeship=" + feeship + ", address=" + address + ", coupon=" + coupon + '}';

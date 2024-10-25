@@ -10,18 +10,6 @@
 <%
     User user = (User) request.getAttribute("user"); 
     String gender = user.getGender();
-    if(gender == null) {
-        gender = "";
-    }
-    String fullname = user.getFullname();
-    if(fullname == null) {
-        fullname = "";
-    }
-    String phone = user.getPhone();
-    if(phone == null) {
-        phone= "";
-    }
-
 %>
 <html>
     <head>
@@ -33,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-    <link href="CSS/styles1.css" rel="stylesheet" />
+    <link href="CSS/styles2.css" rel="stylesheet" />
     </head>
     <body>
         <% 
@@ -68,7 +56,7 @@
                     </span>
         </div>
         <div>
-            <div class="logout-button">
+            <div class="logout-button" onclick="window.location.href='LogoutControl'" style="cursor: pointer;">
                 <span class="title black-text">Logout</span>
                 <img src="assets/logout.svg" width="30" height="30" />
             </div>
@@ -147,13 +135,13 @@
                                 <div class="form-group">
                                     <label for="full-name">Full Name</label>
                                     <input type="text" id="full-name" class="form-control" name="fullname" 
-                                               value="${fullname}" required>
+                                               value="${user.fullname}" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="phone">Phone Number</label>
                                     <input type="tel" id="phone" class="form-control" name="phone" 
-                                               value="${phone}" required>
+                                               value="${user.phone}" required>
                                 </div>
 
                                 <div class="form-group">

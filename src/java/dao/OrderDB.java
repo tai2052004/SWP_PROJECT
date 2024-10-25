@@ -115,6 +115,64 @@ public class OrderDB implements DatabaseInfo{
 
         return null;
         }
+    public static Order getOrderById(int orderId) {
+        Order orders = null;
+        
+        String query = "SELECT o.order_id, o.user_id, o.order_date, o.total_price, o.status, o.feeship, c.discount_value "
+             + "FROM [Order] o "
+             + "JOIN Coupon c ON o.coupon_id = c.coupon_id "
+             + "WHERE o.order_id = ?";
+        try (Connection conn = getConnect(); 
+            PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                orders = new Order();
+                orders.setOrder_id(rs.getInt("order_id"));
+                orders.setUser_id(rs.getInt("user_id"));
+                orders.setOrder_date(rs.getString("order_date"));
+                orders.setTotal_price(rs.getFloat("total_price"));
+                orders.setStatus(rs.getString("status"));
+                orders.setFeeship(rs.getFloat("feeship"));        
+                orders.setCouponValue(rs.getFloat("discount_value"));
+            }        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orders;  
+    }
+    public static List<OrderDetail> getOrderDetailsById(int orderId) {
+        List<OrderDetail> orderDetail = new ArrayList<>();
+        String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, "
+                + "od.quantity, p.price, p.discount, o.order_date, o.status "
+                + "FROM [Order] o "
+                + "JOIN Users u ON o.user_id = u.ID "
+                + "JOIN OrderDetail od ON o.order_id = od.order_id "
+                + "JOIN ProductDetail pd ON od.product_detail_id = pd.id "
+                + "JOIN Product p ON pd.product_id = p.product_id "
+                + "WHERE o.order_id = ?";
+        try (Connection conn = getConnect(); 
+            PreparedStatement ps = conn.prepareStatement(query)) {  
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+               OrderDetail orderDetails = new OrderDetail();
+               orderDetails.setOrder_detail_id(rs.getInt("order_detail_id"));
+               orderDetails.setProductName(rs.getString("name"));
+               orderDetails.setSize(rs.getString("size"));
+               orderDetails.setQuantity(rs.getInt("quantity"));
+               orderDetails.setPrice(rs.getDouble("price"));
+               orderDetails.setDiscount(rs.getFloat("discount"));
+               orderDetail.add(orderDetails);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderDetail;  
+    }
     public static void main(String[] args) {
         List<Order> order = OrderDB.getOrder();
         for(Order orders : order) {

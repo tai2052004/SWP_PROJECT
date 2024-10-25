@@ -24,6 +24,9 @@ public class OrderDetail {
     private int quantity;
     private LocalDateTime orderDate;
     private String status;
+    private float feeship;
+    private float discount;
+    private float coupon;
     public OrderDetail(int cart_id, int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate) {
         this.cart_id = cart_id;
         this.product_id = product_id;
@@ -140,6 +143,30 @@ public class OrderDetail {
 
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public float getFeeship() {
+        return feeship;
+    }
+
+    public void setFeeship(float feeship) {
+        this.feeship = feeship;
+    }
+
+    public float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(float discount) {
+        this.discount = discount;
+    }
+
+    public float getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(float coupon) {
+        this.coupon = coupon;
     }
 
     @Override

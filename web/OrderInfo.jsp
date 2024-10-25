@@ -6,6 +6,13 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    Order order = (Order) request.getAttribute("order");
+    int id = order.getOrder_id();
+    String fullname = OrderDB.getUserFullName(id);
+%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,7 +35,7 @@
             href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
             rel="stylesheet"
             />
-        <link href="CSS/styles1.css" rel="stylesheet" />
+        <link href="CSS/styles2.css" rel="stylesheet" />
     </head>
     <body>
         <div class="header">
@@ -64,7 +71,7 @@
                 </span>
             </div>
             <div>
-                <div class="logout-button">
+                <div class="logout-button" onclick="window.location.href='LogoutControl'" style="cursor: pointer;">
                     <span class="title black-text">Logout</span>
                     <img src="assets/logout.svg" width="30" height="30" />
                 </div>
@@ -164,10 +171,10 @@
                         <div>Price</div>
                         <div>Status</div>
                         <span class="line"></span>
-                        <div>#0001</div>
-                        <div>Nguyen Van Hung</div>
-                        <div>13-09-2024</div>
-                        <div>2.690.000</div>
+                        <div><%= order.getOrder_id()%></div>
+                        <div><%= fullname%></div>
+                        <div><%= order.getOrder_date()%></div>
+                        <div><%= order.getTotal_price()%></div>
                         <div>
                             <div class="badge on-deliver">On Deliver</div>
                         </div>
@@ -182,30 +189,65 @@
                             <div>Price</div>
                             <div>Total Price</div>
                             <span class="line"></span>
-                            <div>1</div>
-                            <div>Nike Air Force 1 Low By You</div>
-                            <div>41</div>
-                            <div>1</div>
-                            <div>1.050.000</div>
+                            <%
+                                int idDetail = order.getOrder_id();
+                                float subtotal = 0;
+                                float discount= 0;
+                                List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(idDetail); 
+                                for(OrderDetail orderDetails : orderDetail) { 
+                                    subtotal += orderDetails.getPrice();
+                                    discount =+ orderDetails.getDiscount();
+                            %>
+                            <div><%= orderDetails.getOrder_detail_id()%></div>
+                            <div><%= orderDetails.getProductName()%></div>
+                            <div><%= orderDetails.getSize()%></div>
+                            <div><%= orderDetails.getQuantity()%></div>
+                            <div><%= orderDetails.getPrice()%></div>
                             <div>1.050.000</div>
                             <span class="line"></span>
-                            <div>2</div>
-                            <div>Nike Dunk Low - Bronzine</div>
-                            <div>42</div>
-                            <div>1</div>
-                            <div>1.050.000</div>
-                            <div>1.050.000</div>
-                            <span class="line"></span>
+                            <%
+                                }
+                                float totalDiscount = (subtotal) *(discount /100);
+                            %>
                         </div>
+                        
                         <div class="order-summary">
                             <div class="order-summary-grid">
                                 <span>Subtotal</span>
-                                <span>1.050.000</span>
+                                <span><%= subtotal%></span>
                                 <span>Discount</span>
+                                <%
+                                    if(totalDiscount == 0) {
+                                %>
                                 <span>0</span>
+                                <%
+                                    } else {
+                                %>
+                                <span>-<%= totalDiscount%></span>
+                                <%
+                                    }
+                                %>
+                                <span>Coupon</span>
+                                <%
+                                    float coupon = order.getCouponValue();
+                                    float feeship = order.getFeeship();
+                                    float total = subtotal - discount - coupon + feeship;
+                                    if(coupon == 0) {
+                                %>
+                                <span>0</span>
+                                <%
+                                    } else {
+                                %>
+                                <span>-<%= coupon%></span>
+                                <%
+                                    }
+                                %>
+                                <span>Fee ship</span>
+                                <span><%= feeship %></span>
                                 <span>Total</span>
-                                <span>1.050.000</span>
+                                <span><%= total %></span>
                             </div>
+
                             <div class="button-container">
                                 <div class="accent">Cancel order</div>
                                 <div>Submit order</div>

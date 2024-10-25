@@ -30,7 +30,7 @@
 			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 			rel="stylesheet"
 		/>
-		<link href="CSS/styles1.css" rel="stylesheet" />
+		<link href="CSS/styles2.css" rel="stylesheet" />
     </head>
     <body>
         <div class="header">
@@ -66,8 +66,8 @@
 				</span>
 			</div>
 			<div>
-				<div class="logout-button">
-					<span class="title black-text">Logout</span>
+				<div class="logout-button" onclick="window.location.href='LogoutControl'" style="cursor: pointer;">
+					<span class="title black-text" >Logout</span>
 					<img src="assets/logout.svg" width="30" height="30" />
 				</div>
 			</div>
@@ -207,10 +207,13 @@
                                                 }
                                             %>
 						<div>
-							<a class="icon" href="OrderInfo.jsp">
+                                                    <form id="orderSelectionForm<%= orders.getOrder_id()%>" action="OrderInfoServler" method="GET">
+							<button class="icon" type="submit" onclick="chooseOrder(<%= orders.getOrder_id()%>)">
 								<div></div>
-							</a>
-						</div>
+							</button>
+                                                        <input type="hidden" id="selectedOrder<%= orders.getOrder_id() %>" name="orderId" value="">
+                                                    </form>
+						</div> 
 						<span class="line"></span>
                                                 <%
                                                     }
@@ -220,4 +223,13 @@
 			</div>
 		</div>
     </body>
+    <script>
+                    function chooseOrder(orderId) {
+
+                        document.getElementById('selectedOrder' + orderId).value = orderId;
+
+                        document.getElementById('orderSelectionForm' + orderId).submit();
+                    }
+    </script>
+
 </html>
