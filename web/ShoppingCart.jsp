@@ -17,7 +17,6 @@
         String size = (String) request.getAttribute("selectedSize");
         
         int quantity = 0;
-        int flag = 0;
         if ( quantity1 != null )
         {
             quantity = Integer.parseInt(quantity1);
@@ -49,7 +48,7 @@
                 else if (ode.getSize().equals(size))
                 {
                     ode.setQuantity(ode.getQuantity() + quantity);
-                    flag++;
+                    odet = ode;
                 }
             }
         }
@@ -59,7 +58,7 @@
             listOD.add(od);
         }
         
-        if ( odet != null && od != null || flag != 0)
+        if ( odet != null && od != null)
         {
             listOD.remove(od);
         }
@@ -92,8 +91,13 @@
                 </div>
 
                 <div class="col-md-3 user-actions">
-                    <div class="logout">
-                        <a href="LogoutControl"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                    <div class="logout dropdown">
+                        <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                        <div class="dropdown-menu">
+                            <a href="ManageProfile.jsp">My profile</a>
+                            <a href="/TrackMyOrder.jsp">Track my order</a>
+                            <a href="/favorites">Favorite Items</a>
+                        </div>
                     </div>
                     <div class="cart">
                         <a href=""><i class="bi bi-cart"></i></a>
@@ -107,7 +111,7 @@
 
         <main>
             <h1>YOUR SHOPPING CART</h1>
-            <form action="CheckOutServlet" method="post">
+            <form action="ShoppingCart" method="post">
                 <table class="cart-table">
                     <thead>
                         <tr>
@@ -205,10 +209,10 @@
                         <td>6.150.000</td>
                     </tr>
                 </table>
-
-                <input type="hidden" name="action" value="checkout">
-                <button type="submit" class="checkout">Check out</button>
-                </form>
+                    <form action="ShoppingCart" method="post">
+                        <input type="hidden" name="action" value="checkout">
+                        <button type="submit" class="checkout">Check out</button>
+                    </form>
 
             </div>
 

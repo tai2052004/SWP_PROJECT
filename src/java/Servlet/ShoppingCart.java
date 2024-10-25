@@ -21,7 +21,7 @@ import model.Product;
  *
  * @author LAPTOP
  */
-public class CheckOutServlet extends HttpServlet {
+public class ShoppingCart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -82,7 +82,7 @@ public class CheckOutServlet extends HttpServlet {
         }   
         else
         {
-            
+            response.sendRedirect("CheckOut.jsp");
         }
     }
 

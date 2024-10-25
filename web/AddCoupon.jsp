@@ -73,47 +73,75 @@
             </div>
         </div>
         <div class="content">
-            <div class="add-coupon-container">
-                <div class="add-coupon-form">
-                    <h2 class="form-header">Add New Coupon</h2>
+                <div class="add-coupon-container">
+                    <div class="add-coupon-form">
+                        <h2 class="form-header">Add New Coupon</h2>
+                        
+                        <!-- Display error message if any -->
+                        <% String error = (String) request.getAttribute("error");
+                           if(error != null) { %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                        <% } %>
+                        
+                        <!-- Display success message if any -->
+                        <% String success = (String) request.getAttribute("success");
+                           if(success != null) { %>
+                            <div class="alert alert-success">
+                                <%= success %>
+                            </div>
+                        <% } %>
 
-                    <div class="form-group">
-                        <label for="coupon-id">Coupon ID</label>
-                        <input type="text" id="coupon-id" class="form-control" placeholder="1">
+                        <form action="AddCouponServlet" method="post" onsubmit="return validateForm()">
+                            <div class="form-group">
+                                <label for="discount-name">Coupon Name</label>
+                                <input type="text" id="discount-name" name="discount_name" class="form-control" required placeholder="Daily Discount">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="code">Coupon Code</label>
+                                <input type="text" id="code" name="code" class="form-control" required placeholder="DAILY123">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="discount-value">Discount Value</label>
+                                <input type="number" step="0.01" id="discount-value" name="discount_value" class="form-control" required placeholder="100.00">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" id="quantity" name="quantity" class="form-control" required placeholder="100">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-confirm">Confirm Add</button>
+                                <a href="CouponList.jsp" class="btn btn-cancel">Cancel Add</a>
+                            </div>
+                        </form>
                     </div>
-
-                    <div class="form-group">
-                        <label for="coupon-name">Coupon Name</label>
-                        <input type="text" id="coupon-name" class="form-control" placeholder="Daily Day">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="coupon-code">Coupon Code</label>
-                        <input type="text" id="coupon-code" class="form-control" placeholder="#DailyDay">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="discount-value">Discount Value</label>
-                        <input type="text" id="discount-value" class="form-control" placeholder="100.000">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" id="quantity" class="form-control" placeholder="100">
-                    </div>
-
-                    <div class="form-actions">
-                        <a href="CouponList.jsp" class="btn btn-confirm" style="text-decoration: none;">
-                            Confirm add
-                        </a>
-                        <a href="CouponList.jsp" class="btn btn-cancel" style="text-decoration: none;">
-                            Cancel Add
-                        </a>
-                    </div>
-
                 </div>
             </div>
         </div>
+
+        <script>
+            function validateForm() {
+                var discountValue = document.getElementById('discount-value').value;
+                var quantity = document.getElementById('quantity').value;
+                
+                if (discountValue <= 0) {
+                    alert('Discount value must be greater than 0');
+                    return false;
+                }
+                
+                if (quantity <= 0) {
+                    alert('Quantity must be greater than 0');
+                    return false;
+                }
+                
+                return true;
+            }
+        </script>
     </div>
    
     </body>

@@ -7,8 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <%
     Product product = (Product) request.getAttribute("product");
+    String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
 %>
 <html>
     <head>
@@ -66,7 +68,7 @@
             <div class="product-details">
                 
                 <div id="productTitle" class="product-title"><%= product.getProductName()%></div>
-                <div id="productPrice" class="product-price"><%= product.getPrice()%></div>
+                <div id="productPrice" class="product-price"><%= formattedPrice%></div>
 
                 <!-- Size options -->
                 <p class="size">Size</p>
