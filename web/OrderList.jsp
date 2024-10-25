@@ -5,7 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.* , dao.*, java.util.*" %> 
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -166,62 +168,53 @@
 						<div>Action</div>
 					</div>
 					<div class="order-table">
-						<div>#0001</div>
-						<div>Nguyen Van Hung</div>
-						<div>13-09-2024</div>
-						<div>2.690.000</div>
+                                            <%
+                                                List<Order> order = OrderDB.getOrder();
+                                                for(Order orders : order) {
+                                                    int id = orders.getUser_id();
+                                                    String fullname = OrderDB.getUserFullName(id);
+                                                
+                                            %>
+						<div><%= orders.getOrder_id()%></div>
+						<div><%= fullname%></div>
+						<div><%= orders.getOrder_date()%></div>
+						<div><%= orders.getTotal_price()%></div>
+                                            <%
+                                                if(orders.getStatus().equals("Shipping")) {
+                                            %>
 						<div>
-							<div class="badge on-deliver">On Deliver</div>
+							<div class="badge on-deliver"><%= orders.getStatus()%></div>
 						</div>
-						<div>
-							<a class="icon" href="OrderInfo.jsp">
-								<div></div>
-							</a>
+                                            <%
+                                                } else if(orders.getStatus().equals("Pending")) {
+                                            %>
+                                                <div>
+							<div class="badge pending"><%= orders.getStatus()%></div>
+						</div>       
+                                            <%
+                                                } else if(orders.getStatus().equals("Cancelled")) {
+                                            %>
+                                                <div>
+							<div class="badge pending"><%= orders.getStatus()%></div>
 						</div>
-						<span class="line"></span>
-						<div>#0002</div>
-						<div>Dang Yen Nhi</div>
-						<div>13-09-2024</div>
-						<div>1.590.000</div>
-						<div><div class="badge pending">Pending</div></div>
-						<div>
-							<a class="icon" href="OrderInfo.jsp">
-								<div></div>
-							</a>
+                                            <%
+                                                } else {
+                                            %>
+                                                <div>
+							<div class="badge"><%= orders.getStatus()%></div>
 						</div>
-						<span class="line"></span>
-						<div>#0003</div>
-						<div>Hoang Thi Kim Lien</div>
-						<div>14-09-2024</div>
-						<div>1.590.000</div>
-						<div><div class="badge">Complete</div></div>
-						<div>
-							<a class="icon" href="OrderInfo.jsp">
-								<div></div>
-							</a>
-						</div>
-						<span class="line"></span>
-						<div>#0004</div>
-						<div>Trần Minh Quang</div>
-						<div>14-09-2024</div>
-						<div>2.790.000</div>
-						<div><div class="badge">Complete</div></div>
+                                            <%
+                                                }
+                                            %>
 						<div>
 							<a class="icon" href="OrderInfo.jsp">
 								<div></div>
 							</a>
 						</div>
 						<span class="line"></span>
-						<div>#0004</div>
-						<div>Trần Minh Quang</div>
-						<div>14-09-2024</div>
-						<div>2.790.000</div>
-						<div><div class="badge">Complete</div></div>
-						<div>
-							<a class="icon" href="OrderInfo.jsp">
-								<div></div>
-							</a>
-						</div>
+                                                <%
+                                                    }
+                                                %>
 					</div>
 				</div>
 			</div>

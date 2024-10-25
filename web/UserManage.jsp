@@ -72,7 +72,7 @@
                     </span>
         </div>
         <div>
-            <div class="logout-button" onclick="window.location.href='landingPage.jsp'" style="cursor: pointer;">
+            <div  class="logout-button" onclick="window.location.href='LogoutControl'" style="cursor: pointer;">
                 <span class="title black-text">Logout</span>
                 <img src="assets/logout.svg" width="30" height="30" />
             </div>
@@ -163,7 +163,8 @@
                                 align-items: center;
                                 gap: 8px;
                                 cursor: pointer;
-                            ">
+                            "
+                            href="AddUser.jsp">
                                 <img src="assets/sort.svg" alt="sort" width="20" height="20">
                                 Sort by
                             </button>

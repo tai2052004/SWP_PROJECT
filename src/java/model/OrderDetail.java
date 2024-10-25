@@ -16,6 +16,7 @@ public class OrderDetail {
     private int product_id;
     private String productName;
     private String brand;
+    private double totalPrice;
     private double price;
     private String size;
     private int quantity;
@@ -44,6 +45,30 @@ public class OrderDetail {
     
     public int getUser_id() {
         return user_id;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setUser_id(int user_id) {
@@ -96,6 +121,11 @@ public class OrderDetail {
 
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" + "order_id=" + order_id + ", user_id=" + user_id + ", product_id=" + product_id + ", productName=" + productName + ", brand=" + brand + ", totalPrice=" + totalPrice + ", price=" + price + ", size=" + size + ", quantity=" + quantity + ", orderDate=" + orderDate + ", status=" + status + '}';
     }
     
     

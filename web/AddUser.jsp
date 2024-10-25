@@ -157,7 +157,7 @@
                             </div>    
                             <div class="form-actions">
                                 <button class="btn btn-confirm">Confirm add</button>
-                                <button class="btn btn-cancel">Cancel Add</button>
+                                <a href= "UserManage.jsp" class="btn btn-cancel" style="text-decoration: none;">Cancel Add</a>
                             </div>
                         </form>
                     </div>
