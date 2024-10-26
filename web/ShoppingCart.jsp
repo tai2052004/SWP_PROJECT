@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page import="model.User , dao.UserDB, model.OrderDetail, model.Product, model.ProductDetail" %> 
+<%@page import="model.*" %> 
 <%@ page import="java.util.*, java.time.LocalDateTime, dao.*" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
@@ -15,7 +15,16 @@
         Product p = (Product) session.getAttribute("product");
         String quantity1 = (String) request.getAttribute("productQuantity");
         String size = (String) request.getAttribute("selectedSize");
-        
+        Coupon coupon = (Coupon) session.getAttribute("coupon");
+        Order order = (Order) session.getAttribute("order");
+        User user = (User) session.getAttribute("user");
+        order.setUser_id(user.getUser_id());
+        double couponValue = 0;
+        if ( coupon != null)
+        {
+            couponValue = coupon.getDiscountValue();
+            order.setCoupon(couponValue);
+        }
         int quantity = 0;
         if ( quantity1 != null )
         {
@@ -128,6 +137,7 @@
                         List<ProductDetail> pd = product.getProductDetails();
                         double totalPrice = product.getPrice() * o.getQuantity();
                         String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalPrice);
+                        o.setTotalPrice(totalPrice);
                         String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
                         subtotal += totalPrice;
                     %>    
@@ -179,20 +189,29 @@
                     <%
                     }
                      String formatSubtotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subtotal);
+                     session.setAttribute("subTotal",formatSubtotal);
                     %>
                 </table>
 
                 <div class="cart-actions">
                     <div class="coupon">
-                        <input id="coupon-id" type="text" placeholder="Coupon code">
-                        <button>Apply coupon</button>
+                        <input id="coupon-id" type="text" name="couponCode" placeholder="Coupon code">
+                        <button type="submit" name="action" value="applyCoupon">Apply coupon</button>
                     </div>
 
-                    <input type="hidden" name="action" value="updateCart">
-                    <button type="submit" class="update-cart">Update cart</button>
+                    <button type="submit" name="action" value="updateCart" class="update-cart">Update cart</button>
 
                 </div>
             </form>
+            <% 
+                        double totalDiscount = subtotal * couponValue * 0.01;                        
+                        double allTotal =  subtotal - totalDiscount;
+                        String formatCouponTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalDiscount);
+                        session.setAttribute("totalDiscount", formatCouponTotal);                       
+                        order.setTotal_price((float)allTotal);
+                        String formatAlltotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(allTotal);
+                        session.setAttribute("formatAlltotal", formatAlltotal);
+            %>
             <div class="cart-totals">
                 <h2>Cart totals</h2>
                 <table>
@@ -202,17 +221,18 @@
                     </tr>
                     <tr>
                         <th>Discount</th>
-                        <td>0.0</td>
+                        <td><%= formatCouponTotal %></td>
                     </tr>
                     <tr>
+
                         <th>Total</th>
-                        <td>6.150.000</td>
+                        <td><%= formatAlltotal %></td>
                     </tr>
                 </table>
-                    <form action="ShoppingCart" method="post">
-                        <input type="hidden" name="action" value="checkout">
-                        <button type="submit" class="checkout">Check out</button>
-                    </form>
+                <form action="ShoppingCart" method="post">
+                    <input type="hidden" name="action" value="checkout">
+                    <button type="submit" class="checkout">Check out</button>
+                </form>
 
             </div>
 

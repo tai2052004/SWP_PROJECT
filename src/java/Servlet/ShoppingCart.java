@@ -4,6 +4,7 @@
  */
 package Servlet;
 
+import dao.CouponDB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import model.Coupon;
 import model.OrderDetail;
 import model.Product;
 
@@ -80,9 +82,13 @@ public class ShoppingCart extends HttpServlet {
         {
             updateCart(request,response);
         }   
-        else
+        else if ( action.equalsIgnoreCase("checkout"))
         {
             response.sendRedirect("CheckOut.jsp");
+        }
+        else
+        {
+            applyCoupon(request,response);
         }
     }
 
@@ -137,6 +143,24 @@ public class ShoppingCart extends HttpServlet {
                 lOD.remove(od);
             }
         }
+        request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
+    }
+    
+    public void applyCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        ArrayList<Coupon> listCoupon = CouponDB.listAllCoupons();
+        String couponCode = request.getParameter("couponCode");
+        Coupon cou = new Coupon();
+        
+        for (Coupon c : listCoupon)
+        {
+            if ( c.getCouponCode().equalsIgnoreCase(couponCode))
+            {
+                cou = c;
+            }
+        }
+        session.setAttribute("coupon", cou);
         request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
     }
 

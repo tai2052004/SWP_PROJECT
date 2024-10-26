@@ -27,11 +27,11 @@ public class CouponDB implements DatabaseInfo {
     public static boolean addCoupon(Coupon coupon) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
-                "INSERT INTO Coupons(coupon_name, coupon_code, discount_value, quantity) VALUES (?, ?, ?, ?)",
-                PreparedStatement.RETURN_GENERATED_KEYS
+                    "INSERT INTO Coupon (code, discount_name, discount_value, quantity) VALUES (?, ?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
             );
-            stmt.setString(1, coupon.getCouponName());
-            stmt.setString(2, coupon.getCouponCode());
+            stmt.setString(1, coupon.getCouponCode());
+            stmt.setString(2, coupon.getCouponName());
             stmt.setDouble(3, coupon.getDiscountValue());
             stmt.setInt(4, coupon.getQuantity());
             
@@ -49,11 +49,46 @@ public class CouponDB implements DatabaseInfo {
         }
         return false;
     }
-
-    public static boolean couponExists(String couponCode) {
+    
+     public static boolean deleteCoupon(int couponId) {
         try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM Coupons WHERE coupon_code = ?");
-            stmt.setString(1, couponCode);
+            PreparedStatement stmt = con.prepareStatement(
+                "DELETE FROM Coupon WHERE coupon_id = ?"
+            );
+            stmt.setInt(1, couponId);
+            
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static ArrayList<Coupon> listAllCoupons() {
+        ArrayList<Coupon> couponList = new ArrayList<>();
+        try (Connection con = getConnect()) {
+            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupon");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("coupon_id");
+                String code = rs.getString("code");
+                String discountName = rs.getString("discount_name");
+                double discountValue = rs.getDouble("discount_value");
+                int quantity = rs.getInt("quantity");
+                Coupon coupon = new Coupon(id, discountName, code, discountValue, quantity);
+                couponList.add(coupon);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return couponList;
+    }
+
+    public static boolean couponExists(String code) {
+        try (Connection con = getConnect()) {
+            PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM Coupon WHERE code = ?");
+            stmt.setString(1, code);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;
@@ -64,103 +99,23 @@ public class CouponDB implements DatabaseInfo {
         return false;
     }
 
-    public static ArrayList<Coupon> listAllCoupons() {
-        ArrayList<Coupon> couponList = new ArrayList<>();
-        try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupons");
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("coupon_id");
-                String name = rs.getString("coupon_name");
-                String code = rs.getString("coupon_code");
-                float discountValue = rs.getFloat("discount_value");
-                int quantity = rs.getInt("quantity");
-                
-                Coupon coupon = new Coupon(id, name, code, discountValue, quantity);
-                couponList.add(coupon);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return couponList;
-    }
-
     public static Coupon getCouponById(int couponId) {
         Coupon coupon = null;
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupon WHERE coupon_id = ?");
             stmt.setInt(1, couponId);
             ResultSet rs = stmt.executeQuery();
-            
             if (rs.next()) {
-                String name = rs.getString("discount_name");
-                String code = rs.getString("code");
-                float discountValue = rs.getFloat("discount_value");
-                int quantity = rs.getInt("quantity");
-                
-                coupon = new Coupon(couponId, name, code, discountValue, quantity);
+                coupon = new Coupon();
+                coupon.setCouponId(rs.getInt("coupon_id"));
+                coupon.setCouponCode(rs.getString("code"));
+                coupon.setCouponName(rs.getString("discount_name"));
+                coupon.setDiscountValue(rs.getDouble("discount_value"));
+                coupon.setQuantity(rs.getInt("quantity"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return coupon;
     }
-
-
-    public static boolean updateCoupon(Coupon coupon) {
-        try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement(
-                "UPDATE Coupons SET coupon_name = ?, coupon_code = ?, discount_value = ?, quantity = ? WHERE coupon_id = ?"
-            );
-            stmt.setString(1, coupon.getCouponName());
-            stmt.setString(2, coupon.getCouponCode());
-            stmt.setDouble(3, coupon.getDiscountValue());
-            stmt.setInt(4, coupon.getQuantity());
-            stmt.setInt(5, coupon.getCouponId());
-            
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean deleteCoupon(int couponId) {
-        try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("DELETE FROM Coupon WHERE coupon_id = ?");
-            stmt.setInt(1, couponId);
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static Coupon getCouponByCode(String couponCode) {
-        Coupon coupon = null;
-        try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupon WHERE coupon_code = ?");
-            stmt.setString(1, couponCode);
-            ResultSet rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                int id = rs.getInt("coupon_id");
-                String name = rs.getString("coupon_name");
-                float discountValue = rs.getFloat("discount_value");
-                int quantity = rs.getInt("quantity");
-                
-                coupon = new Coupon(id, name, couponCode, discountValue, quantity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return coupon;
-    }
-    public static void main(String[]args) {
-        Coupon coupon = CouponDB.getCouponById(1);
-        System.out.println(coupon);
-    }
-    
 }

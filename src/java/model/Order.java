@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author ngoct
@@ -17,12 +19,13 @@ public class Order {
     private float total_price;
     private float feeship;
     private String address;
-    private int coupon;
-    private float couponValue;
+    private double coupon;
+    List<OrderDetail> listOD;
+
     public Order() {
     }
 
-    public Order(int order_id, int user_id, String order_date, String status, int pay, float total_price, float feeship, String address, int coupon) {
+    public Order(int order_id, int user_id, String order_date, String status, int pay, float total_price, float feeship, String address, double coupon) {
         this.order_id = order_id;
         this.user_id = user_id;
         this.order_date = order_date;
@@ -34,6 +37,14 @@ public class Order {
         this.coupon = coupon;
     }
 
+    public List<OrderDetail> getListOD() {
+        return listOD;
+    }
+
+    public void setListOD(List<OrderDetail> listOD) {
+        this.listOD = listOD;
+    }
+    
     public int getOrder_id() {
         return order_id;
     }
@@ -98,21 +109,15 @@ public class Order {
         this.address = address;
     }
 
-    public int getCoupon() {
+    public double getCoupon() {
         return coupon;
     }
 
-    public void setCoupon(int coupon) {
+    public void setCoupon(double coupon) {
         this.coupon = coupon;
     }
 
-    public float getCouponValue() {
-        return couponValue;
-    }
 
-    public void setCouponValue(float couponValue) {
-        this.couponValue = couponValue;
-    }
     
     @Override
     public String toString() {

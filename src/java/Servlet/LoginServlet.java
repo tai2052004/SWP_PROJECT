@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.*;
+import model.Order;
 import model.OrderDetail;
 import model.Product;
 import model.User;
@@ -87,6 +88,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         User user = UserDB.login(username, password);
         HttpSession session = request.getSession();
+        Order o = new Order();
         List<OrderDetail> lo = new ArrayList<OrderDetail>();
         if (user != null) {            
             session.setAttribute("user", user);
@@ -94,6 +96,7 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("UserManage.jsp");
             } else if("user".equals(user.getUser_role())) {
                 session.setAttribute("listCart", lo);
+                session.setAttribute("order", o);
                 response.sendRedirect("landingPage.jsp");
             }
         }  else {
