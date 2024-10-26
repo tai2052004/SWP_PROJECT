@@ -18,8 +18,21 @@ public class Product {
     private String discount;
     private String description;
     private String img_url;
+    private int status;
     private List<ProductDetail> productDetails;
+
     public Product() {
+    }
+    
+    public Product(int productID, String productName, String brand, double price, String discount, String description, String img_url, int status) {
+        this.productID = productID;
+        this.productName = productName;
+        this.brand = brand;
+        this.price = price;
+        this.discount = discount;
+        this.description = description;
+        this.img_url = img_url;
+        this.status = status;
     }
 
     public Product(int productID, String productName, String brand, double price, String discount, String description, String img_url) {
@@ -101,6 +114,14 @@ public class Product {
 
     public void setImg_url(String img_url) {
         this.img_url = img_url;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override

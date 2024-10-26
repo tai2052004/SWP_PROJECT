@@ -5,6 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    int order_id = Integer.parseInt(request.getParameter("orderId"));
+    Order o = OrderDB.getOrderById(order_id);
+    int id = o.getUser_id();
+    User user = OrderDB.getUserInfo(id);
+    String status = o.getStatus();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -85,14 +93,14 @@
                     <div>Price</div>
                     <div>Status</div>
                     <span class="line"></span>
-                    <div>#0001</div>
-                    <div>Nguyen Van Hung</div>
-                    <div>13-09-2024</div>
-                    <div>2.690.000</div>
+                    <div><%= o.getOrder_id()%></div>
+                    <div><%= user.getFullname()%></div>
+                    <div><%= o.getOrder_date()%></div>
+                    <div><%= o.getTotal_price()%></div>
                     <div>
                         <select id="statusSelect" style="font-family: 'Poppins', sans-serif; font-weight: 500; border: none;border-radius: 25px; color: white;" onchange="changeBackgroundColor()">
-                            <option style="background-color: rgb(141, 196, 59); color: white;" value="Packed">Packed</option>
-                            <option style="background-color: orangered; color: white;" value="Unpacked">Unpacked</option>
+                            <option style="background-color: rgb(141, 196, 59); color: white;" value="Confirmed" <%= "Confirmed".equals(status) ? "selected" : "" %>>Confirmed</option>
+                            <option style="background-color: orangered; color: white;" value="Shipping" <%= "Shipping".equals(status) ? "selected" : "" %>>Shipping</option>
                         </select>
                         <script>
                             function changeBackgroundColor() {
@@ -132,29 +140,29 @@
                         <div>Price</div>
                         <div>Total Price</div>
                         <span class="line"></span>
-                        <div>1</div>
-                        <div>Nike Air Force 1 Low By You</div>
-                        <div>41</div>
-                        <div>1</div>
-                        <div>1.050.000</div>
-                        <div>1.050.000</div>
-                        <span class="line"></span>
-                        <div>2</div>
-                        <div>Nike Dunk Low - Bronzine</div>
-                        <div>42</div>
-                        <div>1</div>
-                        <div>1.050.000</div>
-                        <div>1.050.000</div>
-                        <span class="line"></span>
+                        <% 
+                            int num = 1;
+                            float totalPrice = 0;
+                            List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
+                            orderDetailList = OrderDB.getOrderDetailsById(order_id);
+                            for (OrderDetail od : orderDetailList) {
+                                totalPrice += od.getPrice() * od.getQuantity();
+                        %>
+                            <div><%= num++ %></div>
+                            <div><%= od.getProductName() %></div>
+                            <div><%= od.getSize() %></div>
+                            <div><%= od.getQuantity() %></div>
+                            <div><%= od.getPrice() %></div>
+                            <div><%= od.getPrice() * od.getQuantity() %></div>
+                            <span class="line"></span>
+                        <% 
+                            }
+                        %>
                     </div>
                     <div class="order-summary">
                         <div class="order-summary-grid">
-                            <span>Subtotal</span>
-                            <span>1.050.000</span>
-                            <span>Discount</span>
-                            <span>0</span>
                             <span>Total</span>
-                            <span>1.050.000</span>
+                            <span><%= totalPrice %></span>
                         </div>
                         <div class="button-container">
                             

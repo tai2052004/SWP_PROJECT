@@ -23,6 +23,13 @@ public class ProductDetail {
         this.quantity = quantity;
     }
 
+    public ProductDetail(int productDetailID, int productID, String size, int quantity) {
+        this.productDetailID = productDetailID;
+        this.productID = productID;
+        this.size = size;
+        this.quantity = quantity;
+    }
+
     public int getProductDetailID() {
         return productDetailID;
     }

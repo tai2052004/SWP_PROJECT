@@ -1,0 +1,327 @@
+* {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+:root {
+    --accent-blue-color: #1d81f3;
+    --accent-border: rgba(0, 0, 0, 0.3);
+    --accent-color: #fec60f;
+    --background-color: #cdebf3;
+    --badge-complete: #f48080;
+    --badge-deliver: #78d27b;
+    --badge-pending: #80d5f4;
+    --black-color: #000000;
+    --bold: 700;
+    --button-blue-color: #47d1f8;
+    --extra-bold: 800;
+    --gray-color: #111111;
+    --header-blue-color: #b5eae7;
+    --light-blue-color: rgba(89, 156, 227, 0.35);
+    --link-color: #3491f4;
+    --primary-color: #1a202c;
+    --regular: 400;
+    --semi-bold: 600;
+    --white-color: #ffffff;
+}
+
+.header {
+    background-color: var(--primary-color);
+    height: 94px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header>* {
+    display: flex;
+    align-items: center;
+}
+
+.header .title {
+    font-weight: var(--bold);
+    font-size: 24px;
+    color: var(--white-color);
+}
+
+.accent-text {
+    color: var(--accent-color) !important;
+}
+
+.black-text {
+    color: var(--black-color) !important;
+}
+
+.logout-button {
+    width: 123px;
+    height: 56px;
+    border-radius: 10px;
+    background-color: var(--accent-color);
+    margin-right: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.body {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+.sidebar {
+    display: flex;
+    width: 326px;
+    background-color: var(--primary-color);
+    padding: 20px;
+    flex-direction: column;
+}
+
+.sidebar>.sidebar-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 2px solid var(--white-color);
+}
+
+.sidebar>.sidebar-top>span {
+    font-family: "Kavoon";
+    color: var(--white-color);
+    font-size: 40px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+}
+
+.sidebar>.sidebar-bottom {
+    display: flex;
+    margin-top: 20px;
+}
+
+.sidebar>.sidebar-bottom .sidebar-button {
+    display: flex;
+    padding: 19px;
+    font-weight: var(--bold);
+    font-size: 24px;
+    color: var(--white-color);
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sidebar>.sidebar-bottom .sidebar-button.is-active {
+    color: var(--black-color);
+    background-color: var(--accent-color);
+    border-radius: 10px;
+}
+
+.sidebar>.sidebar-bottom .sidebar-button.is-active>img {
+    filter: invert(100%);
+}
+
+.collapsible {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s;
+    pointer-events: none;
+}
+
+.collapsible.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.collapsible-sidebar-button {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.is-arrow-down {
+    transform: rotate(180deg);
+}
+.content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #f8f8f8;
+    color: #000000;
+}
+.content>div {
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+}
+
+.content .title {
+    font-family: "Poppins";
+    color: var(--black-color);
+    font-size: 45px;
+    font-weight: var(--bold);
+    margin-bottom: 40px;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+}
+form {
+    width: 100%
+}
+.main-header {
+    padding: 0px;
+}
+.main-header .title {
+    margin: 0px;
+}
+.main-image {
+    border: 2px solid #000000;
+    border-radius: 10px;
+    height: 300px;
+    width: 300px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.main-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    border-radius: inherit;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1600px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.size-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.size-quantity select,
+.size-quantity input {
+    width: 50%;
+}
+
+.size-quantity button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.size-quantity button:hover {
+    background-color: #0056b3;
+}
+#addsize {
+    padding: 12px;
+    background-color: #F8B042;
+    border-style: none;
+    font-weight: 600;
+    font-size: 16px;
+}
+.size-quantity-list {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px;
+}
+
+.size-quantity-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.size-quantity-list th,
+.size-quantity-list td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #000000;
+}
+
+.size-quantity-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.quantity-input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#updateButton {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto 0;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-btn:hover, #updateButton:hover {
+    opacity: 0.8;
+}
+.logout {
+    text-decoration: none;
+}

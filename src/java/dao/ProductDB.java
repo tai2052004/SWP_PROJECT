@@ -42,7 +42,7 @@ public class ProductDB implements DatabaseInfo {
     public static ArrayList<Product> allListProduct() {
         ArrayList<Product> productList = new ArrayList<>();
         try (Connection con=getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT product_id, name, brand, price, discount,description, image_urls "
+            PreparedStatement stmt = con.prepareStatement("SELECT product_id, name, brand, price, discount,description, image_urls,status "
                     + "FROM Product ");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -53,7 +53,8 @@ public class ProductDB implements DatabaseInfo {
                 String discount = rs.getString("discount");
                 String description = rs.getString("description");
                 String url = rs.getString("image_urls");
-                Product product = new Product(id, product_name,brand, price, discount, description,url);             
+                int status = rs.getInt("status");
+                Product product = new Product(id, product_name,brand, price, discount, description,url, status);             
                 productList.add(product);
             }
         } catch (SQLException e) {
@@ -93,6 +94,100 @@ public class ProductDB implements DatabaseInfo {
         }
         return product;
     }
+    public static boolean updateProduct(Product product) {
+        String sql = "UPDATE Product SET name = ?, brand = ?, price = ?, discount = ?, description = ? WHERE product_id = ?";
+        try (Connection conn = getConnect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, product.getProductName());
+            pstmt.setString(2, product.getBrand());
+            pstmt.setDouble(3, product.getPrice());
+            pstmt.setString(4, product.getDiscount());
+            pstmt.setString(5, product.getDescription());
+            pstmt.setInt(6, product.getProductID());
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            // Update ProductDetail
+            if (affectedRows > 0) {
+                updateProductDetail(product);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    private static void updateProductDetail(Product product) {
+        String updateSql = "UPDATE ProductDetail SET quantity = ? WHERE product_id = ? AND size = ?";
+        String checkSql = "SELECT quantity FROM ProductDetail WHERE product_id = ? AND size = ?";
+
+        try (Connection conn = getConnect()) {
+            for (ProductDetail detail : product.getProductDetails()) {
+                try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                    checkStmt.setInt(1, product.getProductID());
+                    checkStmt.setString(2, detail.getSize());
+
+                    ResultSet rs = checkStmt.executeQuery();
+
+                    if (rs.next()) {
+                        // If size exists, update the quantity
+                        int currentQuantity = rs.getInt("quantity");
+                        try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                            // Update the quantity to the new value directly
+                            updateStmt.setInt(1, detail.getQuantity()); // Set to the new quantity
+                            updateStmt.setInt(2, product.getProductID());
+                            updateStmt.setString(3, detail.getSize());
+                            updateStmt.executeUpdate();
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static int countProductsByStatus(int status) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) AS total FROM Product WHERE status = ?";
+        try (Connection con = getConnect();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, status);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
+    public static int countLowStockProducts() {
+        int count = 0;
+        int threshold = 3; //if quanity < 3 => low in-stock
+        String sql = "SELECT COUNT(DISTINCT p.product_id) AS count FROM Product p " +
+                     "JOIN ProductDetail pd ON p.product_id = pd.product_id " +
+                     "WHERE pd.quantity < ?";
+
+        try (Connection con = getConnect(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, threshold);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+
     public static void main(String[] args) {
         List<Product> product = ProductDB.allListProduct();
         for(Product products: product) {

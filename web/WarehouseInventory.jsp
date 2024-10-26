@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    List<Product> listProducts = new ArrayList<Product>();
+    listProducts = ProductDB.allListProduct();
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,6 +21,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link href="CSS/styles2.css" rel="stylesheet" /> 
 
     </head>
@@ -126,7 +132,26 @@
                 border-radius: 15px;
                 width: 90px;
                 margin: 8px;
+            .update {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 8px 12px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                display: flex;
+                align-items: center;
             }
+
+            .update:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+            }
+
+            .update i {
+                margin-right: 5px; /* Space between icon and text */
+            }
+        }
         </style>
         <div class="header">
             <div>
@@ -179,7 +204,7 @@
                 <div class="main-header">
                     <span class="title">Inventory Manage</span>
                     <div class="button-container">
-                        <button class="btn btn-primary">Edit product</button>
+<!--                        <button class="btn btn-primary">Edit product</button>-->
                         <button class="btn btn-primary" onclick="window.location.href = 'AddInventory.jsp'">+ Add new</button>
                     </div>
                 </div>
@@ -193,11 +218,11 @@
                     <div style="display: flex; justify-content: space-around;">
                         <div>
                             <h1>All products</h1>
-                            <h2>100</h2>
+                            <h2><%= listProducts.size() %></h2>
                         </div>
                         <div>
                             <h1>In Store</h1>
-                            <h2>75</h2>
+                            <h2><%= ProductDB.countProductsByStatus(1) %></h2>
                         </div>
                         <div>
                             <div style="margin: 5px;
@@ -205,7 +230,7 @@
                                  border: solid;
                                  border-radius: 30px;
                                  border-color: orange;"> <h1 style="color: #626058 !important;">Low In-Stock</h1> </div> 
-                            <h2>5</h2>
+                            <h2><%= ProductDB.countLowStockProducts() %></h2>
                         </div>
                     </div>
 
@@ -279,44 +304,52 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Product Name</th>
-                                <th>Size</th>
+                                <th>Brand</th>
                                 <th>Price</th>
-                                <th>In stock</th>
                                 <th>Discount</th>
                                 <th>In Store</th>
+                                <th> Action </th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                for(Product p : listProducts) {
+                                String status;
+                            %>
                             <tr>
-                                <td>1</td>
-                                <td>Nike Full Force Low - Black / Fire Red</td>
-                                <td>39</td>
-                                <td>2.190.000</td>
-                                <td>17</td>
-                                <td>0</td>
-                                <td>4</td>
+                                <td><%= p.getProductID() %> </td>
+                                <td><%= p.getProductName() %> </td>
+                                <td><%= p.getBrand() %> </td>
+                                <td><%= p.getPrice() %> </td>
+                                <td><%= p.getDiscount() %> </td>
+                                <% 
+                                    if(p.getStatus() == 1) {
+                                        status = "Publish";
+                                    } else {
+                                        status = "Unpublish";
+                                    }
+                                %>
+                                <td><%= status %> </td>
+                                <td>
+                                    <button class="update" onclick="redirectToUpdate(<%= p.getProductID() %>)">
+                                    <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                </td>
+
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Nike Full Force Low - Black / Fire Red</td>
-                                <td>40</td>
-                                <td>2.190.000</td>
-                                <td>17</td>
-                                <td>0</td>
-                                <td>6</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Nike Full Force Low - Black / Fire Red</td>
-                                <td>41</td>
-                                <td>2.190.000</td>
-                                <td>17</td>
-                                <td>0</td>
-                                <td>5</td>
-                            </tr>
+                            <% 
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
             </div>
+    <script>
+        function redirectToUpdate(productId) {
+            // Redirect to UpdateProduct.jsp with product ID as a parameter
+            window.location.href = 'UpdateProduct.jsp?productId=' + productId;
+        }
+    </script>
+
     </body>
 </html>

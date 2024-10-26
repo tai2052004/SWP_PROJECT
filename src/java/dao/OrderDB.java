@@ -146,6 +146,26 @@ public class OrderDB implements DatabaseInfo{
         }
         return orders;  
     }
+    public static String getUserFullName(int user_id) {
+        String query = "SELECT u.User_fullname FROM [Order] o "
+                     + "JOIN Users u ON o.user_id = u.ID "
+                     + "WHERE o.user_id = ?";
+        try (Connection conn = getConnect();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setInt(1, user_id);                                                                        
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("User_fullname");
+            }
+        } catch (Exception e) { 
+            e.printStackTrace();
+        }
+
+        return null;
+        }
     public static List<OrderDetail> getOrderDetailsById(int orderId) {
         List<OrderDetail> orderDetail = new ArrayList<>();
         String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, "

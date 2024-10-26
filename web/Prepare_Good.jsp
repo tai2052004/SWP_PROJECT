@@ -5,6 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<% 
+    int shippingCount = 0;
+    int confirmedCount = 0;
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,6 +21,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link href="CSS/styles2.css" rel="stylesheet" />
         <style>
              .content {
@@ -123,6 +129,9 @@
                    width: 90px;
                  margin: 8px;
             }
+            .icon {
+                border: none;
+            }
         </style>
     </head>
     <body>
@@ -186,27 +195,33 @@
                         ">Order</h1>
                         <div style="margin-left: auto;
                                     margin-top: -25px;" >
-                            <select id="daySelect"  style="font-size: 28px; padding: 5px; font-family: 'Poppins', sans-serif; font-weight: 500;    margin-top: 18px;">
+                            <form id="timeframe" action="Prepare_Good.jsp" method="get">
+                                <select id="daySelect" name="timeframe" style="font-size: 28px; padding: 5px; font-family: 'Poppins', sans-serif; font-weight: 500;    margin-top: 18px;">
                                 <option value="This day">This day</option>
-                                <option value="Yesterday">Yesterday</option>
-                                <option value="Last week">Last week</option>
-                                <option value="Last month">Last month</option>
-                            </select>
+                                <option value="This week">This week</option>
+                                <option value="This month">This month</option>
+                                </select>
+                            </form>
+                            <script>
+                                document.getElementById('daySelect').addEventListener('change', function () {
+                                document.getElementById('timeframe').submit();
+                                });
+                           </script>
                             
                         </div>
                     </div>
                     <div style="display: flex; justify-content: space-around;">
                     <div>
                         <h1>All orders</h1>
-                        <h2>50</h2>
+                        <h2><%= shippingCount + confirmedCount %></h2>
                     </div>
                     <div>
-                        <h1 style="color:green;">Packed</h1>
-                        <h2>28</h2>
+                        <h1 style="color:green;">Shipping</h1>
+                        <h2><%=shippingCount %></h2>
                     </div>
                     <div>
-                      <div> <h1 style="color: red;">Unpacked</h1> </div> 
-                        <h2>5</h2>
+                      <div> <h1 style="color: red;">Confirmed</h1> </div> 
+                        <h2><%= confirmedCount %></h2>
                     </div>
                 </div>
                     
@@ -285,62 +300,54 @@
                             <div>Action</div>
                         </div>
                         <div class="order-table">
-                            <div>#0001</div>
-                            <div>Nguyen Van Hung</div>
-                            <div>13-09-2024</div>
-                            <div>2.690.000</div>
-                            <div>
-                                <div class="badge on-deliver">Packed</div>
-                            </div>
-                            <div>
-                                <a class="icon" href="PrepareGoodInfo.jsp">
-                                    <div></div>
-                                </a>
-                            </div>
-                           
-                            
-                            <span class="line"></span>
-                            <div>#0003</div>
-                            <div>Hoang Thi Kim Lien</div>
-                            <div>14-09-2024</div>
-                            <div>1.590.000</div>
-                            <div>
-                                <div class="badge">Unpacked</div>
-                            </div>
-                            <div>
-                                <a class="icon" href="PrepareGoodInfo.jsp">
-                                    <div></div>
-                                </a>
-                            </div>
-                            <span class="line"></span>
-                            <div>#0004</div>
-                            <div>Trần Minh Quang</div>
-                            <div>14-09-2024</div>
-                            <div>2.790.000</div>
-                            <div>
-                                <div class="badge">Unpacked</div>
-                            </div>
-                            <div>
-                                <a class="icon" href="PrepareGoodInfo.jsp">
-                                    <div></div>
-                                </a>
-                            </div>
-                            <span class="line"></span>
-                            <div>#0004</div>
-                            <div>Trần Minh Quang</div>
-                            <div>14-09-2024</div>
-                            <div>2.790.000</div>
-                            <div>
-                                <div class="badge">Unpacked</div>
-                            </div>
-                            <div>
-                                <a class="icon" href="PrepareGoodInfo.jsp">
-                                    <div></div>
-                                </a>
-                            </div>
+                            <% 
+                            String timeframe = request.getParameter("timeframe");
+                            List<Order> listOrders = new ArrayList<Order>();
+                            listOrders = OrderDB.getOrder();
+                            for (Order r : listOrders) {
+                                String fullname = OrderDB.getUserFullName(r.getUser_id());
+                                if (r.getStatus().equals("Confirmed") || r.getStatus().equals("Shipping")) {
+                       %>
+                                <div><%= r.getOrder_id() %> </div>
+                                <div><%= fullname %> </div>
+                                <div><%= r.getOrder_date() %> </div>
+                                <div> <%= r.getTotal_price() %> </div>
+                                <div> 
+                                <%
+                                     if(r.getStatus().equals("Shipping")) {
+                                        shippingCount++;
+                                 %>
+                                 <div>
+                                     <div class="badge on-deliver"><%= r.getStatus()%></div>
+                                 </div>
+                                 <%
+                                     } else {
+                                       confirmedCount++;
+                                 %>
+                                 <div>
+                                     <div class="badge"><%= r.getStatus()%></div>
+                                 </div>
+                                 <%
+                                     }
+                                 %>
+                                </div>
+                                <div>
+                                         <button class="icon" onclick="redirectToUpdate(<%= r.getOrder_id() %>)">
+                                             <i class="bi bi-gear"></i>
+                                         </button>
+                                 </div>
+                            <% 
+                                    }
+                                }
+                            %>
                         </div>
                     </div>
                 </div>
             </div>
+        <script>
+            function redirectToUpdate(orderId) {
+                window.location.href = 'PrepareGoodInfo.jsp?orderId=' + orderId;
+            }
+        </script>
     </body>
 </html>
