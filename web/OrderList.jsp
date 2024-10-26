@@ -172,11 +172,11 @@
                                                 List<Order> order = OrderDB.getOrder();
                                                 for(Order orders : order) {
                                                     int id = orders.getUser_id();
-                                                    String fullname = OrderDB.getUserFullName(id);
+                                                    User user = OrderDB.getUserInfo(id);
                                                 
                                             %>
 						<div><%= orders.getOrder_id()%></div>
-						<div><%= fullname%></div>
+						<div><%= user.getFullname()%></div>
 						<div><%= orders.getOrder_date()%></div>
 						<div><%= orders.getTotal_price()%></div>
                                             <%

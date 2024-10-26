@@ -73,7 +73,7 @@ public class CouponDB implements DatabaseInfo {
                 int id = rs.getInt("coupon_id");
                 String name = rs.getString("coupon_name");
                 String code = rs.getString("coupon_code");
-                double discountValue = rs.getDouble("discount_value");
+                float discountValue = rs.getFloat("discount_value");
                 int quantity = rs.getInt("quantity");
                 
                 Coupon coupon = new Coupon(id, name, code, discountValue, quantity);
@@ -88,14 +88,14 @@ public class CouponDB implements DatabaseInfo {
     public static Coupon getCouponById(int couponId) {
         Coupon coupon = null;
         try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupons WHERE coupon_id = ?");
+            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupon WHERE coupon_id = ?");
             stmt.setInt(1, couponId);
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
-                String name = rs.getString("coupon_name");
-                String code = rs.getString("coupon_code");
-                double discountValue = rs.getDouble("discount_value");
+                String name = rs.getString("discount_name");
+                String code = rs.getString("code");
+                float discountValue = rs.getFloat("discount_value");
                 int quantity = rs.getInt("quantity");
                 
                 coupon = new Coupon(couponId, name, code, discountValue, quantity);
@@ -105,6 +105,7 @@ public class CouponDB implements DatabaseInfo {
         }
         return coupon;
     }
+
 
     public static boolean updateCoupon(Coupon coupon) {
         try (Connection con = getConnect()) {
@@ -127,7 +128,7 @@ public class CouponDB implements DatabaseInfo {
 
     public static boolean deleteCoupon(int couponId) {
         try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("DELETE FROM Coupons WHERE coupon_id = ?");
+            PreparedStatement stmt = con.prepareStatement("DELETE FROM Coupon WHERE coupon_id = ?");
             stmt.setInt(1, couponId);
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;
@@ -140,14 +141,14 @@ public class CouponDB implements DatabaseInfo {
     public static Coupon getCouponByCode(String couponCode) {
         Coupon coupon = null;
         try (Connection con = getConnect()) {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupons WHERE coupon_code = ?");
+            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupon WHERE coupon_code = ?");
             stmt.setString(1, couponCode);
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
                 int id = rs.getInt("coupon_id");
                 String name = rs.getString("coupon_name");
-                double discountValue = rs.getDouble("discount_value");
+                float discountValue = rs.getFloat("discount_value");
                 int quantity = rs.getInt("quantity");
                 
                 coupon = new Coupon(id, name, couponCode, discountValue, quantity);
@@ -157,11 +158,9 @@ public class CouponDB implements DatabaseInfo {
         }
         return coupon;
     }
-
-    public static void main(String[] args) {
-        // Test methods here
-        Coupon testCoupon = new Coupon(1, "Test Coupon", "TEST123", 10.0, 100);
-        boolean added = addCoupon(testCoupon);
-        System.out.println("Coupon added: " + added);
+    public static void main(String[]args) {
+        Coupon coupon = CouponDB.getCouponById(1);
+        System.out.println(coupon);
     }
+    
 }

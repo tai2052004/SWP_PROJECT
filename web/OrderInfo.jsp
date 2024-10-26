@@ -9,8 +9,8 @@
 <%@page import="model.* , dao.*, java.util.*" %> 
 <%
     Order order = (Order) request.getAttribute("order");
-    int id = order.getOrder_id();
-    String fullname = OrderDB.getUserFullName(id);
+    int id = order.getUser_id();
+    User user = OrderDB.getUserInfo(id);
 %>
 
 <html>
@@ -172,7 +172,7 @@
                         <div>Status</div>
                         <span class="line"></span>
                         <div><%= order.getOrder_id()%></div>
-                        <div><%= fullname%></div>
+                        <div><%= user.getFullname()%></div>
                         <div><%= order.getOrder_date()%></div>
                         <div><%= order.getTotal_price()%></div>
                         <div>
@@ -195,7 +195,7 @@
                                 float discount= 0;
                                 List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(idDetail); 
                                 for(OrderDetail orderDetails : orderDetail) { 
-                                    subtotal += orderDetails.getPrice();
+                                    subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
                                     discount =+ orderDetails.getDiscount();
                             %>
                             <div><%= orderDetails.getOrder_detail_id()%></div>
@@ -203,7 +203,7 @@
                             <div><%= orderDetails.getSize()%></div>
                             <div><%= orderDetails.getQuantity()%></div>
                             <div><%= orderDetails.getPrice()%></div>
-                            <div>1.050.000</div>
+                            <div><%= orderDetails.getPrice() * orderDetails.getQuantity()%></div>
                             <span class="line"></span>
                             <%
                                 }
@@ -229,16 +229,17 @@
                                 %>
                                 <span>Coupon</span>
                                 <%
-                                    float coupon = order.getCouponValue();
+                                    Coupon coupon = CouponDB.getCouponById(order.getCoupon());
+                                    float coupon_value = coupon.getDiscountValue();
                                     float feeship = order.getFeeship();
-                                    float total = subtotal - discount - coupon + feeship;
-                                    if(coupon == 0) {
+                                    float total = subtotal - discount - coupon_value + feeship;
+                                    if(coupon_value == 0) {
                                 %>
                                 <span>0</span>
                                 <%
                                     } else {
                                 %>
-                                <span>-<%= coupon%></span>
+                                <span>-<%= coupon_value%></span>
                                 <%
                                     }
                                 %>

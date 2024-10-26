@@ -27,6 +27,7 @@ public class OrderDetail {
     private float feeship;
     private float discount;
     private float coupon;
+    private String img_url;
     public OrderDetail(int cart_id, int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate) {
         this.cart_id = cart_id;
         this.product_id = product_id;
@@ -167,6 +168,14 @@ public class OrderDetail {
 
     public void setCoupon(float coupon) {
         this.coupon = coupon;
+    }
+
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
     }
 
     @Override

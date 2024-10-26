@@ -6,7 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    Order order = (Order) request.getAttribute("order");
+   
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,8 +31,8 @@
             </div>
 
             <div class="col-md-6 menu">
-                <a href="" class="menuText">HOME</a>
-                <a href="" class="menuText active">SHOP</a>
+                <a href="landingPage.jsp" class="menuText">HOME</a>
+                <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                 <a href="#footer" class="menuText">CONTACT</a>
             </div>
             
@@ -47,51 +51,92 @@
     </header>
 
     <div class="order-header">
-        <a href="" class="return-btn">
+        <a href="TrackMyOrder.jsp" class="return-btn">
             <i class="bi bi-arrow-return-left"></i>Return
         </a>
         <h1>Order Details</h1>
     </div>
     <div class="order-card">
+        <%
+            int id = order.getUser_id();
+            User user = OrderDB.getUserInfo(id);
+        %>
         <div class="order-id">
-            <h2>OrderID: #123</h2>
+            <h2>OrderID: <%= order.getOrder_id()%></h2>
         </div>
         <div class="order-info">
             <span class="order-info-first">Information Address:</span>
-            <span>Tran Ngoc Thien - 0702411147</span><br>
-            <span>Address: 12 My Da Tay 8, Khue My, Ngu Hanh Son, Da Nang, Viet Nam</span>
+            <span><%= user.getFullname()%> - <%= user.getPhone()%></span><br>
+            <span>Address: <%= order.getAddress()%></span>
         </div>
         <div class="order-status">
             <p><strong>Order status:</strong> <span class="status-pending">Pending</span></p>
-            <p><strong>Date order:</strong> 13-09-2024</p>
+            <p><strong>Date order:</strong><%= order.getOrder_date()%></p>
         </div>
+        <%
+            int idDetail = order.getOrder_id();
+            float subtotal = 0;
+            float discount= 0;
+            List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(idDetail); 
+            for(OrderDetail orderDetails : orderDetail) { 
+                subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
+                discount =+ orderDetails.getDiscount();
+         %>
         <div class="product-info">
-            <img src="img/shoes_4.png" alt="Nike Full Force Low" class="product-img">
+            <img src="<%= orderDetails.getImg_url()%>" alt="<%= orderDetails.getProductName()%>" class="product-img">
             <div class="product-details">
-                <h3>Nike Full Force Low - Black / Fire Red</h3>
-                <p class="price">2.190.000</p>
+                <h3><%= orderDetails.getProductName()%></h3>
+                <p class="price"><%= orderDetails.getPrice()%> x <%= orderDetails.getQuantity()%> </p>
             </div>
         </div>
+        <%
+            }
+                float totalDiscount = (subtotal) *(discount/100);
+                Coupon coupon = CouponDB.getCouponById(order.getCoupon());
+                float coupon_value = coupon.getDiscountValue();
+                float feeship = order.getFeeship();
+                float total = subtotal - discount - coupon_value + feeship;   
+        %>
         <table class="order-summary">
             <tr>
                 <td class="text-left">Total cost of goods</td>
-                <td class="text-right">2.190.000</td>
+                <td class="text-right"><%= subtotal%></td>
             </tr>
             <tr>
                 <td class="text-left">Shipping fee</td>
-                <td class="text-right">30.000</td>
+                <td class="text-right"><%= feeship%></td>
             </tr>
             <tr>
                 <td class="text-left">Discount on shipping fees</td>
-                <td class="text-right">-100.000</td>
+                <%
+                    if(totalDiscount == 0) {
+                %>
+                <td class="text-right">0</td>
+                <%
+                    } else {
+                %>
+                <td class="text-right">-<%= totalDiscount%></td>
+                <%
+                    }
+                %>
             </tr>
             <tr>
                 <td class="text-left">Voucher from Shop</td>
-                <td class="text-right">-30.000</td>
+                <%
+                    if(coupon_value ==0 ) {
+                %>
+                <td class="text-right">0</td>
+                <%
+                    } else {
+                %>
+                <td class="text-right">-<%= coupon_value%></td>
+                <%
+                    }
+                %>
             </tr>
             <tr>
                 <td class="text-left">Total price</td>
-                <td class="text-right">2.090.000</td>
+                <td class="text-right"><%= total%></td>
             </tr>
             <tr>
                 <td class="text-left">Payment Method</td>

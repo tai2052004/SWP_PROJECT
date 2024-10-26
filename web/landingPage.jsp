@@ -46,7 +46,7 @@
                         <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
-                            <a href="/TrackMyOrder.jsp">Track my order</a>
+                            <a href="TrackMyOrder.jsp">Track my order</a>
                             <a href="/favorites">Favorite Items</a>
                         </div>
                     </div>

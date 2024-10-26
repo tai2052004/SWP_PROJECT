@@ -6,6 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%
+    User user = (User) session.getAttribute("user"); 
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,8 +30,8 @@
             </div>
 
             <div class="col-md-6 menu">
-                <a href="" class="menuText">HOME</a>
-                <a href="" class="menuText active">SHOP</a>
+                <a href="landingPage.jsp" class="menuText">HOME</a>
+                <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                 <a href="#footer" class="menuText">CONTACT</a>
             </div>
             
@@ -58,14 +62,30 @@
         </div>
 
         <div id="order-grid" class="order-grid">
-            <div class="order-card" data-status="on-shipping">
+            <% 
+                int id = user.getUser_id();
+                List<Order> order = OrderDB.getOrderByIdUser(id);
+                for(Order orders : order) {
+                    String status = orders.getStatus();
+                    if(status.equals("Shipping")) {
+                        status = "on-shipping";
+                    } else if(status.equals("Pending")) {
+                        status = "pending";
+                    } else if(status.equals("Delivered")) {
+                        status = "arrived";
+                    } else {
+                        status = "canceled";
+                    }
+                    
+            %>
+            <div class="order-card" data-status="<%= status%>">
                 <div class="order-header">
                     <div class="order-id">
                         <span>OrderID</span>
-                        <strong>#123</strong>
+                        <strong><%= orders.getOrder_id()%></strong>
                     </div>
-                    <div class="order-date">VN, 17 Sep 2024</div>
-                    <div class="order-status">On Deliver</div>
+                    <div class="order-date"><%= orders.getOrder_date()%></div>
+                    <div class="order-status"><%= orders.getStatus()%></div>
                 </div>
                 <div class="shipping-info">
                     <div class="from">
@@ -75,161 +95,52 @@
                     <div class="shipping-arrow">•••••••••&gt;</div>
                     <div class="to">
                         <i class="bi bi-geo-alt"></i>
-                        <span>Ho Chi Minh, VietNam</span>
+                        <span><%= orders.getAddress()%></span>
                     </div>
                 </div>
+                <%
+                    float subtotal =0;
+                    float discount = 0;
+                    List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(orders.getOrder_id());
+                    for(OrderDetail orderDetails : orderDetail) {
+                        subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
+                        discount =+ orderDetails.getDiscount();
+                %>
                 <div class="products">
                     <div class="product">
-                        <img src="img/shoes_4.png" alt="Nike Full Force Low">
+                        <img src="<%= orderDetails.getImg_url()%>" alt="<%= orderDetails.getProductName()%>">
                         <div class="product-details">
-                            <h3>Nike Full Force Low - Black / Fire Red</h3>
-                            <p class="price">2.190.000 x1</p>
-                            <p class="size">Size: 41</p>
+                            <h3><%= orderDetails.getProductName()%></h3>
+                            <p class="price"><%=orderDetails.getPrice()%> x  <%= orderDetails.getQuantity()%></p>
+                            <p class="size">Size: <%= orderDetails.getSize()%></p>
                         </div>
                     </div>
-                    <div class="product">
-                        <img src="img/shoes_3.png" alt="Jordan 1 Low Alternate Royal Toe">
-                        <div class="product-details">
-                            <h3>Jordan 1 Low Alternate Royal Toe</h3>
-                            <p class="price">1.550.000 x2</p>
-                            <p class="size">Size: 42</p>
-                        </div>
-                    </div>
+                    
                 </div>
+                <%
+                    }
+                        float totalDiscount = (subtotal) *(discount/100);
+                        Coupon coupon = CouponDB.getCouponById(orders.getCoupon());
+                        float coupon_value = coupon.getDiscountValue();
+                        float feeship = orders.getFeeship();
+                        float total = subtotal - discount - coupon_value + feeship;
+                        
+                %>
                 <div class="order-footer">
-                    <div class="total-price">5.290.000</div>
-                    <button class="details-button">Details</button>
+                    <div class="total-price"><%= total%></div>
+                    <form id="orderSelectionForm<%= orders.getOrder_id()%>" action="OrderDetailServlet" method="GET">
+                        <button class="details-button" type="submit" onclick="chooseOrder(<%= orders.getOrder_id()%>)">Details</button>
+                        <input type="hidden" id="selectedOrder<%= orders.getOrder_id() %>" name="orderId" value="">
+                    </form>
                 </div>
+                
             </div>
-            <div class="order-card" data-status="on-shipping">
-                <div class="order-header">
-                    <div class="order-id">
-                        <span>OrderID</span>
-                        <strong>#123</strong>
-                    </div>
-                    <div class="order-date">VN, 17 Sep 2024</div>
-                    <div class="order-status">On Deliver</div>
-                </div>
-                <div class="shipping-info">
-                    <div class="from">
-                        <i class="bi bi-truck"></i>
-                        <span>Da Nang, VietNam</span>
-                    </div>
-                    <div class="shipping-arrow">•••••••••&gt;</div>
-                    <div class="to">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>Ho Chi Minh, VietNam</span>
-                    </div>
-                </div>
-                <div class="products">
-                    <div class="product">
-                        <img src="img/shoes_4.png" alt="Nike Full Force Low">
-                        <div class="product-details">
-                            <h3>Nike Full Force Low - Black / Fire Red</h3>
-                            <p class="price">2.190.000 x1</p>
-                            <p class="size">Size: 41</p>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <img src="img/shoes_3.png" alt="Jordan 1 Low Alternate Royal Toe">
-                        <div class="product-details">
-                            <h3>Jordan 1 Low Alternate Royal Toe</h3>
-                            <p class="price">1.550.000 x2</p>
-                            <p class="size">Size: 42</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-footer">
-                    <div class="total-price">5.290.000</div>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
-            <div class="order-card" data-status="on-shipping">
-                <div class="order-header">
-                    <div class="order-id">
-                        <span>OrderID</span>
-                        <strong>#123</strong>
-                    </div>
-                    <div class="order-date">VN, 17 Sep 2024</div>
-                    <div class="order-status">On Deliver</div>
-                </div>
-                <div class="shipping-info">
-                    <div class="from">
-                        <i class="bi bi-truck"></i>
-                        <span>Da Nang, VietNam</span>
-                    </div>
-                    <div class="shipping-arrow">•••••••••&gt;</div>
-                    <div class="to">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>Ho Chi Minh, VietNam</span>
-                    </div>
-                </div>
-                <div class="products">
-                    <div class="product">
-                        <img src="img/shoes_4.png" alt="Nike Full Force Low">
-                        <div class="product-details">
-                            <h3>Nike Full Force Low - Black / Fire Red</h3>
-                            <p class="price">2.190.000 x1</p>
-                            <p class="size">Size: 41</p>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <img src="img/shoes_3.png" alt="Jordan 1 Low Alternate Royal Toe">
-                        <div class="product-details">
-                            <h3>Jordan 1 Low Alternate Royal Toe</h3>
-                            <p class="price">1.550.000 x2</p>
-                            <p class="size">Size: 42</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-footer">
-                    <div class="total-price">5.290.000</div>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
-            <div class="order-card" data-status="on-shipping">
-                <div class="order-header">
-                    <div class="order-id">
-                        <span>OrderID</span>
-                        <strong>#123</strong>
-                    </div>
-                    <div class="order-date">VN, 17 Sep 2024</div>
-                    <div class="order-status">On Deliver</div>
-                </div>
-                <div class="shipping-info">
-                    <div class="from">
-                        <i class="bi bi-truck"></i>
-                        <span>Da Nang, VietNam</span>
-                    </div>
-                    <div class="shipping-arrow">•••••••••&gt;</div>
-                    <div class="to">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>Ho Chi Minh, VietNam</span>
-                    </div>
-                </div>
-                <div class="products">
-                    <div class="product">
-                        <img src="img/shoes_4.png" alt="Nike Full Force Low">
-                        <div class="product-details">
-                            <h3>Nike Full Force Low - Black / Fire Red</h3>
-                            <p class="price">2.190.000 x1</p>
-                            <p class="size">Size: 41</p>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <img src="img/shoes_3.png" alt="Jordan 1 Low Alternate Royal Toe">
-                        <div class="product-details">
-                            <h3>Jordan 1 Low Alternate Royal Toe</h3>
-                            <p class="price">1.550.000 x2</p>
-                            <p class="size">Size: 42</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-footer">
-                    <div class="total-price">5.290.000</div>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
+            <%
+                }
+            %>
+            
+            
+            
         </div>
     </main>
 
@@ -250,5 +161,13 @@
         </div>
     </footer>
     <script src="js/TrackMyOrder.js"></script>
+    <script>
+                    function chooseOrder(orderId) {
+
+                        document.getElementById('selectedOrder' + orderId).value = orderId;
+
+                        document.getElementById('orderSelectionForm' + orderId).submit();
+                    }
+    </script>
 </body>
 </html>

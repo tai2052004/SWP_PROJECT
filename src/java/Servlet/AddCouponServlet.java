@@ -23,7 +23,7 @@ public class AddCouponServlet extends HttpServlet {
             // Get parameters from the form
             String discountName = request.getParameter("discount_name");
             String code = request.getParameter("code");
-            double discountValue = Double.parseDouble(request.getParameter("discount_value"));
+            float discountValue = Float.parseFloat(request.getParameter("discount_value"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
 
             // Validate input
