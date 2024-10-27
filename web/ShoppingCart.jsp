@@ -15,7 +15,7 @@
         Product p = (Product) session.getAttribute("product");
         String quantity1 = (String) request.getAttribute("productQuantity");
         String size = (String) request.getAttribute("selectedSize");
-        Coupon coupon = (Coupon) session.getAttribute("coupon");
+        Coupon coupon = (Coupon) request.getAttribute("coupon");
         Order order = (Order) session.getAttribute("order");
         User user = (User) session.getAttribute("user");
         order.setUser_id(user.getUser_id());
@@ -23,7 +23,7 @@
         if ( coupon != null)
         {
             couponValue = coupon.getDiscountValue();
-            order.setCoupon(couponValue);
+            order.setCoupon((double)coupon.getCouponId());
         }
         int quantity = 0;
         if ( quantity1 != null )
@@ -138,6 +138,8 @@
                         double totalPrice = product.getPrice() * o.getQuantity();
                         String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalPrice);
                         o.setTotalPrice(totalPrice);
+                        o.setImg_url(product.getImg_url());
+                        o.setProductName(o.getProductName());
                         String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
                         subtotal += totalPrice;
                     %>    
@@ -195,7 +197,7 @@
 
                 <div class="cart-actions">
                     <div class="coupon">
-                        <input id="coupon-id" type="text" name="couponCode" placeholder="Coupon code">
+                        <input id="coupon-id" type="text" name="couponCode" placeholder="Coupon code" value="${c}">
                         <button type="submit" name="action" value="applyCoupon">Apply coupon</button>
                     </div>
 
@@ -221,7 +223,7 @@
                     </tr>
                     <tr>
                         <th>Discount</th>
-                        <td><%= formatCouponTotal %></td>
+                        <td>- <%= formatCouponTotal %></td>
                     </tr>
                     <tr>
 

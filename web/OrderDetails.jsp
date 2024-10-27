@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <%
     Order order = (Order) request.getAttribute("order");
    
@@ -91,20 +92,25 @@
         </div>
         <%
             }
+                String formatSubPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subtotal);
                 float totalDiscount = (subtotal) *(discount/100);
-                Coupon coupon = CouponDB.getCouponById(order.getCoupon());
-                float coupon_value = coupon.getDiscountValue();
+                String formatTotalDiscout = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalDiscount);
+                Coupon coupon = CouponDB.getCouponById((int)order.getCoupon());
+                float coupon_value = (float) coupon.getDiscountValue();
+                String formatCouponValue = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(coupon_value);
                 float feeship = order.getFeeship();
-                float total = subtotal - discount - coupon_value + feeship;   
+                String formatFeeShip = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(feeship);
+                float total = subtotal - discount - coupon_value + feeship;
+                String formatTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);
         %>
         <table class="order-summary">
             <tr>
                 <td class="text-left">Total cost of goods</td>
-                <td class="text-right"><%= subtotal%></td>
+                <td class="text-right"><%= formatSubPrice%></td>
             </tr>
             <tr>
                 <td class="text-left">Shipping fee</td>
-                <td class="text-right"><%= feeship%></td>
+                <td class="text-right"><%= formatFeeShip%></td>
             </tr>
             <tr>
                 <td class="text-left">Discount on shipping fees</td>
@@ -115,7 +121,7 @@
                 <%
                     } else {
                 %>
-                <td class="text-right">-<%= totalDiscount%></td>
+                <td class="text-right">-<%= formatTotalDiscout%></td>
                 <%
                     }
                 %>
@@ -129,14 +135,14 @@
                 <%
                     } else {
                 %>
-                <td class="text-right">-<%= coupon_value%></td>
+                <td class="text-right">-<%= formatCouponValue%></td>
                 <%
                     }
                 %>
             </tr>
             <tr>
                 <td class="text-left">Total price</td>
-                <td class="text-right"><%= total%></td>
+                <td class="text-right"><%= formatTotal%></td>
             </tr>
             <tr>
                 <td class="text-left">Payment Method</td>

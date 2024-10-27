@@ -36,6 +36,15 @@ public class Order {
         this.address = address;
         this.coupon = coupon;
     }
+    public Order(int user_id, String order_date, String status, float total_price, float feeship, String address, double coupon) {
+        this.user_id = user_id;
+        this.order_date = order_date;
+        this.status = status;
+        this.total_price = total_price;
+        this.feeship = feeship;
+        this.address = address;
+        this.coupon = coupon;
+    }
 
     public List<OrderDetail> getListOD() {
         return listOD;

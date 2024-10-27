@@ -16,6 +16,7 @@ public class OrderDetail {
     private int order_id;
     private int user_id;
     private int product_id;
+    private int product_detail_id;
     private String productName;
     private String brand;
     private double totalPrice;
@@ -42,6 +43,14 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
+    public int getProduct_detail_id() {
+        return product_detail_id;
+    }
+
+    public void setProduct_detail_id(int product_detail_id) {
+        this.product_detail_id = product_detail_id;
+    }
+    
     public int getCart_id() {
         return cart_id;
     }

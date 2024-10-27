@@ -160,7 +160,8 @@ public class ShoppingCart extends HttpServlet {
                 cou = c;
             }
         }
-        session.setAttribute("coupon", cou);
+        request.setAttribute("coupon", cou);
+        request.setAttribute("c", couponCode);
         request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
     }
 

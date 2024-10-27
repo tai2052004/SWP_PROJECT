@@ -52,6 +52,10 @@
         <servlet-name>OrderDetailServlet</servlet-name>
         <servlet-class>Servlet.OrderDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <servlet-class>Servlet.CheckOutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>OrderDetailServlet</servlet-name>
         <url-pattern>/OrderDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <url-pattern>/CheckOutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

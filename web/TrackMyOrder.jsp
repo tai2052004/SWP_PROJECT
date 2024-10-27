@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <%
     User user = (User) session.getAttribute("user"); 
 %>
@@ -99,19 +100,20 @@
                     </div>
                 </div>
                 <%
-                    float subtotal =0;
-                    float discount = 0;
+                    double subtotal =0;
+                    double discount = 0;
                     List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(orders.getOrder_id());
                     for(OrderDetail orderDetails : orderDetail) {
                         subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
                         discount =+ orderDetails.getDiscount();
+                        String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(orderDetails.getPrice());
                 %>
                 <div class="products">
                     <div class="product">
                         <img src="<%= orderDetails.getImg_url()%>" alt="<%= orderDetails.getProductName()%>">
                         <div class="product-details">
                             <h3><%= orderDetails.getProductName()%></h3>
-                            <p class="price"><%=orderDetails.getPrice()%> x  <%= orderDetails.getQuantity()%></p>
+                            <p class="price"><%= formatPrice %> x  <%= orderDetails.getQuantity()%></p>
                             <p class="size">Size: <%= orderDetails.getSize()%></p>
                         </div>
                     </div>
@@ -119,15 +121,15 @@
                 </div>
                 <%
                     }
-                        float totalDiscount = (subtotal) *(discount/100);
-                        Coupon coupon = CouponDB.getCouponById(orders.getCoupon());
-                        float coupon_value = coupon.getDiscountValue();
-                        float feeship = orders.getFeeship();
-                        float total = subtotal - discount - coupon_value + feeship;
-                        
+                        double totalDiscount = (subtotal) *(discount/100);
+                        Coupon coupon = CouponDB.getCouponById((int)orders.getCoupon());
+                        double coupon_value = coupon.getDiscountValue();
+                        double feeship = orders.getFeeship();
+                        double total = subtotal - discount - coupon_value + feeship;
+                        String formatTotalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);
                 %>
                 <div class="order-footer">
-                    <div class="total-price"><%= total%></div>
+                    <div class="total-price"><%= formatTotalPrice %></div>
                     <form id="orderSelectionForm<%= orders.getOrder_id()%>" action="OrderDetailServlet" method="GET">
                         <button class="details-button" type="submit" onclick="chooseOrder(<%= orders.getOrder_id()%>)">Details</button>
                         <input type="hidden" id="selectedOrder<%= orders.getOrder_id() %>" name="orderId" value="">

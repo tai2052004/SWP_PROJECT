@@ -11,8 +11,7 @@
 <%
     Product p = (Product) session.getAttribute("product");
     String quantity1 = (String) request.getAttribute("productQuantity");
-    String size = (String) request.getAttribute("selectedSize");
-    LocalDateTime now = LocalDateTime.now();
+    String size = (String) request.getAttribute("selectedSize");   
     User user = (User) session.getAttribute("user");
     String totalCouponString = (String) session.getAttribute("totalDiscount");
     String subTotal = (String) session.getAttribute("subTotal");
@@ -202,7 +201,7 @@
                 <div></div>
                 <div></div>
                 <div>Discount</div>
-                <div><%= totalCouponString %></div>
+                <div>- <%= totalCouponString %></div>
 
                 <div></div>
                 <div></div>
@@ -211,7 +210,7 @@
             </div>
 
             <div class="confirm-button-container">
-                <form id="checkoutForm" action="CheckOut" action="post">
+                <form id="checkoutForm" action="CheckOutServlet" method="post">
                     <button type="button" onclick="validateForm(event)" class="confirm-button">Confirm</button>
                 </form>               
             </div>

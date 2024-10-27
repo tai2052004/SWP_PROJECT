@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dao;
+
 import static dao.UserDB.getConnect;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.*;
@@ -19,11 +21,13 @@ import model.OrderDetail;
 import model.Product;
 import model.ProductDetail;
 import model.User;
+
 /**
  *
  * @author LAPTOP
  */
-public class OrderDB implements DatabaseInfo{
+public class OrderDB implements DatabaseInfo {
+
     public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
@@ -75,14 +79,14 @@ public class OrderDB implements DatabaseInfo{
 //        
 //        return orderDetails;
 //    }
+
     public static List<Order> getOrder() {
         List<Order> order = new ArrayList<>();
         String query = "select * from [Order]";
-        try (Connection conn = getConnect(); 
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Order orders = new Order();
                 orders.setOrder_id(rs.getInt("order_id"));
@@ -92,21 +96,21 @@ public class OrderDB implements DatabaseInfo{
                 orders.setStatus(rs.getString("status"));
                 order.add(orders);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return order;
     }
+
     public static User getUserInfo(int user_id) {
         User user = null;
         String query = "SELECT u.User_fullname, u.User_phone FROM [Order] o "
-                     + "JOIN Users u ON o.user_id = u.ID "
-                     + "WHERE o.user_id = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            
-            ps.setInt(1, user_id);                                                                        
+                + "JOIN Users u ON o.user_id = u.ID "
+                + "WHERE o.user_id = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, user_id);
 
             ResultSet rs = ps.executeQuery();
 
@@ -115,21 +119,21 @@ public class OrderDB implements DatabaseInfo{
                 user.setFullname(rs.getString("User_fullname"));
                 user.setPhone(rs.getString("User_phone"));
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return user;
-        }
+    }
+
     public static Order getOrderById(int orderId) {
         Order orders = null;
-        
+
         String query = "Select * from [Order] where order_id = ? ";
-        try (Connection conn = getConnect(); 
-            PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 orders = new Order();
                 orders.setOrder_id(rs.getInt("order_id"));
@@ -140,11 +144,11 @@ public class OrderDB implements DatabaseInfo{
                 orders.setFeeship(rs.getFloat("feeship"));
                 orders.setAddress(rs.getString("address"));
                 orders.setCoupon(rs.getInt("coupon_id"));
-            }        
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orders;  
+        return orders;
     }
     public static String getUserFullName(int user_id) {
         String query = "SELECT u.User_fullname FROM [Order] o "
@@ -176,56 +180,149 @@ public class OrderDB implements DatabaseInfo{
                 + "JOIN ProductDetail pd ON od.product_detail_id = pd.id "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "WHERE o.order_id = ?";
-        try (Connection conn = getConnect(); 
-            PreparedStatement ps = conn.prepareStatement(query)) {  
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
-               OrderDetail orderDetails = new OrderDetail();
-               orderDetails.setOrder_detail_id(rs.getInt("order_detail_id"));
-               orderDetails.setProductName(rs.getString("name"));
-               orderDetails.setSize(rs.getString("size"));
-               orderDetails.setQuantity(rs.getInt("quantity"));
-               orderDetails.setPrice(rs.getDouble("price"));
-               orderDetails.setDiscount(rs.getFloat("discount"));
-               orderDetails.setImg_url(rs.getString("image_urls"));
-               orderDetail.add(orderDetails);
+                OrderDetail orderDetails = new OrderDetail();
+                orderDetails.setOrder_detail_id(rs.getInt("order_detail_id"));
+                orderDetails.setProductName(rs.getString("name"));
+                orderDetails.setSize(rs.getString("size"));
+                orderDetails.setQuantity(rs.getInt("quantity"));
+                orderDetails.setPrice(rs.getDouble("price"));
+                orderDetails.setDiscount(rs.getFloat("discount"));
+                orderDetails.setImg_url(rs.getString("image_urls"));
+                orderDetail.add(orderDetails);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orderDetail;  
+        return orderDetail;
     }
+
     public static List<Order> getOrderByIdUser(int userId) {
         List<Order> order = new ArrayList<>();
         String query = "Select * from [Order] where user_id = ?";
-        try (Connection conn = getConnect(); 
-            PreparedStatement ps = conn.prepareStatement(query)) {  
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
-               Order orders = new Order();
-               orders.setOrder_id(rs.getInt("order_id"));
-               orders.setUser_id(rs.getInt("user_id"));
-               orders.setOrder_date(rs.getString("order_date"));
-               orders.setStatus(rs.getString("status"));
-               orders.setFeeship(rs.getFloat("feeship"));
-               orders.setCoupon(rs.getInt("coupon_id"));
-               orders.setAddress(rs.getString("address"));
-               order.add(orders);
+                Order orders = new Order();
+                orders.setOrder_id(rs.getInt("order_id"));
+                orders.setUser_id(rs.getInt("user_id"));
+                orders.setOrder_date(rs.getString("order_date"));
+                orders.setStatus(rs.getString("status"));
+                orders.setFeeship(rs.getFloat("feeship"));
+                orders.setCoupon(rs.getInt("coupon_id"));
+                orders.setAddress(rs.getString("address"));
+                order.add(orders);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return order;
     }
-    
+
+    public static boolean addNewOrder(Order order) {
+        try (Connection con = getConnect()) {
+            PreparedStatement stmt = con.prepareStatement(
+                    "Insert into [Order] (user_id,order_date,status,total_price,feeship,address,coupon_id) values (?, ?, ?,?,?,?,?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
+            );
+            stmt.setInt(1, order.getUser_id());
+            stmt.setString(2, order.getOrder_date());
+            stmt.setString(3, order.getStatus());
+            stmt.setFloat(4, order.getTotal_price());
+            stmt.setFloat(5, order.getFeeship());
+            stmt.setString(6, order.getAddress());
+            stmt.setDouble(7, order.getCoupon());
+            int rowsInserted = stmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    order.setOrder_id(generatedKeys.getInt(1));
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean addOrderDetails(List<OrderDetail> orderDetails, int orderId) {
+        try (Connection con = getConnect()) {
+            String query = "INSERT INTO OrderDetail (order_id, product_detail_id, quantity, price) VALUES (?, ?, ?, ?)";
+
+            try (PreparedStatement stmt = con.prepareStatement(query)) {
+                for (OrderDetail orderDetail : orderDetails) {
+                    stmt.setInt(1, orderId); 
+                    stmt.setInt(2, orderDetail.getProduct_detail_id()); 
+                    stmt.setInt(3, orderDetail.getQuantity()); 
+                    stmt.setDouble(4, orderDetail.getPrice()); 
+
+                    stmt.addBatch(); 
+                }
+                
+                stmt.executeBatch();
+                return true; 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false; 
+    }
+
+    public static boolean addProductDetail(OrderDetail OD, ProductDetail pd) {
+        try (Connection con = getConnect()) {
+            String query = "INSERT INTO ProductDetail (product_id, size, quantity) VALUES (?, ?, ?)";
+
+            PreparedStatement stmt = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            stmt.setInt(1, pd.getProductID());
+            stmt.setString(2, pd.getSize());
+            stmt.setInt(3, pd.getQuantity());
+
+            int rowsInserted = stmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    pd.setProductDetailID(generatedKeys.getInt(1));
+                    return true; 
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false; // Thêm thất bại
+    }
+
     public static void main(String[] args) {
-       
+//// Tạo đối tượng ProductDetail
+//        ProductDetail productDetail = new ProductDetail(1, "M", 50); // productID = 1, size = "M", quantity = 50
+//        OrderDetail orderDetail = new OrderDetail(1, 1, "Giày Nike", "Nike", 1500.0, "M", 2, LocalDateTime.now()); // cart_id = 1, product_id = 1, quantity = 2
+//        // Tạo danh sách OrderDetail
+//        List<OrderDetail> orderDetails = new ArrayList<>();
+//
+//        // Thêm các OrderDetail vào danh sách
+//        orderDetails.add(new OrderDetail(1, 1, "Giày Nike", "Nike", 1500.0, "M", 2, LocalDateTime.now())); // cart_id = 1, product_id = 1, quantity = 2
+//        orderDetails.add(new OrderDetail(1, 2, "Giày Adidas", "Adidas", 1200.0, "L", 1, LocalDateTime.now())); // cart_id = 1, product_id = 2, quantity = 1
+//
+////        // Gọi phương thức để thêm ProductDetail
+//        boolean isProductDetailAdded = addProductDetail(orderDetail, productDetail);
+//        System.out.println("Thêm ProductDetail thành công: " + isProductDetailAdded);
+//        System.out.println(productDetail.getProductDetailID());
+//
+//        // Gọi phương thức để thêm OrderDetail
+//        boolean isOrderDetailsAdded = addOrderDetails(orderDetails, 1); // Giả sử orderId là 1
+//        System.out.println("Thêm OrderDetail thành công: " + isOrderDetailsAdded);
     }
 }
-
