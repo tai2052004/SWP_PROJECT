@@ -37,14 +37,20 @@
             </div>
             
             <div class="col-md-3 user-actions">
-                <div class="logout dropdown">
-                    <a href="" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
-                    <div class="dropdown-menu">
-                        <a href="ManageProfile.jsp">My profile</a>
-                        <a href="TrackMyOrder.jsp">Track my order</a>
-                        <a href="#">Favorite Items</a>
+                <% if(user == null) {%> 
+                    <div class="login">
+                        <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
                     </div>
-                </div>
+                <% } else { %>
+                    <div class="logout dropdown">
+                        <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                        <div class="dropdown-menu">
+                            <a href="ManageProfile.jsp">My profile</a>
+                            <a href="TrackMyOrder.jsp">Track my order</a>
+                            <a href="/favorites">Favorite Items</a>
+                        </div>
+                    </div>
+                <% } %>
                 <div class="cart">
                     <a href=""><i class="bi bi-cart"></i></a>
                 </div>

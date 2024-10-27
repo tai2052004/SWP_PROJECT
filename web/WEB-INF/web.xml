@@ -72,6 +72,10 @@
         <servlet-name>vnpayRefund</servlet-name>
         <servlet-class>Servlet.vnpayRefund</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ComfirmAndCancelOrder</servlet-name>
+        <servlet-class>Servlet.ComfirmAndCancelOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>vnpayRefund</servlet-name>
         <url-pattern>/vnpayrefund/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ComfirmAndCancelOrder</servlet-name>
+        <url-pattern>/ComfirmAndCancelOrder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -360,6 +360,21 @@ public class OrderDB implements DatabaseInfo {
         }
         return orders;
     }
+    public static boolean setStaus(int orderId, String action) {
+    String query = "UPDATE [order] SET status = ? WHERE order_id = ?";
+    
+    try (Connection con = getConnect()) {
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, action);
+        ps.setInt(2, orderId);
+        
+        // Thực hiện cập nhật và kiểm tra số hàng được cập nhật
+        return ps.executeUpdate() > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
     public static void main(String[] args) {
 //// Tạo đối tượng ProductDetail

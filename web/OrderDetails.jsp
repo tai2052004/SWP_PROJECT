@@ -10,7 +10,7 @@
 <%@ page import="java.text.NumberFormat" %>
 <%
     Order order = (Order) request.getAttribute("order");
-   
+    User user = (User) session.getAttribute("user"); 
 %>
 <html lang="en">
 <head>
@@ -38,9 +38,20 @@
             </div>
             
             <div class="col-md-3 user-actions">
-                <div class="logout">
-                    <a href=""><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
-                </div>
+                <% if(user == null) {%> 
+                    <div class="login">
+                        <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
+                    </div>
+                <% } else { %>
+                    <div class="logout dropdown">
+                        <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                        <div class="dropdown-menu">
+                            <a href="ManageProfile.jsp">My profile</a>
+                            <a href="TrackMyOrder.jsp">Track my order</a>
+                            <a href="/favorites">Favorite Items</a>
+                        </div>
+                    </div>
+                <% } %>
                 <div class="cart">
                     <a href=""><i class="bi bi-cart"></i></a>
                 </div>
@@ -71,7 +82,7 @@
             <span>Address: <%= order.getAddress()%></span>
         </div>
         <div class="order-status">
-            <p><strong>Order status:</strong> <span class="status-pending">Pending</span></p>
+            <p><strong>Order status:</strong> <span class="status-pending"><%=order.getStatus()%></span></p>
             <p><strong>Date order:</strong><%= order.getOrder_date()%></p>
         </div>
         <%
@@ -149,7 +160,22 @@
                 <td class="text-right">Payment upon receipt</td>
             </tr>
         </table>
-        <button id="cancelOrderBtn" class="cancel-btn">Cancel order</button>
+            <form id="orderSelectionForm<%= order.getOrder_id()%>" action="ComfirmAndCancelOrder" method="GET">
+                <%
+                    String status = order.getStatus();
+                    if(status.equals("Pending")) {
+                %>
+                <button id="cancelOrderBtn" name="action" value="Cancel" class="cancel-btn" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">Cancel order</button>
+                <%
+                    } else if(status.equals("Shipping")) {
+                %>
+                 <button id="cancelOrderBtn" name="action" value="Arrived" class="cancel-btn" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">DA nhan duoc hang</button>
+                <%
+                    } 
+                %>
+                <input type="hidden" id="selectedOrder<%= order.getOrder_id() %>" name="orderId" value="">
+            </form>
+        
     </div>
 
     
@@ -169,4 +195,14 @@
             <span><i class="bi bi-envelope"></i>hesh-shoe-selling@gmail.com</span>
         </div>
     </footer>
+            
 </body>
+    <script>
+                    function chooseOrder(orderId) {
+
+                        document.getElementById('selectedOrder' + orderId).value = orderId;
+
+                        document.getElementById('orderSelectionForm' + orderId).submit();
+                    }
+    </script>
+</html>

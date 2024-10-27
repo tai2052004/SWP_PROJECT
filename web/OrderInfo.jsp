@@ -12,6 +12,8 @@
     Order order = (Order) request.getAttribute("order");
     int id = order.getUser_id();
     User user = OrderDB.getUserInfo(id);
+    float totalOrder = order.getTotal_price();
+    String formarTotalOrder = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalOrder); 
 %>
 
 <html>
@@ -36,7 +38,7 @@
             href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
             rel="stylesheet"
             />
-        <link href="CSS/styles2.css" rel="stylesheet" />
+        <link href="CSS/styless.css" rel="stylesheet" />
     </head>
     <body>
         <div class="header">
@@ -175,9 +177,9 @@
                         <div><%= order.getOrder_id()%></div>
                         <div><%= user.getFullname()%></div>
                         <div><%= order.getOrder_date()%></div>
-                        <div><%= order.getTotal_price()%></div>
+                        <div><%= formarTotalOrder%></div>
                         <div>
-                            <div class="badge on-deliver">On Deliver</div>
+                            <div class="badge on-deliver"><%= order.getStatus()%></div>
                         </div>
                     </div>
                     <div class="order-details">
@@ -197,14 +199,18 @@
                                 List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(idDetail); 
                                 for(OrderDetail orderDetails : orderDetail) { 
                                     subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
-                                    discount =+ orderDetails.getDiscount();
+                                    discount += orderDetails.getDiscount();
+                                    double totalPrice = orderDetails.getPrice() * orderDetails.getQuantity();
+                                    String formatToalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalPrice);
+                                    double price = orderDetails.getPrice();
+                                    String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(orderDetails.getPrice());
                             %>
                             <div><%= orderDetails.getOrder_detail_id()%></div>
                             <div><%= orderDetails.getProductName()%></div>
                             <div><%= orderDetails.getSize()%></div>
                             <div><%= orderDetails.getQuantity()%></div>
-                            <div><%= orderDetails.getPrice()%></div>
-                            <div><%= orderDetails.getPrice() * orderDetails.getQuantity()%></div>
+                            <div><%= formatPrice%></div>
+                            <div><%= formatToalPrice%></div>
                             <span class="line"></span>
                             <%
                                 }
@@ -231,11 +237,12 @@
                                 %>
                                 <span>Coupon</span>
                                 <%
-                                    Coupon coupon = CouponDB.getCouponById(order.getCoupon());
-                                    
+                                    Coupon coupon = CouponDB.getCouponById(order.getCoupon());                    
                                     float coupon_value = (float) coupon.getDiscountValue();
+                                    String formatCoupon = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(coupon_value);
                                     float feeship = order.getFeeship();
                                     float total = subtotal - discount - coupon_value + feeship;
+                                    String formatFeeship = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(feeship);
                                     String formatTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);
                                     if(coupon_value == 0) {
                                 %>
@@ -243,19 +250,29 @@
                                 <%
                                     } else {
                                 %>
-                                <span>-<%= coupon_value%></span>
+                                <span>-<%= formatCoupon%></span>
                                 <%
                                     }
                                 %>
                                 <span>Fee ship</span>
-                                <span><%= feeship %></span>
+                                <span><%= formatFeeship %></span>
                                 <span>Total</span>
-                                <span><%= formatAlltotal %></span>
+                                <span><%= formatTotal %></span>
                             </div>
 
-                            <div class="button-container">
-                                <div class="accent">Cancel order</div>
-                                <div>Submit order</div>
+                           <div class="button-container">
+                                <form id="orderSelectionForm<%= order.getOrder_id()%>" action="ComfirmAndCancelOrder" method="GET">
+                                    <%
+                                        String orderStatus = order.getStatus();
+                                        if (orderStatus.equals("Pending")) { 
+                                    %>
+                                        <button class="button cancel" name="action" value="Cancel" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">Cancel order</button>
+                                        <button class="button confirm" type="submit" name="action" value="Confirm" onclick="chooseOrder(<%= order.getOrder_id()%>)">Submit order</button>
+                                    <% 
+                                        } 
+                                    %>
+                                    <input type="hidden" id="selectedOrder<%= order.getOrder_id() %>" name="orderId" value="">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -263,4 +280,15 @@
             </div>
         </div>
     </body>
+    <script>
+                    function chooseOrder(orderId) {
+
+                        document.getElementById('selectedOrder' + orderId).value = orderId;
+
+                        document.getElementById('orderSelectionForm' + orderId).submit();
+                    }
+    </script>
+    
+    
+
 </html>

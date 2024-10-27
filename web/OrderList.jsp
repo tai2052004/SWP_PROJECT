@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <!DOCTYPE html>
 
 <html>
@@ -30,7 +31,7 @@
 			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 			rel="stylesheet"
 		/>
-		<link href="CSS/styles2.css" rel="stylesheet" />
+		<link href="CSS/styless.css" rel="stylesheet" />
     </head>
     <body>
         <div class="header">
@@ -173,12 +174,13 @@
                                                 for(Order orders : order) {
                                                     int id = orders.getUser_id();
                                                     User user = OrderDB.getUserInfo(id);
-                                                
+                                                    float price = orders.getTotal_price();
+                                                    String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price);
                                             %>
 						<div><%= orders.getOrder_id()%></div>
 						<div><%= user.getFullname()%></div>
 						<div><%= orders.getOrder_date()%></div>
-						<div><%= orders.getTotal_price()%></div>
+						<div><%= formatPrice%></div>
                                             <%
                                                 if(orders.getStatus().equals("Shipping")) {
                                             %>
