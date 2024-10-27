@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <%
     Order order = (Order) request.getAttribute("order");
     int id = order.getUser_id();
@@ -208,13 +209,14 @@
                             <%
                                 }
                                 float totalDiscount = (subtotal) *(discount /100);
+                                String formatSubtotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subtotal);
                             %>
                         </div>
                         
                         <div class="order-summary">
                             <div class="order-summary-grid">
                                 <span>Subtotal</span>
-                                <span><%= subtotal%></span>
+                                <span><%= formatSubtotal%></span>
                                 <span>Discount</span>
                                 <%
                                     if(totalDiscount == 0) {
@@ -230,9 +232,11 @@
                                 <span>Coupon</span>
                                 <%
                                     Coupon coupon = CouponDB.getCouponById(order.getCoupon());
-                                    float coupon_value = coupon.getDiscountValue();
+                                    
+                                    float coupon_value = (float) coupon.getDiscountValue();
                                     float feeship = order.getFeeship();
                                     float total = subtotal - discount - coupon_value + feeship;
+                                    String formatTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);
                                     if(coupon_value == 0) {
                                 %>
                                 <span>0</span>
@@ -246,7 +250,7 @@
                                 <span>Fee ship</span>
                                 <span><%= feeship %></span>
                                 <span>Total</span>
-                                <span><%= total %></span>
+                                <span><%= formatAlltotal %></span>
                             </div>
 
                             <div class="button-container">

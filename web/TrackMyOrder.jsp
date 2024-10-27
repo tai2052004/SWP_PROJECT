@@ -122,7 +122,7 @@
                 <%
                     }
                         double totalDiscount = (subtotal) *(discount/100);
-                        Coupon coupon = CouponDB.getCouponById((int)orders.getCoupon());
+                        Coupon coupon = CouponDB.getCouponById(orders.getCoupon());
                         double coupon_value = coupon.getDiscountValue();
                         double feeship = orders.getFeeship();
                         double total = subtotal - discount - coupon_value + feeship;

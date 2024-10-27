@@ -13,6 +13,7 @@
 <%
         session = request.getSession();
         Product p = (Product) session.getAttribute("product");
+        List<ProductDetail> liPD = p.getProductDetails();
         String quantity1 = (String) request.getAttribute("productQuantity");
         String size = (String) request.getAttribute("selectedSize");
         Coupon coupon = (Coupon) request.getAttribute("coupon");
@@ -20,10 +21,12 @@
         User user = (User) session.getAttribute("user");
         order.setUser_id(user.getUser_id());
         double couponValue = 0;
+        float feeship = 20;
+        order.setFeeship(feeship);
         if ( coupon != null)
         {
             couponValue = coupon.getDiscountValue();
-            order.setCoupon((double)coupon.getCouponId());
+            order.setCoupon(coupon.getCouponId());
         }
         int quantity = 0;
         if ( quantity1 != null )
@@ -64,6 +67,13 @@
         if ( size != null)
         {
             od = new OrderDetail(maxCartId, p.getProductID() ,p.getProductName(), p.getBrand(), p.getPrice(), size, quantity, now);
+            for ( ProductDetail pd : liPD)
+            {
+                if ( pd.getSize().equals(size))
+                {
+                    od.setProduct_detail_id(pd.getProductDetailID());
+                }
+            }
             listOD.add(od);
         }
         
@@ -104,7 +114,7 @@
                         <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
-                            <a href="/TrackMyOrder.jsp">Track my order</a>
+                            <a href="TrackMyOrder.jsp">Track my order</a>
                             <a href="/favorites">Favorite Items</a>
                         </div>
                     </div>
@@ -139,7 +149,7 @@
                         String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalPrice);
                         o.setTotalPrice(totalPrice);
                         o.setImg_url(product.getImg_url());
-                        o.setProductName(o.getProductName());
+                        o.setProductName(product.getProductName());
                         String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
                         subtotal += totalPrice;
                     %>    
@@ -191,7 +201,7 @@
                     <%
                     }
                      String formatSubtotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subtotal);
-                     session.setAttribute("subTotal",formatSubtotal);
+                     session.setAttribute("subTotal",subtotal);
                     %>
                 </table>
 
@@ -205,14 +215,13 @@
 
                 </div>
             </form>
-            <% 
-                        double totalDiscount = subtotal * couponValue * 0.01;                        
-                        double allTotal =  subtotal - totalDiscount;
-                        String formatCouponTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalDiscount);
+            <%                      
+                        double allTotal =  subtotal - couponValue;
+                        String formatCouponTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(couponValue);
                         session.setAttribute("totalDiscount", formatCouponTotal);                       
-                        order.setTotal_price((float)allTotal);
+                        order.setTotal_price((float)allTotal + feeship);
                         String formatAlltotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(allTotal);
-                        session.setAttribute("formatAlltotal", formatAlltotal);
+                        session.setAttribute("formatAlltotal", allTotal);
             %>
             <div class="cart-totals">
                 <h2>Cart totals</h2>
@@ -222,7 +231,7 @@
                         <td><%= formatSubtotal %></td>
                     </tr>
                     <tr>
-                        <th>Discount</th>
+                        <th>Coupon</th>
                         <td>- <%= formatCouponTotal %></td>
                     </tr>
                     <tr>

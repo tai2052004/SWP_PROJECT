@@ -65,7 +65,7 @@ public class ProductDB implements DatabaseInfo {
     public static Product getProductById(int productID) {
         Product product = null;
         try (Connection con = getConnect()) {
-            String query = "SELECT p.*, pd.size, pd.quantity FROM Product p " +
+            String query = "SELECT p.*,pd.id, pd.size, pd.quantity FROM Product p " +
                        "LEFT JOIN ProductDetail pd ON p.product_id = pd.product_id " +
                        "WHERE p.product_id = ?";
             PreparedStatement stmt = con.prepareStatement(query);
@@ -84,7 +84,9 @@ public class ProductDB implements DatabaseInfo {
                 List<ProductDetail> productDetails = new ArrayList<>();
             do {
                 ProductDetail detail = new ProductDetail();
+                detail.setProductDetailID(Integer.parseInt(rs.getString("id")));
                 detail.setSize(rs.getString("size"));
+                detail.setQuantity(Integer.parseInt(rs.getString("quantity")));
                 productDetails.add(detail);
             } while (rs.next());
             product.setProductDetails(productDetails);
@@ -189,9 +191,7 @@ public class ProductDB implements DatabaseInfo {
 
 
     public static void main(String[] args) {
-        List<Product> product = ProductDB.allListProduct();
-        for(Product products: product) {
-            System.out.println(products);
-        }
+        Product p = getProductById(1);
+        System.out.println(p.toString());
     }
 }

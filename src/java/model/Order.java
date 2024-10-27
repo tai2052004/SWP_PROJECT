@@ -19,13 +19,13 @@ public class Order {
     private float total_price;
     private float feeship;
     private String address;
-    private double coupon;
+    private int coupon;
     List<OrderDetail> listOD;
 
     public Order() {
     }
 
-    public Order(int order_id, int user_id, String order_date, String status, int pay, float total_price, float feeship, String address, double coupon) {
+    public Order(int order_id, int user_id, String order_date, String status, int pay, float total_price, float feeship, String address, int coupon) {
         this.order_id = order_id;
         this.user_id = user_id;
         this.order_date = order_date;
@@ -36,7 +36,7 @@ public class Order {
         this.address = address;
         this.coupon = coupon;
     }
-    public Order(int user_id, String order_date, String status, float total_price, float feeship, String address, double coupon) {
+    public Order(int user_id, String order_date, String status, float total_price, float feeship, String address, int coupon) {
         this.user_id = user_id;
         this.order_date = order_date;
         this.status = status;
@@ -118,11 +118,11 @@ public class Order {
         this.address = address;
     }
 
-    public double getCoupon() {
+    public int getCoupon() {
         return coupon;
     }
 
-    public void setCoupon(double coupon) {
+    public void setCoupon(int coupon) {
         this.coupon = coupon;
     }
 

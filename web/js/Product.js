@@ -23,7 +23,7 @@ function updateSize() {
     if (activeSizeButton) {
         var activeSizeText = activeSizeButton.innerText;
         // Chỉ cập nhật khi tìm thấy input có class .selectedSize
-        const selectedSizes = document.querySelectorAll(".selectedSize");
+        const selectedSizes = document.querySelectorAll(".selectedSize");       
         if (selectedSizes.length > 0) {
             selectedSizes.forEach(input => input.value = activeSizeText);
         }

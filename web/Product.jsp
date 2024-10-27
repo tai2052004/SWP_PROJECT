@@ -9,8 +9,9 @@
 <%@page import="model.* , dao.*, java.util.*" %> 
 <%@ page import="java.text.NumberFormat" %>
 <%
-    Product product = (Product) request.getAttribute("product");
+    Product product = (Product) session.getAttribute("product");
     String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
+    int inStock = 0;
 %>
 <html>
     <head>
@@ -20,8 +21,24 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
+    <%
+    String errorMessage = (String) session.getAttribute("error");
+    if (errorMessage != null) {
+    %>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'ERROR',
+            text: '<%= errorMessage %>',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    <%
+            session.removeAttribute("error");
+        }
+    %>
     <body>
         <div class="header">
             <div class="logo">
@@ -66,7 +83,7 @@
 
             <!-- Product Details Section -->
             <div class="product-details">
-                
+
                 <div id="productTitle" class="product-title"><%= product.getProductName()%></div>
                 <div id="productPrice" class="product-price"><%= formattedPrice%></div>
 
@@ -76,19 +93,14 @@
                     <%
                         List<ProductDetail> productDetails = product.getProductDetails();
                         for (ProductDetail detail : productDetails) {
+                        inStock = detail.getQuantity();
                     %>
-<!--                    <button class="size-button active">38</button>-->
+                    <!--                    <button class="size-button active">38</button>-->
                     <button class="size-button"><%= detail.getSize()%></button>
                     <%
-                        }
+                                            }
                     %>
-                    
-                </div>
-                <!-- Color options -->
-                <div class="colors">
-                    <button class="color-button active" style="background-color: red;"></button>
-                    <button class="color-button" style="background-color: blue;"></button>
-                    <button class="color-button" style="background-color: pink;"></button>
+
                 </div>
 
                 <!-- Quantity Selector -->
@@ -97,6 +109,7 @@
                     <input type="text" id="quantity" value="1" readonly>
                     <button class="quantity-btn" id="increase">+</button>
                 </div>
+
                 <div class="product-buttons">                    
                     <input type="hidden" class="selectedSize" name="selectedSize">
                     <input type="hidden" class="selectedQuantity" name="selectedQuantity">
@@ -125,111 +138,111 @@
 
 
 
-    <!-- Product Description Section -->
-    <!--        <div class="product-description">
-                <div class="description-title">
-                    <button>
-                        Product description
-                    </button>
-                    <button> Review</button>
-                </div>
-                <p>Nike Full Force Low - Black / Fire Red is a great choice for those who love a sporty style. Featuring a striking design with three colors—white, red, and black—the shoe offers an eye-catching and dynamic look. The midsole is made with cushioning technology, providing a soft feel and maximum support for the feet. The outsole is crafted from rubber, offering high durability and excellent grip on various surfaces. This ensures users can move confidently, whether on the streets or the training field. The shoe’s upper is made from synthetic leather, providing durability and a solid feel when worn.</p>
-                <div class="foot-img">  <img src="img/giay5.png" alt="Product Image"> </div>
-    
-            </div>-->
-    <div class="product-info" style="margin-top: 250px;">
-        <div class="review-title">
-            <button class="review-button" id="descriptionBtn" class="active">Product Description</button>
-            <button class="review-button" id="reviewBtn">Review</button>
-        </div>
-        <div id="descriptionContent" class="content active">
-            <h2 class="title">Product Description</h2>
-            <p class="decription"><%= product.getDescription()%></p>
-        </div>
-
-        <div id="reviewContent" class="content">
-            <h2 class="title">Review</h2>
-            <div class="star-rating">
-                <span data-value="1" class="star">&#9733;</span>
-                <span data-value="2" class="star">&#9733;</span>
-                <span data-value="3" class="star">&#9733;</span>
-                <span data-value="4" class="star">&#9733;</span>
-                <span data-value="5" class="star">&#9733;</span>
-            </div>
-            <textarea class="decription" placeholder="Leave a comment"></textarea>
-            <button class="submit-button" type="submit">Submit Review</button>
-        </div>
-    </div>
+        <!-- Product Description Section -->
+        <!--        <div class="product-description">
+                    <div class="description-title">
+                        <button>
+                            Product description
+                        </button>
+                        <button> Review</button>
+                    </div>
+                    <p>Nike Full Force Low - Black / Fire Red is a great choice for those who love a sporty style. Featuring a striking design with three colors—white, red, and black—the shoe offers an eye-catching and dynamic look. The midsole is made with cushioning technology, providing a soft feel and maximum support for the feet. The outsole is crafted from rubber, offering high durability and excellent grip on various surfaces. This ensures users can move confidently, whether on the streets or the training field. The shoe’s upper is made from synthetic leather, providing durability and a solid feel when worn.</p>
+                    <div class="foot-img">  <img src="img/giay5.png" alt="Product Image"> </div>
         
-    <div class="footer">
-        <div class="footer1">
-            <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
-        </div>   
-        <div class="footer2">
-            <div class="footer2-inside-1">
-                <div class="infor">
-                    <p id="infor-detail">Information<p>
-                </div>
-                <div class="infor">
-                    <p>Email : taidepchai@gmail.com<p>
-                </div>
-                <div class="infor">
-                    <p>Phone : 0123456789<p>
-                </div>
-                <div class="infor">
-                    <p>Addres : do biet o dau<p>
-                </div>
+                </div>-->
+        <div class="product-info" style="margin-top: 250px;">
+            <div class="review-title">
+                <button class="review-button" id="descriptionBtn" class="active">Product Description</button>
+                <button class="review-button" id="reviewBtn">Review</button>
             </div>
-            <div class="footer2-inside-2">
-                <div class="contact">
-                    <p>Contact us<p>
-                </div>
-                <div class="contact-img">
-                    <div class="contact-detail">
-                        <img src="img/facebook.jpg" />
-                    </div>
-                    <div class="contact-detail">
-                        <img src="img/instagram.jpg" />
-                    </div>
-                    <div class="contact-detail">
-                        <img src="img/tiktok.png" />
-                    </div>
-                </div>
-
+            <div id="descriptionContent" class="content active">
+                <h2 class="title">Product Description</h2>
+                <p class="decription"><%= product.getDescription()%></p>
             </div>
 
+            <div id="reviewContent" class="content">
+                <h2 class="title">Review</h2>
+                <div class="star-rating">
+                    <span data-value="1" class="star">&#9733;</span>
+                    <span data-value="2" class="star">&#9733;</span>
+                    <span data-value="3" class="star">&#9733;</span>
+                    <span data-value="4" class="star">&#9733;</span>
+                    <span data-value="5" class="star">&#9733;</span>
+                </div>
+                <textarea class="decription" placeholder="Leave a comment"></textarea>
+                <button class="submit-button" type="submit">Submit Review</button>
+            </div>
         </div>
-    </div>
-   <h2 id="displayQuantity"></h2>
-</body>
 
-<script src="js/Product.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.querySelector(".add-to-cart").addEventListener("click", function(event) {
-        var selectedSize = document.querySelector(".selectedSize").value;
-        if (!selectedSize) {
-            event.preventDefault(); // Ngăn chặn việc gửi form
-            Swal.fire({
-                icon: 'warning',
-                title: 'Oops...',
-                text: 'Please choose size before add to cart!',
-                confirmButtonText: 'Chọn size'
-            });
-        }
-    });
+        <div class="footer">
+            <div class="footer1">
+                <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
+            </div>   
+            <div class="footer2">
+                <div class="footer2-inside-1">
+                    <div class="infor">
+                        <p id="infor-detail">Information<p>
+                    </div>
+                    <div class="infor">
+                        <p>Email : taidepchai@gmail.com<p>
+                    </div>
+                    <div class="infor">
+                        <p>Phone : 0123456789<p>
+                    </div>
+                    <div class="infor">
+                        <p>Addres : do biet o dau<p>
+                    </div>
+                </div>
+                <div class="footer2-inside-2">
+                    <div class="contact">
+                        <p>Contact us<p>
+                    </div>
+                    <div class="contact-img">
+                        <div class="contact-detail">
+                            <img src="img/facebook.jpg" />
+                        </div>
+                        <div class="contact-detail">
+                            <img src="img/instagram.jpg" />
+                        </div>
+                        <div class="contact-detail">
+                            <img src="img/tiktok.png" />
+                        </div>
+                    </div>
 
-    document.querySelector(".buy-now").addEventListener("click", function(event) {
-        var selectedSize = document.querySelector(".selectedSize").value;
-        if (!selectedSize) {
-            event.preventDefault(); // Ngăn chặn việc gửi form
-            Swal.fire({
-                icon: 'warning',
-                title: 'Oops...',
-                text: 'Please choose size before check out!',
-                confirmButtonText: 'Chọn size'
-            });
-        }
-    });
-</script>
+                </div>
+
+            </div>
+        </div>
+        <h2 id="displayQuantity"></h2>
+    </body>
+
+    <script src="js/Product.js"></script>
+
+    <script>
+        document.querySelector(".add-to-cart").addEventListener("click", function (event) {
+            var selectedSize = document.querySelector(".selectedSize").value;
+            if (!selectedSize) {
+                event.preventDefault(); // Ngăn chặn việc gửi form
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Please choose size before add to cart!',
+                    confirmButtonText: 'Chọn size'
+                });
+            }
+        });
+
+        document.querySelector(".buy-now").addEventListener("click", function (event) {
+            var selectedSize = document.querySelector(".selectedSize").value;
+            if (!selectedSize) {
+                event.preventDefault(); // Ngăn chặn việc gửi form
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Please choose size before check out!',
+                    confirmButtonText: 'Chọn size'
+                });
+            }
+        });
+    </script>
 </html>

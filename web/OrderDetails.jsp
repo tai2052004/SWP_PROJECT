@@ -95,7 +95,7 @@
                 String formatSubPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subtotal);
                 float totalDiscount = (subtotal) *(discount/100);
                 String formatTotalDiscout = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalDiscount);
-                Coupon coupon = CouponDB.getCouponById((int)order.getCoupon());
+                Coupon coupon = CouponDB.getCouponById(order.getCoupon());
                 float coupon_value = (float) coupon.getDiscountValue();
                 String formatCouponValue = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(coupon_value);
                 float feeship = order.getFeeship();

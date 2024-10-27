@@ -82,18 +82,6 @@ public class CheckOutServlet extends HttpServlet {
         boolean success3 = false;
         if (success)
         {
-            for ( OrderDetail o : listOD)
-            {
-                ProductDetail pd = new ProductDetail();
-                pd.setProductID(o.getProduct_id());
-                pd.setQuantity(o.getQuantity());
-                pd.setSize(o.getSize());
-                success2 = OrderDB.addProductDetail(o, pd);
-                if (success2)
-                {
-                    o.setProduct_detail_id(pd.getProductDetailID());
-                }
-            }
             success3 = OrderDB.addOrderDetails(listOD, order.getOrder_id());
             if (success3)
             {

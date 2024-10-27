@@ -8,9 +8,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import model.Product;
+import model.ProductDetail;
 
 /**
  *
@@ -29,7 +31,7 @@ public class ProductToCartAndPayServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,19 +60,26 @@ public class ProductToCartAndPayServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String selectedSize = request.getParameter("selectedSize");
         String productQuantity = request.getParameter("selectedQuantity");
+        int pQ = Integer.parseInt(productQuantity);
         String ChoseAction = request.getParameter("action");
-        
+        Product p = (Product) session.getAttribute("product");
+        for (ProductDetail pd : p.getProductDetails()) {
+            if (selectedSize.equalsIgnoreCase(pd.getSize()) && pQ > pd.getQuantity()) {
+                session.setAttribute("error", "Quantity not enough in stock!");
+
+                request.getRequestDispatcher("Product.jsp").forward(request, response);
+                return;
+            }
+        }
         request.setAttribute("selectedSize", selectedSize);
         request.setAttribute("productQuantity", productQuantity);
-        
-        if ( ChoseAction.equalsIgnoreCase("ToCart"))
-        {
+
+        if (ChoseAction.equalsIgnoreCase("ToCart")) {
             request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
-        }
-        else
-        {
+        } else {
             request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
         }
     }

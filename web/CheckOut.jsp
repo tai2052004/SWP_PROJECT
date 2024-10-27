@@ -10,20 +10,81 @@
 <%@ page import="java.text.NumberFormat" %>
 <%
     Product p = (Product) session.getAttribute("product");
+    List<ProductDetail> liPD = p.getProductDetails();
     String quantity1 = (String) request.getAttribute("productQuantity");
     String size = (String) request.getAttribute("selectedSize");   
     User user = (User) session.getAttribute("user");
-    String totalCouponString = (String) session.getAttribute("totalDiscount");
-    String subTotal = (String) session.getAttribute("subTotal");
-    String allTotal = (String) session.getAttribute("formatAlltotal");
-    int quantity = 0;
+    String totalCouponStringObj = (String) session.getAttribute("totalDiscount");
+    double subTotal = 0;
+    double allTotal = 0;
+    String totalCouponString = (totalCouponStringObj != null) ? totalCouponStringObj : "0";
+    Coupon coupon = (Coupon) request.getAttribute("coupon");
+    Order order = (Order) session.getAttribute("order");
+    float feeship = 20;
+    order.setFeeship(feeship);
     int flag = 0;
-    if ( quantity1 != null )
-    {
-        quantity = Integer.parseInt(quantity1);
-    } 
     List<OrderDetail> listOD = (List<OrderDetail>) session.getAttribute("listCart");
-   
+           double couponValue = 0;
+        if ( coupon != null)
+        {
+            couponValue = coupon.getDiscountValue();
+            order.setCoupon((double)coupon.getCouponId());
+        }
+        int quantity = 0;
+        if ( quantity1 != null )
+        {
+            quantity = Integer.parseInt(quantity1);
+        }     
+        int maxCartId = 0;
+
+        if (listOD == null || listOD.isEmpty()) {
+            maxCartId = 1;
+        } else {
+            for (OrderDetail ode : listOD) {
+                if (ode.getCart_id() > maxCartId) {
+                    maxCartId = ode.getCart_id();  
+                }
+            maxCartId += 1;
+            }
+        }
+        LocalDateTime now = LocalDateTime.now();
+        OrderDetail odet = null;
+        OrderDetail od = null;      
+        for ( OrderDetail ode : listOD)
+        {
+            if ( ode.getProduct_id() == p.getProductID())
+            {
+                if ( size == null)
+                {
+                    odet = ode;
+                }
+                else if (ode.getSize().equals(size))
+                {
+                    ode.setQuantity(ode.getQuantity() + quantity);
+                    odet = ode;
+                }
+            }
+        }
+        if ( size != null)
+        {
+            od = new OrderDetail(maxCartId, p.getProductID() ,p.getProductName(), p.getBrand(), p.getPrice(), size, quantity, now);
+            od.setTotalPrice(p.getPrice() * quantity);
+            od.setImg_url(p.getImg_url());
+            od.setProductName(p.getProductName());
+            for ( ProductDetail pd : liPD)
+            {
+                if ( pd.getSize().equals(size))
+                {
+                    od.setProduct_detail_id(pd.getProductDetailID());
+                }
+            }
+            listOD.add(od);
+        }
+        
+        if ( odet != null && od != null)
+        {
+            listOD.remove(od);
+        }
 
 %>
 <!DOCTYPE html>
@@ -175,6 +236,8 @@
                         Product product = ProductDB.getProductById(o.getProduct_id());
                         String formatTotalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(o.getTotalPrice());
                         String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(o.getPrice());
+                        subTotal += o.getTotalPrice();
+                        
             %> 
             <div class="order-item">
                 <div class="product">
@@ -190,13 +253,22 @@
             </div>
             <%
                             }
+                            String formatSubTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subTotal);
+                            double cp = 0;
+                            if ( !totalCouponString.equals("0"))
+                            {
+                                cp = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).parse(totalCouponString).doubleValue();
+                            }
+                            allTotal = subTotal - cp;
+                            order.setTotal_price((float)allTotal + feeship);
+                            String formatAllTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(allTotal);
             %>
             <!-- Order summary -->
             <div class="order-summary">
                 <div></div>
                 <div></div>
                 <div>Subtotal</div>
-                <div><%= subTotal %></div>
+                <div><%= formatSubTotal %></div>
 
                 <div></div>
                 <div></div>
@@ -206,7 +278,7 @@
                 <div></div>
                 <div></div>
                 <div>Total</div>
-                <div><%= allTotal %></div>
+                <div><%= formatAllTotal %></div>
             </div>
 
             <div class="confirm-button-container">
