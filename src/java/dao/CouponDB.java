@@ -74,7 +74,7 @@ public class CouponDB implements DatabaseInfo {
                 int id = rs.getInt("coupon_id");
                 String code = rs.getString("code");
                 String discountName = rs.getString("discount_name");
-                float discountValue = rs.getFloat("discount_value");
+                double discountValue = rs.getDouble("discount_value");
                 int quantity = rs.getInt("quantity");
                 Coupon coupon = new Coupon(id, discountName, code, discountValue, quantity);
                 couponList.add(coupon);
@@ -105,14 +105,13 @@ public class CouponDB implements DatabaseInfo {
             PreparedStatement stmt = con.prepareStatement("SELECT * FROM Coupon WHERE coupon_id = ?");
             stmt.setInt(1, couponId);
             ResultSet rs = stmt.executeQuery();
-            
             if (rs.next()) {
-                String name = rs.getString("discount_name");
-                String code = rs.getString("code");
-                float discountValue = rs.getFloat("discount_value");
-                int quantity = rs.getInt("quantity");
-                
-                coupon = new Coupon(couponId, name, code, discountValue, quantity);
+                coupon = new Coupon();
+                coupon.setCouponId(rs.getInt("coupon_id"));
+                coupon.setCouponCode(rs.getString("code"));
+                coupon.setCouponName(rs.getString("discount_name"));
+                coupon.setDiscountValue(rs.getDouble("discount_value"));
+                coupon.setQuantity(rs.getInt("quantity"));
             }
         } catch (Exception e) {
             e.printStackTrace();
