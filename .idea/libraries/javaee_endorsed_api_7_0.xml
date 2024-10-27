@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="javaee-endorsed-api-7.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/javaee-endorsed-api-7.0/jakarta.servlet.jsp.jstl-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javaee-endorsed-api-7.0/gson-2.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javaee-endorsed-api-7.0/mssql-jdbc-12.6.1.jre8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javaee-endorsed-api-7.0/jakarta.servlet.jsp.jstl-api-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
