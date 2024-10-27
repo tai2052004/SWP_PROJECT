@@ -132,6 +132,9 @@
             .icon {
                 border: none;
             }
+            a {
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>
@@ -139,7 +142,6 @@
             <div>
                 <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
                 <img src="assets/logo2.png" width="110" height="27" />
-                <img src="assets/back-arrow.svg" width="24" height="30" style="margin-left: 27px" />
                 <img src="assets/home.svg" width="36" height="36" style="margin-left: 55px" />
                 <span class="title" style="margin-left: 25px">HOME</span>
                 <img src="assets/forward.svg" width="24" height="35" style="margin-left: 25px" />
@@ -149,7 +151,7 @@
             </div>
             <div>
                 <div class="logout-button">
-                    <span class="title black-text">Logout</span>
+                <a style="text-decoration: none;" href="LogoutControl" class="logout"><span class="title black-text">Logout</span></a>
                     <img src="assets/logout.svg" width="30" height="30" />
                 </div>
             </div>

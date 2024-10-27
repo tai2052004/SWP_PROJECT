@@ -304,6 +304,62 @@ public class OrderDB implements DatabaseInfo {
         }
         return false; // Thêm thất bại
     }
+    
+    public static boolean updateOrderStatus(int orderId, String status) {
+        String query = "Update [order] Set status= ? where order_id = ?";
+        try(Connection con = getConnect()){
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, orderId);
+            return ps.executeUpdate() > 0;
+        } catch ( Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public static List<Order> getOrderByTimeframe(String timeframe) {
+        List<Order> orders = new ArrayList<>();
+        String query = "";
+
+        // Xây dựng truy vấn SQL dựa trên khoảng thời gian
+        switch (timeframe.toLowerCase()) {
+            case "this day":
+                query = "SELECT * FROM [Order] WHERE CAST(order_date AS DATE) = CAST(GETDATE() AS DATE)";
+                break;
+            case "this week":
+                query = "SELECT * FROM [Order] WHERE DATEPART(week, order_date) = DATEPART(week, GETDATE()) " +
+                        "AND YEAR(order_date) = YEAR(GETDATE())";
+                break;
+            case "this month":
+                query = "SELECT * FROM [Order] WHERE MONTH(order_date) = MONTH(GETDATE()) " +
+                        "AND YEAR(order_date) = YEAR(GETDATE())";
+                break;
+            default:
+                System.out.println("Invalid timeframe specified.");
+                return orders;
+        }
+
+        try (Connection conn = getConnect(); 
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrder_id(rs.getInt("order_id"));
+                order.setUser_id(rs.getInt("user_id"));
+                order.setOrder_date(rs.getString("order_date"));
+                order.setTotal_price(rs.getFloat("total_price"));
+                order.setStatus(rs.getString("status"));
+                orders.add(order);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
 
     public static void main(String[] args) {
 //// Tạo đối tượng ProductDetail

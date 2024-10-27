@@ -81,6 +81,7 @@ public class ProductDB implements DatabaseInfo {
                 product.setDescription(rs.getString("description"));
                 product.setDiscount(rs.getString("discount"));
                 product.setImg_url(rs.getString("image_urls"));
+                product.setStatus(rs.getInt("status"));
                 List<ProductDetail> productDetails = new ArrayList<>();
             do {
                 ProductDetail detail = new ProductDetail();
@@ -97,7 +98,7 @@ public class ProductDB implements DatabaseInfo {
         return product;
     }
     public static boolean updateProduct(Product product) {
-        String sql = "UPDATE Product SET name = ?, brand = ?, price = ?, discount = ?, description = ? WHERE product_id = ?";
+        String sql = "UPDATE Product SET name = ?, brand = ?, price = ?, discount = ?, description = ?, status = ? WHERE product_id = ?";
         try (Connection conn = getConnect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -106,8 +107,8 @@ public class ProductDB implements DatabaseInfo {
             pstmt.setDouble(3, product.getPrice());
             pstmt.setString(4, product.getDiscount());
             pstmt.setString(5, product.getDescription());
-            pstmt.setInt(6, product.getProductID());
-            
+            pstmt.setInt(6, product.getStatus());
+            pstmt.setInt(7, product.getProductID());
             int affectedRows = pstmt.executeUpdate();
             
             // Update ProductDetail
@@ -119,6 +120,14 @@ public class ProductDB implements DatabaseInfo {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public static String statusByProductId(Product product) {
+        if (product.getStatus() == 1){
+            return "Publish";
+        } else {
+            return "Unpublish";
+        }
     }
     
     private static void updateProductDetail(Product product) {

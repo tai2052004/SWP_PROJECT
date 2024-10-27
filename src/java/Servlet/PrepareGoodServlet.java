@@ -5,7 +5,7 @@
 
 package Servlet;
 
-import dao.ProductDB;
+import dao.OrderDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,17 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import model.Product;
-import model.ProductDetail;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name="UpdateProductServlet", urlPatterns={"/UpdateProductServlet"})
-public class UpdateProductServlet extends HttpServlet {
+@WebServlet(name="PrepareGoodServlet", urlPatterns={"/PrepareGoodServlet"})
+public class PrepareGoodServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +36,10 @@ public class UpdateProductServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateProductServlet</title>");  
+            out.println("<title>Servlet PrepareGoodServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateProductServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet PrepareGoodServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,8 +56,8 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-    }
+        processRequest(request, response);
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -73,51 +69,16 @@ public class UpdateProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        String productName = request.getParameter("productName");
-        String brand = request.getParameter("brand");
-        double price = Double.parseDouble(request.getParameter("productPrice"));
-        String discount = request.getParameter("discount");
-        String description = request.getParameter("productDescription");
-        int status = Integer.parseInt(request.getParameter("status"));
-
-        Product product = new Product();
-        product.setProductID(productId);
-        product.setProductName(productName);
-        product.setBrand(brand);
-        product.setPrice(price);
-        product.setDiscount(discount);
-        product.setDescription(description);
-        product.setStatus(status);
-        
-
-        // Retrieve sizes and quantities
-        String[] sizes = request.getParameterValues("size");
-        String[] quantities = request.getParameterValues("quantity");
-
-        List<ProductDetail> productDetails = new ArrayList<>();
-
-        if (sizes != null && quantities != null && sizes.length == quantities.length) {
-            for (int i = 0; i < sizes.length; i++) {
-                ProductDetail detail = new ProductDetail();
-                detail.setProductID(productId);
-                detail.setSize(sizes[i]);
-                detail.setQuantity(Integer.parseInt(quantities[i]));
-                productDetails.add(detail);
-            }
-        }
-        product.setProductDetails(productDetails);
-
-        boolean success = ProductDB.updateProduct(product);
-
-        if (success) {
-            request.getRequestDispatcher("UpdateProduct.jsp?success=true").forward(request, response);
+        int orderid = Integer.parseInt(request.getParameter("orderId"));
+        String status = request.getParameter("status");
+        boolean suc = OrderDB.updateOrderStatus(orderid, status);
+        if (suc){
+            request.setAttribute("message","Update Successful");
         } else {
-            request.getRequestDispatcher("UpdateProduct.jsp?error=fail").forward(request, response);
+            request.setAttribute("message", "Update Failed. Please try again.");
         }
-
+        request.getRequestDispatcher("PrepareGoodInfo.jsp").forward(request, response);
     }
-
 
     /** 
      * Returns a short description of the servlet.

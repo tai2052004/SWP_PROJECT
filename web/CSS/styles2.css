@@ -82,6 +82,9 @@ body {
     flex: 1;
     width: 100%;
 }
+a {
+    text-decoration: none;
+}
 
 .sidebar {
     display: flex;
@@ -1012,6 +1015,18 @@ select.form-control {
     text-align: center;
 }
 
+.notification {
+    display: none;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #F9F9F9;
+    color: #000;
+}
+.notification.show {
+    display: block;
+}
+
 .alert .copy {
     margin-left: 60px;
     padding-left: 20px;
@@ -1066,7 +1081,20 @@ select.form-control {
         transform: translate3d(0, 0, 0);
     }
 }
+.alert.alert-success {
+    background-color: #DFF0D8; /* Màu nền xanh nhạt */
+    color: #3C763D; /* Màu chữ xanh đậm */
+    box-shadow: 0 0 20px 5px rgba(60, 118, 61, 0.3); /* Hiệu ứng bóng mờ xanh */
+}
 
+.alert.alert-success .icon i {
+    color: #3C763D; /* Màu biểu tượng */
+}
+
+.alert.alert-success .close {
+    color: #3C763D; /* Màu nút đóng */
+    border-color: #3C763D; /* Viền nút đóng */
+}
 @keyframes bounceOutRight {
     from {
         opacity: 1;

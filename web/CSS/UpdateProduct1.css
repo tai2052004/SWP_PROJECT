@@ -325,3 +325,120 @@ form {
 .logout {
     text-decoration: none;
 }
+
+.alerts {
+    position: absolute;
+    top: 120px;
+    right: 30px;
+    width: 400px;
+    min-height: 300px;
+    overflow: hidden;
+}
+
+.alert {
+    position: relative;
+    border: none !important;
+    margin-bottom: 8px;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.2);
+}
+
+.alert .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: -15px;
+    width: 80px;
+    text-align: center;
+}
+
+.alert-success{
+    background-color: #7FE07F;
+}
+
+.alert .copy {
+    margin-left: 60px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255,255,255,.3);
+    line-height: 1.2;
+}
+
+.alert .copy h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.alert .copy p {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.alert .close {
+    opacity: 1;
+    background-color: #eee;
+    width: 30px;
+    height: 30px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid #333;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+}
+
+.alert.alert-danger {
+    background-color: #C20000;
+    color: #eee;
+    box-shadow: 0 0 20px 5px rgba(194, 0, 0, 0.3);
+}
+
+.alert.alert-danger .close {
+    color: #C20000;
+    border-color: #C20000;
+}
+.alert.alert-success {
+    background-color: #DFF0D8; /* Màu nền xanh nhạt */
+    color: #3C763D; /* Màu chữ xanh đậm */
+    box-shadow: 0 0 20px 5px rgba(60, 118, 61, 0.3); /* Hiệu ứng bóng mờ xanh */
+}
+
+.alert.alert-success .icon i {
+    color: #3C763D; /* Màu biểu tượng */
+}
+
+.alert.alert-success .close {
+    color: #3C763D; /* Màu nút đóng */
+    border-color: #3C763D; /* Viền nút đóng */
+}
+@keyframes bounceInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+@keyframes bounceOutRight {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.bounceInRight {
+    animation: bounceInRight 1s forwards;
+}
+
+.bounceOutRight {
+    animation: bounceOutRight 1s forwards;
+}

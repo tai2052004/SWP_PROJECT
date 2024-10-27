@@ -31,7 +31,7 @@
         <div>
             <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
             <img src="assets/logo2.png" width="110" height="27" />
-            <img src="assets/back-arrow.svg" width="24" height="30" style="margin-left: 27px" />
+            <a href="Prepare_Good.jsp"><img src="assets/back-arrow.svg" width="24" height="30" style="margin-left: 27px" /></a>
             <img src="assets/home.svg" width="36" height="36" style="margin-left: 55px" />
             <span class="title" style="margin-left: 25px">HOME</span>
             <img src="assets/forward.svg" width="24" height="35" style="margin-left: 25px" />
@@ -41,7 +41,7 @@
         </div>
         <div>
             <div class="logout-button">
-                <span class="title black-text">Logout</span>
+                <a style="text-decoration: none;" href="LogoutControl" class="logout"><span class="title black-text">Logout</span></a>
                 <img src="assets/logout.svg" width="30" height="30" />
             </div>
         </div>
@@ -74,7 +74,10 @@
                 </div>
             </div>
         </div>
-        <div class="content">
+<!--        <div class="notification <% if (request.getAttribute("message") != null) { %> show <% } %>">
+            <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+        </div>-->
+            <div class="content">
             <div style="    background-color: lightgray;">
                 <div class="main-header">
                     <span class="title">Prepare Good</span>
@@ -85,7 +88,7 @@
                         <input placeholder="Search order..." />
                     </div>
                 </div>
-                <div>
+            <div>
                 <div class="order-table order-table-action">
                     <div>Order Id</div>
                     <div>Customer</div>
@@ -98,10 +101,13 @@
                     <div><%= o.getOrder_date()%></div>
                     <div><%= o.getTotal_price()%></div>
                     <div>
-                        <select id="statusSelect" style="font-family: 'Poppins', sans-serif; font-weight: 500; border: none;border-radius: 25px; color: white;" onchange="changeBackgroundColor()">
+                        <form action="PrepareGoodServlet" method="post" class="form">
+                        <select id="statusSelect" name="status" style="font-family: 'Poppins', sans-serif; font-weight: 500; border: none;border-radius: 25px; color: white;" onchange="changeBackgroundColor()">
                             <option style="background-color: rgb(141, 196, 59); color: white;" value="Confirmed" <%= "Confirmed".equals(status) ? "selected" : "" %>>Confirmed</option>
                             <option style="background-color: orangered; color: white;" value="Shipping" <%= "Shipping".equals(status) ? "selected" : "" %>>Shipping</option>
                         </select>
+                        <input type="hidden" name="orderId" value="<%= o.getOrder_id() %>">
+                        </form>
                         <script>
                             function changeBackgroundColor() {
                                 const selectElement = document.getElementById('statusSelect');
@@ -123,13 +129,13 @@
                 <div class="order-details" style="display: flex;    gap: 12px;">
                     <div>
                         <span style="    font-size: x-large;   font-weight: bold; margin-top: -1px;">Information address:</span>
-                        <span style="    font-size: 21px;"> Nguyen Van A</span>
+                        <span style="    font-size: 21px;"><%= user.getFullname() %></span>
                         <span> - </span>
-                        <span style="    font-size: 21px;"> 0889802174</span>
+                        <span style="    font-size: 21px;"><%= user.getPhone() %></span>
                     </div>
                     <div>
                         <Span style="font-size: 21px;">Address:</Span>
-                        <span style="font-size: 21px;">12 My Da Tay 8, Khue My, Ngu Hanh Son, Da  Nang, Viet Nam</span>
+                        <span style="font-size: 21px;"><%= o.getAddress() %></span>
                     </div>
                     <span class="title">Orders Detail</span>
                     <div class="order-grid">
@@ -166,7 +172,7 @@
                         </div>
                         <div class="button-container">
                             
-                            <button style="padding: 18px;border: none;background-color: green; color: white; border-radius: 25px;">Save Update</button>
+                            <button type="submit" onclick="document.querySelector('.form').submit()" style="padding: 18px;border: none;background-color: green; color: white; border-radius: 25px;">Save Update</button>
                         </div>
                         <div>
                             <a  style="
@@ -180,15 +186,16 @@
                                  text-decoration: none;
                                  color: black;
                         " href="Prepare_Good.jsp">
-                        <img src="assets/return.svg" alt="sort" width="20" height="20">
-                            Return
-                        </a>
+                                <img src="assets/return.svg" alt="sort" width="20" height="20">
+                                Return
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             </div>
         </div>
+        
     </div>
     </body>
 </html>

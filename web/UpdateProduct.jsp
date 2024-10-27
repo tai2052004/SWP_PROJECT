@@ -13,6 +13,7 @@
         int productID = Integer.parseInt(productID_string);
         p = ProductDB.getProductById(productID);
     }
+    int status = p.getStatus();
 %>
 <html>
     <head>
@@ -24,12 +25,49 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <link href="CSS/UpdateProduct.css?v=1.0.1" rel="stylesheet" /> 
+        <link href="CSS/UpdateProduct1.css?v=1.0.1" rel="stylesheet" /> 
 
     </head>
 
     <body>
+          <% 
+    if (request.getParameter("error") != null && request.getParameter("error").equals("fail")) { %>
+        <div class="alerts">    
+            <div class="alert alert-danger animated bounceInRight">
+                <div class="icon pull-left">
+                    <i class='fa fa-exclamation-triangle fa-2x'></i>
+                </div>
+                <div class="copy">
+                    <h4>ERROR</h4>
+                    <p>Username has been existed!.</p>
+                </div>
+                <a class="close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <% }
+        %>    
+    <% 
+    if (request.getParameter("success") != null && request.getParameter("success").equals("true")) { %>
+        <div class="alerts">    
+            <div class="alert alert-success animated bounceInRight">
+                <div class="icon pull-left">
+                    <i class="fa fa-check-circle fa-2x"></i>
+                </div>
+                <div class="copy">
+                    <h4>SUCCESS</h4>
+                    <p>Add user successful!</p>
+                </div>
+                <a class="close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <% }
+        %>
         <div class="header">
             <div>
                 <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
@@ -144,11 +182,30 @@
                     </table>
                 </div>
                 <div class="form-group">
+                    <label for="status">Status </label>
+                        <select id="status" name="status">
+                            <option value="1" <%= 1 == status ? "selected" : "" %>>Publish</option>
+                            <option value="0" <%= 0 == status ? "selected" : "" %>>Unpublish</option>
+                        </select>
+
+                </div>
+                <div class="form-group">
                     <button type="submit" id="updateButton">Update Product</button>
                 </div>
                 </form>
                 </div>
             </div>
         </div>
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.alert .close');
+
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    this.closest('.alert').style.display = 'none';
+                });
+            });
+        });
+        </script>
     </body>
 </html>

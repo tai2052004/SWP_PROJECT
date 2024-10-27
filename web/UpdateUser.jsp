@@ -168,6 +168,16 @@
             </div>
         </div>
     </div>
-  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.alert .close');
+
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    this.closest('.alert').style.display = 'none';
+                });
+            });
+        });
+        </script>
     </body>
 </html>

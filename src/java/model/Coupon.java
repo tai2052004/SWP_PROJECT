@@ -8,13 +8,13 @@ public class Coupon {
     private int couponId;
     private String couponName;
     private String couponCode; 
-    private double discountValue;
+    private float discountValue;
     private int quantity;
     
     public Coupon() {
     }
     
-    public Coupon(int couponId, String couponName, String couponCode, double discountValue, int quantity) {
+    public Coupon(int couponId, String couponName, String couponCode, float discountValue, int quantity) {
         this.couponId = couponId;
         this.couponName = couponName;
         this.couponCode = couponCode;
@@ -47,11 +47,11 @@ public class Coupon {
         this.couponCode = couponCode;
     }
 
-    public double getDiscountValue() {
+    public float getDiscountValue() {
         return discountValue;
     }
 
-    public void setDiscountValue(double discountValue) {
+    public void setDiscountValue(float discountValue) {
         this.discountValue = discountValue;
     }
 

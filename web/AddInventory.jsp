@@ -15,8 +15,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-        <link href="CSS/styles2.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />        <link href="CSS/styles2.css" rel="stylesheet" />
         <style> 
        body{
         color:black;
@@ -63,14 +63,87 @@
         display: flex;
         align-items: center;
         margin-top: 5px;
-    }</style>
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: start;
+    }
+    .form-group p{
+        margin: 0;
+    }
+    .main {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        margin: 10px;
+        display: flex;
+        align-items: flex-start;
+    }
+    .main-1 input{
+        width: 300px;
+        padding: 10px;
+        background-color: #EFEEEE;
+    }
+    .main-2 input {
+        padding: 10px;
+        width: 500px;
+        background-color: #EFEEEE;
+    }
+    .form-group .add-size-group {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+    .form-group .add-size-group select {
+        width: 70px;
+    }
+
+    .form-group .add-size-group button {
+        border-radius: 4px;
+        background: #1d81f3;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    input[type="file"]{
+        display:none;
+    }
+    label {
+        color: #22A0DC;
+        font-size: 18px;
+        text-align: center;
+        display: block;
+        background-color: #E8F3FA;
+        cursor: pointer;
+        padding: 10px 5px;
+        width: fit-content;
+    }
+    .main-image img {
+        width: 350px;
+        height: 300px;
+        object-fit: cover;
+    }
+    .image {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    .additional-images p{
+        font-size: 20px;
+        font-weight: 700;
+    }
+    </style>
     </head>
     <body>
          <div class="header">
             <div>
                 <img src="assets/logo.svg" width="77" height="72" style="margin-left: 74px" />
                 <img src="assets/logo2.png" width="110" height="27" />
-                <img src="assets/back-arrow.svg" width="24" height="30" style="margin-left: 27px" />
+                <a href="WarehouseInventory.jsp"><img src="assets/back-arrow.svg" width="24" height="30" style="margin-left: 27px" /></a>
                 <img src="assets/home.svg" width="36" height="36" style="margin-left: 55px" />
                 <span class="title" style="margin-left: 25px">HOME</span>
                 <img src="assets/forward.svg" width="24" height="35" style="margin-left: 25px" />
@@ -80,7 +153,7 @@
             </div>
             <div>
                 <div class="logout-button">
-                    <span class="title black-text">Logout</span>
+                    <a href="LogoutControl" class="logout"><span class="title black-text">Logout</span></a>
                     <img src="assets/logout.svg" width="30" height="30" />
                 </div>
             </div>
@@ -139,51 +212,57 @@
                 <!-- Inventory Form -->
                 <div class="inventory-item">
                     <!-- Left Column (Image and Inputs) -->
-                    <div style="display: flex;"  >
+<!--                    <div style="display: flex;"  >
                         <img src="assets/image.png"  width="300" height="300" alt="Product Image">
                         <input style="width: 36%;
                         margin-bottom: auto;
                         margin-top: auto;
                         margin-left: 53px;" type="file" accept="image/*">
+                    </div>-->
+                    <div class="image-section">
+                        <div class="image">
+                            <div class="main-image">
+                                <img id="mainImage" src="img/default.png">
+                            </div>
+                            <div class="upload-image">
+                                <input type="file" id="file-input" accept="img/
+                                    png, img/jpeg">
+                                <label for="file-input">
+                                <i class="bi bi-upload"></i></i>Upload Image
+                                </label>
+                            </div>
+                        </div> 
                     </div>
-        
                     <!-- Right Column (Form Inputs) -->
-                    <div style="display: flex; gap: 400px;">
-                        <div>
-                        <p style="background: bisque;  width: fit-content;">Product Name<p>
-                        <input   type="text" placeholder="Enter name">
-        
-                        <p>Select Brand</p>
-                        <select style="    width: 109%;">
-                            <option value="">Select Brand</option>
-                            <option value="1">Brand 1</option>
-                            <option value="2">Brand 2</option>
-                        </select>
-        
-                        <p style="margin-top: 40px;">Selling Price</p>
-                        <input type="number" placeholder="Enter price">
-        
-                        
-                        <div style="margin-top: 30px; display: flex; justify-content: space-around;">
-                            <span style="background: bisque; height: fit-content; margin: auto;">Size</span>
+                    <div class="main">
+                        <div class="main-1">
+                            <div class="form-group">
+                                 <p style="background: bisque;  width: fit-content; padding: 10px;">Product Name<p>
+                                <input class="input"type="text" placeholder="Enter name" required>
+                            </div>
                             
-                            <select id="sizeSelect" style="width: 30%;">
-                                <option value="39">39</option>
-                                <option value="40">40</option>
-                                <option value="41">41</option>
-                            </select>
+                            <div class="form-group">
+                                <p>Brand</p>
+                                <input class="input" type="text" name="brand" placeholder="Enter brand"required>
+                            </div>
                             
-                            <button id="addButton" style="
-                                border-radius: 4px;
-                                background: #1d81f3;
-                                color: white;
-                                border: none;
-                                margin-left: 15px;
-                            ">
-                                + Add
-                            </button>
-                        </div>
-                        
+                            <div class="form-group">
+                                <p style="margin-top: 40px;">Selling Price</p>
+                                <input class="input" type="number" placeholder="Enter price" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="add-size-group">
+                                    <p>Size</p>
+                                    <select id="sizeSelect">
+                                        <option value="39">39</option>
+                                        <option value="40">40</option>
+                                        <option value="41">41</option>
+                                    </select>
+                                    <input style="width: 60px;" type="number" name="quantity" id="quantity" min="1" required>
+                                    <button id="addButton">+ Add</button>
+                                </div>
+                            </div>
                         <table id="sizeTable" style="width: 50%; margin-top: 20px; border-collapse: collapse;">
                             <thead>
                                 <tr>
@@ -195,51 +274,69 @@
                                 <!-- Size rows will be added here -->
                             </tbody>
                         </table>
-                        
-                        <script>
-                            document.getElementById("addButton").addEventListener("click", function() {
-                                const sizeSelect = document.getElementById("sizeSelect");
-                                const selectedSize = sizeSelect.value;
-                                const tableBody = document.getElementById("sizeTable").querySelector("tbody");
-                        
-                                // Check if the size is already in the table
-                                let sizeRow = Array.from(tableBody.rows).find(row => row.cells[0].innerText === selectedSize);
-                        
-                                if (sizeRow) {
-                                    // Increment the quantity if size already exists
-                                    let quantityCell = sizeRow.cells[1];
-                                    let quantity = parseInt(quantityCell.innerText, 10);
-                                    quantityCell.innerText = (quantity + 1).toString().padStart(2, '0'); // Format as 2-digit
-                                } else {
-                                    // Create a new row for the new size
-                                    const newRow = document.createElement("tr");
-                        
-                                    const sizeCell = document.createElement("td");
-                                    sizeCell.innerText = selectedSize;
-                                    sizeCell.style.borderRight = "1px solid black"; // Add border to separate columns
-                                    sizeCell.style.padding = "10px";
-                                    newRow.appendChild(sizeCell);
-                        
-                                    const quantityCell = document.createElement("td");
-                                    quantityCell.innerText = "01"; // Start with quantity 1, formatted as 2-digit
-                                    quantityCell.style.padding = "10px";
-                                    newRow.appendChild(quantityCell);
-                        
-                                    tableBody.appendChild(newRow);
-                                }
-                            });
-                        </script>
-                        
-                    </div style="grid-auto-rows: min-content;   display: grid;" >
-                        <div>
-                        <p style="background: bisque;  width: 50%;">Product Detail Description</p>
-                        <textarea style="padding-bottom: 27%;" placeholder="Enter product description"></textarea>
-        
-                        <p>Discount</p>
-                        <input type="number" placeholder="Enter discount value">
-                        <button style="    margin-top: 80px;">Save & Publish</button>
+                            
+                    </div>
+                        <div class="main-2">
+                            <div class="form-group">
+                                <p style="background: bisque; padding: 10px; width: fit-content;">Product Detail Description</p>
+                                <input style="padding-bottom: 27%" placeholder="Enter product description" />
+                            </div>
+                            
+                            <div class="form-group">    
+                                <p>Discount</p>
+                                <input style="width: 300px" type="number" placeholder="Enter discount value">
+                            </div>
+                            <button style="margin-left:50px; margin-top: 80px;">Save & Publish</button>
                         </div>
                     </div>
+                        
+                        <script>
+                            const fileInput = document.getElementById('file-input');
+                            const mainImage = document.getElementById('mainImage');
+
+                            fileInput.addEventListener('change', function () {
+                                const file = fileInput.files[0]; // Get the first file from the input
+                                if (file) {
+                                    const reader = new FileReader(); // Create a FileReader to read the file
+                                    reader.onload = function (e) {
+                                        mainImage.src = e.target.result; // Set the main image src to the uploaded file's result
+                                    }
+                                    reader.readAsDataURL(file); // Read the file as a Data URL
+                                } else {
+                                    mainImage.src = 'img/default.png'; // Reset to default if no file is selected
+                                }
+                            });
+                            document.getElementById("addButton").addEventListener("click", function() {
+                                const sizeSelect = document.getElementById("sizeSelect");
+                                const quantityInput = document.getElementById("quantity");
+                                const sizeTableBody = document.getElementById("sizeTable").querySelector("tbody");
+
+                                const selectedSize = sizeSelect.value;
+                                const quantity = quantityInput.value;
+
+                                if (quantity <= 0) {
+                                    alert("Please enter a valid quantity.");
+                                    return;
+                                }
+
+                                // Check if size already exists
+                                const existingRow = Array.from(sizeTableBody.rows).find(row => row.cells[0].textContent === selectedSize);
+                                if (existingRow) {
+                                    const existingQuantity = parseInt(existingRow.cells[1].textContent);
+                                    existingRow.cells[1].textContent = existingQuantity + parseInt(quantity); // Update quantity
+                                } else {
+                                    // Create new row
+                                    const newRow = sizeTableBody.insertRow();
+                                    const sizeCell = newRow.insertCell(0);
+                                    const quantityCell = newRow.insertCell(1);
+                                    sizeCell.textContent = selectedSize;
+                                    quantityCell.textContent = quantity;
+                                }
+
+                                // Reset quantity input
+                                quantityInput.value = '';
+                            });
+                        </script>
                 </div>
             </div>
         </div>
