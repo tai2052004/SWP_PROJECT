@@ -76,6 +76,10 @@
         <servlet-name>ComfirmAndCancelOrder</servlet-name>
         <servlet-class>Servlet.ComfirmAndCancelOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ToVNPAY</servlet-name>
+        <servlet-class>Servlet.ToVNPAY</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -152,8 +156,12 @@
         <servlet-name>ComfirmAndCancelOrder</servlet-name>
         <url-pattern>/ComfirmAndCancelOrder</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToVNPAY</servlet-name>
+        <url-pattern>/ToVNPAY</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>30</session-timeout>
+        <session-timeout>60</session-timeout>
     </session-config>
     <filter>
         <filter-name>Authentication</filter-name>

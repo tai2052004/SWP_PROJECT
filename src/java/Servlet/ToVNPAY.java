@@ -4,24 +4,25 @@
  */
 package Servlet;
 
+import dao.*;
+import dao.UserDB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import model.*;
-import dao.*;
-import jakarta.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+
 
 /**
  *
  * @author LAPTOP
  */
-public class CheckOutServlet extends HttpServlet {
+public class ToVNPAY extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,37 +65,14 @@ public class CheckOutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-        List<OrderDetail> listOD = (List<OrderDetail>) session.getAttribute("listCart");
-        List<ProductDetail> listPD = ProductDetailDB.allListProductDetail();
         User user = (User) session.getAttribute("user");
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String nowStr = now.format(formatter);
-        
+        String address = request.getParameter("address");
         Order order = (Order) session.getAttribute("order");
+        user.setAddress(address);
+        UserDB.UpdateProfile(user);
+        order.setAddress(address);
         
-        order.setStatus("Pending");
-        order.setOrder_date(nowStr);
-        order.setFeeship(20);
-        boolean success = OrderDB.addNewOrder(order);
-        for ( OrderDetail od : listOD)
-        {
-            ProductDetail pd = ProductDetailDB.getProductDetailByProductDetailID(od.getProduct_detail_id());
-            pd.setQuantity(pd.getQuantity() - od.getQuantity());
-            ProductDetailDB.updateProductDetail(pd);
-        }
-        boolean success2 = false;
-        boolean success3 = false;
-        if (success)
-        {
-            success3 = OrderDB.addOrderDetails(listOD, order.getOrder_id());
-            listOD.clear();
-            if (success3)
-            {
-                response.sendRedirect("TrackMyOrder.jsp");
-            }
-        }
+        request.getRequestDispatcher("vnpay_pay.jsp").forward(request, response);
     }
 
     /**

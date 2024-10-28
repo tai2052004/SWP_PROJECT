@@ -13,6 +13,9 @@
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
+<%@ page import="java.net.*" %>
+<%@ page import="java.nio.charset.*" %>
+<%@ page import="Servlet.Config" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -102,6 +105,12 @@
                         %></label>
                 </div> 
             </div>
+            <form action="CheckOutServlet" method="post">
+                <button type="submit">
+                    Return
+                </button>
+            </form>
+
             <p>
                 &nbsp;
             </p>

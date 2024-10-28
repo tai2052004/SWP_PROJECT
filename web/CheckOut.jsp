@@ -132,7 +132,7 @@
                 </div>
             </div>
         </header>
-        <form id="checkoutForm" action="CheckOutServlet" method="post">
+        <form id="checkoutForm" action="ToVNPAY" method="post">
         <div>
             <p class="title"> CHECK OUT </p>  
             <div class="Form">
