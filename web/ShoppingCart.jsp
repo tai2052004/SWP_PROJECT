@@ -13,7 +13,11 @@
 <%
         session = request.getSession();
         Product p = (Product) session.getAttribute("product");
-        List<ProductDetail> liPD = p.getProductDetails();
+        List<ProductDetail> liPD = null;
+        if ( p != null)
+        {
+            liPD = p.getProductDetails();
+        }       
         String quantity1 = (String) request.getAttribute("productQuantity");
         String size = (String) request.getAttribute("selectedSize");
         Coupon coupon = (Coupon) request.getAttribute("coupon");
@@ -27,6 +31,10 @@
         {
             couponValue = coupon.getDiscountValue();
             order.setCoupon(coupon.getCouponId());
+        }
+        else 
+        {
+            order.setCoupon(-1);
         }
         int quantity = 0;
         if ( quantity1 != null )
@@ -51,6 +59,8 @@
         OrderDetail od = null;      
         for ( OrderDetail ode : listOD)
         {
+        if ( p != null )
+        {
             if ( ode.getProduct_id() == p.getProductID())
             {
                 if ( size == null)
@@ -63,6 +73,7 @@
                     odet = ode;
                 }
             }
+        }
         }
         if ( size != null)
         {
@@ -138,6 +149,7 @@
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Subtotal</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <% 
@@ -196,6 +208,11 @@
                                 </div>
                             </td>
                             <td style="width: 220px;"><input style="border: none; pointer-events: none; width: 100%;" name="subPrice" value="<%= formattedPrice %>" ></td>
+                            <td>
+                                <button type="submit" onclick="handleDelete(event,this)" name="action" value="<%= o.getCart_id() %>" class="btn btn-danger btn-sm">
+                                    <span>&times;</span>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                     <%
@@ -204,7 +221,7 @@
                      session.setAttribute("subTotal",subtotal);
                     %>
                 </table>
-
+                <input type="hidden" name="DeleteAction" id="deleteAction" value="">
                 <div class="cart-actions">
                     <div class="coupon">
                         <input id="coupon-id" type="text" name="couponCode" placeholder="Coupon code" value="${c}">
@@ -249,6 +266,27 @@
 
         </main>   
         <script src="js/ShoppingCart.js"></script>
+        <script>
+            function handleDelete(event,button) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Product will be deleted from your cart!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('deleteAction').value = button.value;
+                        button.form.submit();
+                    }
+                });
+            }
+        </script>
     </body>
     <footer class="row footer" id="footer">
         <div class="col-md-4 footer-text">

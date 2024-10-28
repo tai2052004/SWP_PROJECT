@@ -18,7 +18,6 @@ import model.Coupon;
 import model.OrderDetail;
 import model.Product;
 
-
 /**
  *
  * @author LAPTOP
@@ -42,7 +41,7 @@ public class ShoppingCart extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CheckOutServlet</title>");            
+            out.println("<title>Servlet CheckOutServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CheckOutServlet at " + request.getContextPath() + "</h1>");
@@ -63,7 +62,7 @@ public class ShoppingCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -78,18 +77,24 @@ public class ShoppingCart extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        if ( action.equalsIgnoreCase("updateCart"))
+        if ( action != null )
         {
-            updateCart(request,response);
-        }   
-        else if ( action.equalsIgnoreCase("checkout"))
-        {
-            response.sendRedirect("CheckOut.jsp");
+            if (action.equalsIgnoreCase("updateCart")) {
+                updateCart(request, response);
+            } else if (action.equalsIgnoreCase("checkout")) {
+                request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
+            } else if (action.equalsIgnoreCase("applyCoupon")) {
+                applyCoupon(request, response);
+            }
         }
         else
         {
-            applyCoupon(request,response);
+            String delete = request.getParameter("DeleteAction");
+            deleteCart(request, response, delete);
         }
+        
+
+        
     }
 
     /**
@@ -102,66 +107,71 @@ public class ShoppingCart extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public void updateCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    public void updateCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         List<OrderDetail> lOD = (List<OrderDetail>) session.getAttribute("listCart");
         List<OrderDetail> lo = new ArrayList<OrderDetail>();
-        for ( OrderDetail o : lOD)
-        {
+        for (OrderDetail o : lOD) {
             String s = request.getParameter("quantityChange" + o.getCart_id());
             String size = request.getParameter("sizeChange" + o.getCart_id());
-            if ( s != null)
-            {
-                int newQuantity = Integer.parseInt(s) ;
+            if (s != null) {
+                int newQuantity = Integer.parseInt(s);
                 o.setQuantity(newQuantity);
             }
-            if ( size != null )
-            {              
-               o.setSize(size);
+            if (size != null) {
+                o.setSize(size);
             }
-            
+
         }
-        for ( OrderDetail o : lOD)
-        {
-            if (!lo.contains(o))
-            {
-                for ( OrderDetail od : lOD)
-               {
-                   if ( o.getSize().equalsIgnoreCase(od.getSize()) && o.getProduct_id() == od.getProduct_id() && o.getCart_id() != od.getCart_id())
-                   {
-                       lo.add(od);
-                       o.setQuantity(o.getQuantity() + od.getQuantity());
-                   }
-               }
-            }            
+        for (OrderDetail o : lOD) {
+            if (!lo.contains(o)) {
+                for (OrderDetail od : lOD) {
+                    if (o.getSize().equalsIgnoreCase(od.getSize()) && o.getProduct_id() == od.getProduct_id() && o.getCart_id() != od.getCart_id()) {
+                        lo.add(od);
+                        o.setQuantity(o.getQuantity() + od.getQuantity());
+                    }
+                }
+            }
         }
-        if ( !lo.isEmpty() || lo != null)
-        {
-            for ( OrderDetail od : lo)
-            {
+        if (!lo.isEmpty() || lo != null) {
+            for (OrderDetail od : lo) {
                 lOD.remove(od);
             }
         }
         request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
     }
-    
-    public void applyCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+
+    public void applyCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         ArrayList<Coupon> listCoupon = CouponDB.listAllCoupons();
         String couponCode = request.getParameter("couponCode");
         Coupon cou = new Coupon();
-        
-        for (Coupon c : listCoupon)
-        {
-            if ( c.getCouponCode().equalsIgnoreCase(couponCode))
-            {
+
+        for (Coupon c : listCoupon) {
+            if (c.getCouponCode().equalsIgnoreCase(couponCode)) {
                 cou = c;
             }
         }
         request.setAttribute("coupon", cou);
         request.setAttribute("c", couponCode);
+        request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
+    }
+    public void deleteCart(HttpServletRequest request, HttpServletResponse response, String delete) throws ServletException, IOException
+    {
+        HttpSession session = request.getSession();
+        List<OrderDetail> lOD = (List<OrderDetail>) session.getAttribute("listCart");
+        OrderDetail ode = null;
+
+        for (OrderDetail od : lOD) {
+            String cartStr = Integer.toString(od.getCart_id());
+            if ( delete.equalsIgnoreCase(cartStr)) {
+                    ode = od;              
+            }
+        }
+        if (ode != null) {
+            session.removeAttribute("product");
+            lOD.remove(ode);
+        }
         request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
     }
 

@@ -1,0 +1,427 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Sep 29, 2024, 2:30:08 PM
+    Author     : fakesimp6996
+*/
+
+.header {
+    background-color: #1A202C;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.logo img {
+    margin-left: 10px;
+    height: 60px;
+    width: 160px;
+}
+
+.menu {
+    text-align: center;
+}
+
+.menu a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 5px 15px;
+}
+.menu .active {
+    color: #FE5B0F;
+    border-bottom: 2px solid #FE5B0F;
+}
+
+.menu a:hover {
+    border-bottom: 2px solid #FE5B0F;
+    text-decoration: none;
+}
+
+.user-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-actions div {
+    margin: 0px 20px;
+}
+
+.user-actions a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.user-actions a:hover {
+    text-decoration: none;
+}
+
+.login i {
+    margin-right: 5px;
+}
+
+.user-actions i {
+    font-size: 25px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.user-actions :hover {
+    color: #FE5B0F;
+}
+
+.bi-search {
+    color: #fff;
+    width: 30px;
+    height: 30px;
+}
+
+/*BODY*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.product-container {
+    display: flex;
+    align-items: flex-start; /* Ensure items are aligned at the top */
+    margin: 40px;
+}
+
+.product-image {
+    width: 45%; /* Adjust width for product image container */
+    position: relative;
+
+}
+
+.product-image img {
+    width: 80%;
+    max-width: 100%;
+    border-radius: 10px;
+
+}
+
+/* Left and Right arrows */
+.arrow-left, .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.arrow-left {
+    left: -20px;
+}
+
+.arrow-right {
+    right: 180px;
+    ;
+}
+
+/* Favorite heart icon */
+.favorite-heart {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    background-color: white;
+    color: gray;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.favorite-heart:hover {
+    color: red;
+}
+
+.product-details {
+    display: block;
+    font-size: 1.5rem; /* Increases the size of the text */
+    transform: scale(1.5); /* Scale up the whole div by 10% */
+    transform-origin: top left; /* Keep the scaling starting from the top left */
+}
+
+.product-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.product-price {
+    font-size: 41px;
+    color: #333;
+    margin: 10px 75px;
+    /* display: flex; */
+    font-weight: bold;
+}
+.size{
+        color: slategray;
+
+}
+
+.sizes, .colors {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.sizes button, .colors button {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.sizes button.active, .colors button.active {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+/* Highlight active size buttons */
+.sizes .size-button.active {
+    border: 2px solid #000;
+}
+
+/* Highlight active color buttons */
+.colors .color-button.active {
+    border: 2px solid #000;
+}
+
+/* Quantity buttons */
+.product-quantity button {
+    width: 30px;
+    height: 30px;
+   
+}
+/*  */
+
+.colors button {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.product-quantity {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.product-quantity button {
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+}
+
+.product-quantity input {
+    width: 50px;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.product-buttons {
+    display: flex;
+}
+
+.product-buttons button {
+    padding: 15px 30px;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.add-to-cart {
+    background-color: #000;
+    color: white;
+}
+
+.buy-now {
+    background-color: #e50914;
+    color: white;
+}
+
+.product-description {
+    margin-top: 30px;
+}
+
+.title {
+    
+      font-size: 55px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+    text-decoration: underline; 
+}
+/*.{
+        border: 0px;
+    background: none;
+}*/
+.decription{
+    line-height: 1.6;
+        font-size: 28px;
+
+}
+.submit-button{
+    background: #e94f4f;
+}
+
+.additional-images {
+    display: flex;
+    margin-top: 10px;
+        gap: 110px;
+
+}
+
+.additional-images img {
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.foot-img{
+    display: flex;
+    justify-content: center;
+}
+.review-button {
+    padding: 10px 20px;
+    font-size: 2rem;
+    border: none;
+    cursor: pointer;
+    background: none;
+    margin-right: 10px;
+}
+
+.product-info button.active {
+    background-color: #000;
+    color: #fff;
+}
+
+.content {
+    display: none;
+    margin-top: 20px;
+}
+
+.content.active {
+    display: block;
+}
+.review-title{
+    display: flex;
+    justify-content: space-around;
+}
+/* Highlighted thumbnail */
+.active-thumbnail {
+    border: 2px solid #000;
+}
+
+/* Optional: hover effect for additional images */
+.additional-image {
+    cursor: pointer;
+}
+
+.additional-image:hover {
+    opacity: 0.8;
+}
+
+#productImg
+{
+    height: 400px;
+}
+/* Star Rating Style */
+.star-rating {
+    display: flex;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.star {
+    color: #ccc; /* Default star color (light gray) */
+    transition: color 0.2s;
+}
+
+.star.active {
+    color: gold; /* Change color on click or hover */
+}
+
+.star-rating textarea {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+textarea {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 1rem;
+}
+/*Footer*/
+
+.footer
+{
+    display: flex;
+    justify-content: center;
+    height: 231px;
+    background-color: #1A202C;
+    color: white;
+    padding : 20px 10px;
+        margin-top: 50px;
+
+
+}
+.footer1
+{
+    border-right: 2px solid wheat;
+    width: 40%;
+}
+#infor-detail
+{
+    font-size: 30px;
+    color: #ffeeba;
+}
+
+.footer2-inside-2
+{
+    display: flex;
+    flex-direction: column;
+}
+.contact
+{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: #ffeeba;
+}
+.contact-img
+{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+}
+.contact-img img
+{
+    width: 50px;
+    border-radius: 20%;
+}
+.footer2
+{
+    width: 65%;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+}

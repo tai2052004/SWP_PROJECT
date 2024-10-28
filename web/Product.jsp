@@ -10,6 +10,7 @@
 <%@ page import="java.text.NumberFormat" %>
 <%
     Product product = (Product) session.getAttribute("product");
+    User user = (User) session.getAttribute("user"); 
     String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
     int inStock = 0;
 %>
@@ -17,48 +18,70 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product2.css"/>
+        <link rel="stylesheet" href="CSS/Product3.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
-    <%
-    String errorMessage = (String) session.getAttribute("error");
-    if (errorMessage != null) {
-    %>
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'ERROR',
-            text: '<%= errorMessage %>',
-            confirmButtonText: 'OK'
-        });
-    </script>
-    <%
-            session.removeAttribute("error");
-        }
-    %>
+
     <body>
-        <div class="header">
-            <div class="logo">
-                <img src="img/Logo.png" alt="alt"/>
-                <p>HESH</p>
+        <%
+        String errorMessage = (String) session.getAttribute("error");
+        if (errorMessage != null) {
+        %>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: `<%= errorMessage.replace("'", "\\'") %>`,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+            <% session.removeAttribute("error"); %>
+                    }
+                });
+            });
+        </script>
+        <% } %>
+        <header>
+
+            <div class="row header">
+                <div class="col-md-3 logo">
+                    <img src="img/logo1.png">
+                </div>
+
+                <div class="col-md-6 menu">
+                    <a href="landingPage.jsp" class="menuText active">HOME</a>
+                    <a href="AllProduct.jsp" class="menuText">SHOP</a>
+                    <a href="#footer" class="menuText">CONTACT</a>
+                </div>
+
+                <div class="col-md-3 user-actions">
+                    <% if(user == null) {%> 
+                    <div class="login">
+                        <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
+                    </div>
+                    <% } else { %>
+                    <div class="logout dropdown">
+                        <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                        <div class="dropdown-menu">
+                            <a href="ManageProfile.jsp">My profile</a>
+                            <a href="TrackMyOrder.jsp">Track my order</a>
+                            <a href="/favorites">Favorite Items</a>
+                        </div>
+                    </div>
+                    <% } %>
+                    <div class="cart">
+                        <a href="ShoppingCart.jsp"><i class="bi bi-cart"></i></a>
+                    </div>
+                    <div class="search">
+                        <i class="bi bi-search"></i>
+                    </div>
+                </div>
             </div>
-            <div class="header-button">
-                <a href="landingPage.jsp"><p>HOME</p></a>
-                <a href="AllProduct.jsp"><p>SHOP</p></a>
-                <a href=""><p>CONTACT</p></a>
-            </div>
-            <div class="header-avatar">
-                <div class="cart">
-                    <i class="bi bi-cart-fill fs-3 text-primary"></i> 
-                </div> 
-                <div class="avatar">
-                    <img src="img/avatar.png" alt="avatar" />
-                </div>                  
-            </div>
-        </div>
+        </header>
 
         <div class="product-container">
             <!-- Product Image Section -->

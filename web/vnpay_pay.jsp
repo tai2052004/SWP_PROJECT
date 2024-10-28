@@ -15,10 +15,12 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <title>Tạo mới đơn hàng</title>
+        <link rel="stylesheet" href="CSS/vnpay_pay.css" />
         <!-- Bootstrap core CSS -->
         <link href="assets/bootstrap.min.css" rel="stylesheet"/>
         <!-- Custom styles for this template -->
-        <link href="assets/jumbotron-narrow.css" rel="stylesheet">      
+        <link href="assets/jumbotron-narrow.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <script src="assets/jquery-1.11.3.min.js"></script>
     </head>
     <body>
@@ -26,7 +28,7 @@
         <div class="container">
             <div class="header clearfix">
 
-                <h3 class="text-muted">VNPAY DEMO</h3>
+                <h3 class="text-muted">VNPAY</h3>
             </div>
             <h3>Tạo mới đơn hàng</h3>
             <div class="table-responsive">

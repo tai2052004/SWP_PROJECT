@@ -28,7 +28,11 @@
         if ( coupon != null)
         {
             couponValue = coupon.getDiscountValue();
-            order.setCoupon((double)coupon.getCouponId());
+            order.setCoupon(coupon.getCouponId());
+        }
+        else 
+        {
+            order.setCoupon(-1);
         }
         int quantity = 0;
         if ( quantity1 != null )
@@ -128,6 +132,7 @@
                 </div>
             </div>
         </header>
+        <form id="checkoutForm" action="CheckOutServlet" method="post">
         <div>
             <p class="title"> CHECK OUT </p>  
             <div class="Form">
@@ -282,12 +287,12 @@
             </div>
 
             <div class="confirm-button-container">
-                <form id="checkoutForm" action="CheckOutServlet" method="post">
+                
                     <button type="button" onclick="validateForm(event)" class="confirm-button">Confirm</button>
-                </form>               
+                              
             </div>
         </div>
-
+            </form> 
 
         <div class="footer">
             <div class="footer1">

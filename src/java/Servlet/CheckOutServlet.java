@@ -66,6 +66,7 @@ public class CheckOutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String address = request.getParameter("address");
         List<OrderDetail> listOD = (List<OrderDetail>) session.getAttribute("listCart");
+        List<ProductDetail> listPD = ProductDetailDB.allListProductDetail();
         User user = (User) session.getAttribute("user");
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -78,11 +79,18 @@ public class CheckOutServlet extends HttpServlet {
         order.setOrder_date(nowStr);
         order.setFeeship(20);
         boolean success = OrderDB.addNewOrder(order);
+        for ( OrderDetail od : listOD)
+        {
+            ProductDetail pd = ProductDetailDB.getProductDetailByProductDetailID(od.getProduct_detail_id());
+            pd.setQuantity(pd.getQuantity() - od.getQuantity());
+            ProductDetailDB.updateProductDetail(pd);
+        }
         boolean success2 = false;
         boolean success3 = false;
         if (success)
         {
             success3 = OrderDB.addOrderDetails(listOD, order.getOrder_id());
+            listOD.clear();
             if (success3)
             {
                 response.sendRedirect("TrackMyOrder.jsp");

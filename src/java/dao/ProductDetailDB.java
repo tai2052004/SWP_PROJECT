@@ -23,7 +23,8 @@ import model.ProductDetail;
  * @author ADMIN
  */
 public class ProductDetailDB {
-     public static Connection getConnect() {
+
+    public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
         } catch (ClassNotFoundException e) {
@@ -37,9 +38,10 @@ public class ProductDetailDB {
         }
         return null;
     }
+
     public static ArrayList<ProductDetail> allListProductDetail() {
         ArrayList<ProductDetail> productDetailList = new ArrayList<>();
-        try (Connection con=getConnect()) {
+        try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT * "
                     + "FROM ProductDetail ");
             ResultSet rs = stmt.executeQuery();
@@ -48,7 +50,7 @@ public class ProductDetailDB {
                 int product_id = rs.getInt("product_id");
                 String size = rs.getString("size");
                 int quantity = rs.getInt("quantity");
-                ProductDetail pd = new ProductDetail(id, product_id, size, quantity);       
+                ProductDetail pd = new ProductDetail(id, product_id, size, quantity);
                 productDetailList.add(pd);
             }
         } catch (SQLException e) {
@@ -56,7 +58,7 @@ public class ProductDetailDB {
         }
         return productDetailList;
     }
-    
+
     public static boolean addProductDetail(ProductDetail pd) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
@@ -80,5 +82,44 @@ public class ProductDetailDB {
         }
         return false;
     }
-    
+
+    public static boolean updateProductDetail(ProductDetail pd) {
+        try (Connection con = getConnect()) {
+            PreparedStatement stmt = con.prepareStatement(
+                    "UPDATE ProductDetail SET product_id = ?, size = ?, quantity = ? WHERE id = ?"
+            );
+            stmt.setInt(1, pd.getProductID());
+            stmt.setString(2, pd.getSize());
+            stmt.setInt(3, pd.getQuantity());
+            stmt.setInt(4, pd.getProductDetailID());
+
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static ProductDetail getProductDetailByProductDetailID(int productDetailID) {
+        try (Connection con = getConnect()) {
+            PreparedStatement stmt = con.prepareStatement(
+                    "SELECT * FROM ProductDetail WHERE id = ?"
+            );
+            stmt.setInt(1, productDetailID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new ProductDetail(
+                        rs.getInt("id"),
+                        rs.getInt("product_id"),
+                        rs.getString("size"),
+                        rs.getInt("quantity")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

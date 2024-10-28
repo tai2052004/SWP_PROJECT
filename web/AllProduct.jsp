@@ -23,7 +23,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-        <link rel="stylesheet" href="CSS/AllProduct1.css?v=1.0.1"/>
+        <link rel="stylesheet" href="CSS/AllProduct2.css?v=1.0.1"/>
 
     </head>
     <body>

@@ -150,26 +150,27 @@ public class OrderDB implements DatabaseInfo {
         }
         return orders;
     }
+
     public static String getUserFullName(int user_id) {
         String query = "SELECT u.User_fullname FROM [Order] o "
-                     + "JOIN Users u ON o.user_id = u.ID "
-                     + "WHERE o.user_id = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            
-            ps.setInt(1, user_id);                                                                        
+                + "JOIN Users u ON o.user_id = u.ID "
+                + "WHERE o.user_id = ?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, user_id);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 return rs.getString("User_fullname");
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
-        }
+    }
+
     public static List<OrderDetail> getOrderDetailsById(int orderId) {
         List<OrderDetail> orderDetail = new ArrayList<>();
         String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, "
@@ -239,7 +240,11 @@ public class OrderDB implements DatabaseInfo {
             stmt.setFloat(4, order.getTotal_price());
             stmt.setFloat(5, order.getFeeship());
             stmt.setString(6, order.getAddress());
-            stmt.setDouble(7, order.getCoupon());
+            if (order.getCoupon() == -1) {
+                stmt.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                stmt.setInt(7, order.getCoupon());
+            }
             int rowsInserted = stmt.executeUpdate();
 
             if (rowsInserted > 0) {
@@ -261,23 +266,23 @@ public class OrderDB implements DatabaseInfo {
 
             try (PreparedStatement stmt = con.prepareStatement(query)) {
                 for (OrderDetail orderDetail : orderDetails) {
-                    stmt.setInt(1, orderId); 
-                    stmt.setInt(2, orderDetail.getProduct_detail_id()); 
-                    stmt.setInt(3, orderDetail.getQuantity()); 
-                    stmt.setDouble(4, orderDetail.getPrice()); 
+                    stmt.setInt(1, orderId);
+                    stmt.setInt(2, orderDetail.getProduct_detail_id());
+                    stmt.setInt(3, orderDetail.getQuantity());
+                    stmt.setDouble(4, orderDetail.getPrice());
 
-                    stmt.addBatch(); 
+                    stmt.addBatch();
                 }
-                
+
                 stmt.executeBatch();
-                return true; 
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false; 
+        return false;
     }
 
     public static boolean addProductDetail(OrderDetail OD, ProductDetail pd) {
@@ -296,7 +301,7 @@ public class OrderDB implements DatabaseInfo {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     pd.setProductDetailID(generatedKeys.getInt(1));
-                    return true; 
+                    return true;
                 }
             }
         } catch (Exception e) {
@@ -304,20 +309,20 @@ public class OrderDB implements DatabaseInfo {
         }
         return false; // Thêm thất bại
     }
-    
+
     public static boolean updateOrderStatus(int orderId, String status) {
         String query = "Update [order] Set status= ? where order_id = ?";
-        try(Connection con = getConnect()){
+        try (Connection con = getConnect()) {
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, status);
             ps.setInt(2, orderId);
             return ps.executeUpdate() > 0;
-        } catch ( Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    
+
     public static List<Order> getOrderByTimeframe(String timeframe) {
         List<Order> orders = new ArrayList<>();
         String query = "";
@@ -328,20 +333,19 @@ public class OrderDB implements DatabaseInfo {
                 query = "SELECT * FROM [Order] WHERE CAST(order_date AS DATE) = CAST(GETDATE() AS DATE)";
                 break;
             case "this week":
-                query = "SELECT * FROM [Order] WHERE DATEPART(week, order_date) = DATEPART(week, GETDATE()) " +
-                        "AND YEAR(order_date) = YEAR(GETDATE())";
+                query = "SELECT * FROM [Order] WHERE DATEPART(week, order_date) = DATEPART(week, GETDATE()) "
+                        + "AND YEAR(order_date) = YEAR(GETDATE())";
                 break;
             case "this month":
-                query = "SELECT * FROM [Order] WHERE MONTH(order_date) = MONTH(GETDATE()) " +
-                        "AND YEAR(order_date) = YEAR(GETDATE())";
+                query = "SELECT * FROM [Order] WHERE MONTH(order_date) = MONTH(GETDATE()) "
+                        + "AND YEAR(order_date) = YEAR(GETDATE())";
                 break;
             default:
                 System.out.println("Invalid timeframe specified.");
                 return orders;
         }
 
-        try (Connection conn = getConnect(); 
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ResultSet rs = ps.executeQuery();
 
@@ -360,21 +364,6 @@ public class OrderDB implements DatabaseInfo {
         }
         return orders;
     }
-    public static boolean setStaus(int orderId, String action) {
-    String query = "UPDATE [order] SET status = ? WHERE order_id = ?";
-    
-    try (Connection con = getConnect()) {
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, action);
-        ps.setInt(2, orderId);
-        
-        // Thực hiện cập nhật và kiểm tra số hàng được cập nhật
-        return ps.executeUpdate() > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
-    }
-}
 
     public static void main(String[] args) {
 //// Tạo đối tượng ProductDetail
@@ -395,5 +384,25 @@ public class OrderDB implements DatabaseInfo {
 //        // Gọi phương thức để thêm OrderDetail
 //        boolean isOrderDetailsAdded = addOrderDetails(orderDetails, 1); // Giả sử orderId là 1
 //        System.out.println("Thêm OrderDetail thành công: " + isOrderDetailsAdded);
+        Order testOrder = new Order();
+
+        // Thiết lập các thuộc tính cho testOrder
+        testOrder.setUser_id(1); // Ví dụ: user_id là 1
+        testOrder.setOrder_date("2024-10-28"); // Định dạng yyyy-MM-dd
+        testOrder.setStatus("Pending"); // Ví dụ: trạng thái là "Pending"
+        testOrder.setTotal_price(200.0f); // Ví dụ: tổng giá là 200.0
+        testOrder.setFeeship(15.0f); // Ví dụ: phí giao hàng là 15.0
+        testOrder.setAddress("123 Main Street"); // Địa chỉ giao hàng
+        testOrder.setCoupon(2); // Ví dụ: ID của coupon là 2
+
+        // Gọi method addNewOrder để thêm đơn hàng vào cơ sở dữ liệu
+        boolean result = addNewOrder(testOrder); // Thay "YourClassName" bằng tên class chứa method addNewOrder
+
+        // Kiểm tra kết quả
+        if (result) {
+            System.out.println("Đơn hàng đã được thêm thành công với Order ID: " + testOrder.getOrder_id());
+        } else {
+            System.out.println("Thêm đơn hàng thất bại.");
+        }
     }
 }
