@@ -71,14 +71,14 @@
     <div class="order-card">
         <%
             int id = order.getUser_id();
-            User user = OrderDB.getUserInfo(id);
+            User users = OrderDB.getUserInfo(id);
         %>
         <div class="order-id">
             <h2>OrderID: <%= order.getOrder_id()%></h2>
         </div>
         <div class="order-info">
             <span class="order-info-first">Information Address:</span>
-            <span><%= user.getFullname()%> - <%= user.getPhone()%></span><br>
+            <span><%= users.getFullname()%> - <%= users.getPhone()%></span><br>
             <span>Address: <%= order.getAddress()%></span>
         </div>
         <div class="order-status">
@@ -107,7 +107,11 @@
                 float totalDiscount = (subtotal) *(discount/100);
                 String formatTotalDiscout = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalDiscount);
                 Coupon coupon = CouponDB.getCouponById(order.getCoupon());
-                float coupon_value = (float) coupon.getDiscountValue();
+                float coupon_value = 0;
+                if ( coupon != null)
+                {
+                    coupon_value = (float) coupon.getDiscountValue();
+                }
                 String formatCouponValue = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(coupon_value);
                 float feeship = order.getFeeship();
                 String formatFeeShip = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(feeship);
@@ -165,7 +169,7 @@
                     String status = order.getStatus();
                     if(status.equals("Pending")) {
                 %>
-                <button id="cancelOrderBtn" name="action" value="Cancel" class="cancel-btn" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">Cancel order</button>
+                <button id="cancelOrderBtn" name="action" value="Cancel1" class="cancel-btn" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">Cancel order</button>
                 <%
                     } else if(status.equals("Shipping")) {
                 %>

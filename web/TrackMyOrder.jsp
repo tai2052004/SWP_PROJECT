@@ -63,7 +63,8 @@
     <main>
         <div class="status-bar">
             <button class="status-btn" data-status="pending">Pending</button>
-            <button class="status-btn active" data-status="on-shipping">On shipping</button>
+            <button class="status-btn" data-status="confirm">Confirmed</button>
+            <button class="status-btn" data-status="on-shipping">On shipping</button>
             <button class="status-btn" data-status="arrived">Arrived</button>
             <button class="status-btn" data-status="canceled">Canceled</button>
         </div>
@@ -80,9 +81,11 @@
                         status = "pending";
                     } else if(status.equals("Delivered")) {
                         status = "arrived";
-                    } else {
+                    } else if(status.equals("Cancelled")){
                         status = "canceled";
-                    }
+                    } else {
+                    status = "confirm";
+                }
                     
             %>
             <div class="order-card" data-status="<%= status%>">
@@ -108,11 +111,15 @@
                 <%
                     double subtotal =0;
                     double discount = 0;
+                    int quantity = 0;
                     List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(orders.getOrder_id());
                     for(OrderDetail orderDetails : orderDetail) {
                         subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
                         discount =+ orderDetails.getDiscount();
                         String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(orderDetails.getPrice());
+                        quantity++;
+                        if ( quantity == 1)
+                        {
                 %>
                 <div class="products">
                     <div class="product">
@@ -127,9 +134,14 @@
                 </div>
                 <%
                     }
+                    }
                         double totalDiscount = (subtotal) *(discount/100);
                         Coupon coupon = CouponDB.getCouponById(orders.getCoupon());
-                        double coupon_value = coupon.getDiscountValue();
+                        double coupon_value = 0;
+                        if ( coupon != null)
+                        {
+                            coupon_value = coupon.getDiscountValue();
+                        }
                         double feeship = orders.getFeeship();
                         double total = subtotal - discount - coupon_value + feeship;
                         String formatTotalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);

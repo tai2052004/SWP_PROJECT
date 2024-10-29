@@ -102,10 +102,23 @@
                     <div><%= o.getTotal_price()%></div>
                     <div>
                         <form action="PrepareGoodServlet" method="post" class="form">
-                        <select id="statusSelect" name="status" style="font-family: 'Poppins', sans-serif; font-weight: 500; border: none;border-radius: 25px; color: white;" onchange="changeBackgroundColor()">
-                            <option style="background-color: rgb(141, 196, 59); color: white;" value="Confirmed" <%= "Confirmed".equals(status) ? "selected" : "" %>>Confirmed</option>
-                            <option style="background-color: orangered; color: white;" value="Shipping" <%= "Shipping".equals(status) ? "selected" : "" %>>Shipping</option>
-                        </select>
+                            <% 
+                                if (status.equals("Confirmed")) {
+                            %>
+                                <select id="statusSelect" name="status" style="font-family: 'Poppins', sans-serif; font-weight: 500; border: none;border-radius: 25px; color: white;" onchange="changeBackgroundColor()">
+                                    <option style="background-color: rgb(141, 196, 59); color: white;" value="Confirmed" <%= "Confirmed".equals(status) ? "selected" : "" %>>Confirmed</option>
+                                    <option style="background-color: orangered; color: white;" value="Shipping" <%= "Shipping".equals(status) ? "selected" : "" %>>Shipping</option>
+                                </select>
+                            <%
+                                } else {
+                            %>
+                                  <div id="statusSelect" name="status">
+                                    <div style="background-color: orangered; color: white; border-radius: 5px;">Shipping</div>
+                                </div>
+                            <%
+                                }
+                            %>
+
                         <input type="hidden" name="orderId" value="<%= o.getOrder_id() %>">
                         </form>
                         <script>
@@ -170,11 +183,16 @@
                             <span>Total</span>
                             <span><%= totalPrice %></span>
                         </div>
+                        <%
+                            if (status.equals("Confirmed")){
+                        %>
                         <div class="button-container">
-                            
                             <button type="submit" onclick="document.querySelector('.form').submit()" style="padding: 18px;border: none;background-color: green; color: white; border-radius: 25px;">Save Update</button>
                         </div>
-                        <div>
+                        <% 
+                            } 
+                        %>
+                        <div class="return" style="margin-top: 20px;">
                             <a  style="
                                 padding: 13px;
                                   border-radius: 25px;
@@ -184,7 +202,6 @@
                                  gap: 8px;
                                  cursor: pointer;
                                  text-decoration: none;
-                                 color: black;
                         " href="Prepare_Good.jsp">
                                 <img src="assets/return.svg" alt="sort" width="20" height="20">
                                 Return

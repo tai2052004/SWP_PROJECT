@@ -6,12 +6,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     Created on : Sep 28, 2024, 3:33:17 PM
     Author     : fakesimp6996
 */
-
 /* header */
 .menu {
     text-align: center;
 }
-
+.row
+{
+    margin: 0;
+}
 .menu a {
     color: #fff;
     font-size: 24px;
@@ -34,6 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     justify-content: center;
     align-items: center;
     height: 100px;
+    width: 100%;
 }
 .logo img {
     margin-left: 10px;
@@ -222,13 +225,13 @@ input[type="range"] {
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.2rem;
+    gap: 2rem;
     margin: 2rem;
 }
 
 .product-card {
-    height: 330px;
-    width: 320px;
+    height: 290px;
+    width: 290px;
     background-color: white;
     border-radius: 5px;
     overflow: hidden;
@@ -281,6 +284,8 @@ input[type="range"] {
     background-color: #1A202C;
     color: #fff;
     padding: 20px 10px;
+    width: 100%;
+    margin-right: 0;
 }
 .footer-text {
     border-right: 2px solid #fff ;

@@ -82,6 +82,7 @@ public class ManageProfileServlet extends HttpServlet {
         String gender = request.getParameter("gender");
         User sessionUser = (User) request.getSession().getAttribute("user");
         int userId = sessionUser.getUser_id();
+        int a = 0;
         if(age < 16) {
             request.getSession().setAttribute("temp_fullname", fulln);
             request.getSession().setAttribute("temp_gender", gender);
@@ -89,9 +90,8 @@ public class ManageProfileServlet extends HttpServlet {
             request.getSession().setAttribute("temp_email", email);
             request.getSession().setAttribute("temp_phone",phone);
             request.getSession().setAttribute("temp_address", address);
-            request.setAttribute("errorBirthday", "You must be over 16 years old!");
-            request.getRequestDispatcher("ManageProfile.jsp").forward(request, response);
-            return;
+            request.setAttribute("errorBirthday", "You must be over 16 years old!");            
+            a++;
         }
         if (phone == null || !phone.matches("0\\d{9}")) {
         request.getSession().setAttribute("temp_fullname", fulln);
@@ -101,10 +101,12 @@ public class ManageProfileServlet extends HttpServlet {
         request.getSession().setAttribute("temp_phone",phone);
         request.getSession().setAttribute("temp_address", address);
         request.setAttribute("errorMessage", "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0!");
-
-        request.getRequestDispatcher("ManageProfile.jsp").forward(request, response);
-        return;
-    }
+        a++;
+        }
+        if(a > 0) {
+            
+            request.getRequestDispatcher("ManageProfile.jsp").forward(request, response);
+        }
         User user = (User) request.getSession().getAttribute("user");
         user.setUser_id(userId);
         user.setFullname(fulln);

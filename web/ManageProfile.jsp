@@ -32,7 +32,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
-        <link rel="stylesheet" href="CSS/ManageProfile2.css?v=1.0.1">
+        <link rel="stylesheet" href="CSS/ManageProfile.css?v=1.0.1">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -75,28 +75,43 @@
         </div>
         <% }
         %>
-        <div class="header">
-            <div class="logo">
-                <img src="img/Logo.png" alt="alt"/>
-                <p>HESH</p>
+        <header>
+        
+        <div class="row header">
+            <div class="col-md-3 logo">
+                <img src="img/logo1.png">
             </div>
-            <div class="header-button">
-                <a href="landingPage.jsp"><p>HOME</p></a>
-                <a href="AllProduct.jsp"><p>SHOP</p></a>
-                <a href="#footer"><p>CONTACT</p></a>
+
+            <div class="col-md-6 menu">
+                <a href="landingPage.jsp" class="menuText">HOME</a>
+                <a href="AllProduct.jsp" class="menuText">SHOP</a>
+                <a href="#footer" class="menuText">CONTACT</a>
             </div>
-            <div class="col-md-3 user-actions header-avatar">
+            
+            <div class="col-md-3 user-actions">
+                <% if(user == null) {%> 
+                    <div class="login">
+                        <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
+                    </div>
+                <% } else { %>
+                    <div class="logout dropdown">
+                        <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
+                        <div class="dropdown-menu">
+                            <a href="ManageProfile.jsp">My profile</a>
+                            <a href="TrackMyOrder.jsp">Track my order</a>
+                            <a href="/favorites">Favorite Items</a>
+                        </div>
+                    </div>
+                <% } %>
                 <div class="cart">
-                    <a href=""><i class="bi bi-cart"></i></a>
+                    <a href="ShoppingCart.jsp"><i class="bi bi-cart"></i></a>
                 </div>
-                <div class="search" style="color: white;">
+                <div class="search">
                     <i class="bi bi-search"></i>
-                </div> 
-                <div class="avatar">
-                    <img src="img/avatar.png" alt="avatar" />
-                </div>                  
+                </div>
             </div>
         </div>
+    </header>
         
         <div class="body">
             <div class="video-background">
@@ -237,44 +252,22 @@
         </div>
         
     </body>
-    <footer class="footer">
-    <div class="footer1">
-        <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
-    </div>   
-    <div class="footer2">
-        <div class="footer2-inside-1">
-            <div class="infor">
-                <p id="infor-detail">Information<p>
-            </div>
-            <div class="infor">
-                <p>Email : taidepchai@gmail.com<p>
-            </div>
-            <div class="infor">
-                <p>Phone : 0123456789<p>
-            </div>
-            <div class="infor">
-                <p>Addres : do biet o dau<p>
-            </div>
+   <footer class="row footer" id="footer">
+        <div class="col-md-4 footer-text">
+            <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
         </div>
-        <div class="footer2-inside-2">
-            <div class="contact">
-                <p>Contact us<p>
-            </div>
-            <div class="contact-img">
-                <div class="contact-detail">
-                    <img src="img/facebook.jpg" />
-                </div>
-                <div class="contact-detail">
-                    <img src="img/instagram.jpg" />
-                </div>
-                <div class="contact-detail">
-                    <img src="img/tiktok.png" />
-                </div>
-            </div>
-            
+        <div class="col-md-4 information">
+            <h3>Information</h3>
+            <a href="landingPage.jsp">Home</a>
+            <a href="AllProduct.jsp">Shop</a>
         </div>
-        
-    </div>
+        <div class="col-md-4 contact">
+            <h3>Contact us</h3>
+            <span><i class="bi bi-telephone"></i>0702411147</span>
+            <span><i class="bi bi-geo-alt"></i>12 My Da Tay 8, Khue My, Ngu Hanh Son,<br>Da Nang City</span>
+            <span><i class="bi bi-envelope"></i>hesh-shoe-selling@gmail.com</span>
+        </div>
+    </footer>
     <% System.out.println(user.getUser_id());%>
         <script src="js/ManageProfile.js" type="module"></script>
         <script>
@@ -288,5 +281,4 @@
     });
 });
         </script>
-</footer>
 </html>

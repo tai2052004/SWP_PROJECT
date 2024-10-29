@@ -92,7 +92,7 @@ public class CheckOutServlet extends HttpServlet {
             listOD.clear();
             if (success3)
             {
-                response.sendRedirect("TrackMyOrder.jsp");
+                request.getRequestDispatcher("TrackMyOrder.jsp").forward(request, response);
             }
         }
     }

@@ -67,7 +67,7 @@ public class ComfirmAndCancelOrder extends HttpServlet {
                 request.getRequestDispatcher("OrderInfo.jsp").forward(request, response);
             }
         } else if(action.equals("Confirm")){
-            String status = "Shipping";
+            String status = "Confirmed";
             boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
             if(isUpdate) {
                 request.getRequestDispatcher("OrderList.jsp").forward(request,response);
@@ -76,6 +76,14 @@ public class ComfirmAndCancelOrder extends HttpServlet {
             }
         }else if(action.equals("Arrived")){
             String status = "Delivered";
+            boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
+            if(isUpdate) {
+                request.getRequestDispatcher("TrackMyOrder.jsp").forward(request,response);
+            } else {
+                request.getRequestDispatcher("OrderDetails.jsp").forward(request, response);
+            }
+        } else {
+            String status = "Cancelled";
             boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
             if(isUpdate) {
                 request.getRequestDispatcher("TrackMyOrder.jsp").forward(request,response);

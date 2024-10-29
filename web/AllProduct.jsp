@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <%
     User user = (User) session.getAttribute("user"); 
     Product product = (Product) request.getAttribute("product");
@@ -23,7 +24,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-        <link rel="stylesheet" href="CSS/AllProduct2.css?v=1.0.1"/>
+        <link rel="stylesheet" href="CSS/AllProduct1.css?v=1.0.1"/>
 
     </head>
     <body>
@@ -88,16 +89,17 @@
                 <form id="priceForm" action="AllProduct.jsp" method="get">
                     <!-- Set the range value dynamically based on the maxPrice parameter -->
                     <input type="range" min="0" max="5000000" value="<%= (maxPriceParam != null) ? maxPrice : 5000000 %>" id="priceRange" name="maxPrice">
-                    <span id="priceDisplay"><%= (maxPriceParam != null) ? maxPrice : 5000000 %></span>
+                    <span id="priceDisplay"><%= (maxPriceParam != null) ? maxPrice : 5000000 %> d</span>
                 </form>
 
                 <script>
+                    
                     document.getElementById('priceRange').addEventListener('input', function () {
                         // Get the current value of the range input
                         var priceValue = this.value;
-
+                        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(priceValue);
                         // Update the displayed price
-                        document.getElementById('priceDisplay').textContent = '$' + priceValue;
+                        document.getElementById('priceDisplay').textContent =   formattedPrice;
 
                         // Automatically submit the form when the slider is moved
                         document.getElementById('priceForm').submit();
@@ -154,22 +156,26 @@
             // Display the filtered products
             if(a){
             for (Product product1 : products) {
+                double price = product1.getPrice();
+                String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price); 
                     %>
                     <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)' style="cursor: pointer;">
                         <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
                         <h4><%= product1.getProductName() %></h4>
-                        <p><%= product1.getPrice() %></p>
+                        <p><%= formatPrice %></p>
                     </div>
                     <% 
                         }
                         
                     }else{
                                     for (Product product2 : filteredProducts) {
+                                    double price1 = product2.getPrice();
+                String formatPrice2 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price1); 
                     %>
                     <div class='product-card' onclick='chooseProduct(<%= product2.getProductID() %>)'>
                         <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
                         <h4><%= product2.getProductName() %></h4>
-                        <p>$<%= product2.getPrice() %></p>
+                        <p><%= formatPrice2  %></p>
                     </div>
                         <%
                             }}

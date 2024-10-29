@@ -173,7 +173,7 @@ public class OrderDB implements DatabaseInfo {
 
     public static List<OrderDetail> getOrderDetailsById(int orderId) {
         List<OrderDetail> orderDetail = new ArrayList<>();
-        String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, "
+        String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, p.brand, "
                 + "od.quantity, p.price, p.discount,p.image_urls, o.order_date, o.status "
                 + "FROM [Order] o "
                 + "JOIN Users u ON o.user_id = u.ID "
@@ -192,8 +192,10 @@ public class OrderDB implements DatabaseInfo {
                 orderDetails.setSize(rs.getString("size"));
                 orderDetails.setQuantity(rs.getInt("quantity"));
                 orderDetails.setPrice(rs.getDouble("price"));
+                orderDetails.setOrderDate(rs.getObject("order_date", LocalDateTime.class));
                 orderDetails.setDiscount(rs.getFloat("discount"));
                 orderDetails.setImg_url(rs.getString("image_urls"));
+                orderDetails.setBrand(rs.getString("brand"));
                 orderDetail.add(orderDetails);
             }
 
@@ -381,43 +383,48 @@ public class OrderDB implements DatabaseInfo {
     }
 
     public static void main(String[] args) {
-//// Tạo đối tượng ProductDetail
-//        ProductDetail productDetail = new ProductDetail(1, "M", 50); // productID = 1, size = "M", quantity = 50
-//        OrderDetail orderDetail = new OrderDetail(1, 1, "Giày Nike", "Nike", 1500.0, "M", 2, LocalDateTime.now()); // cart_id = 1, product_id = 1, quantity = 2
-//        // Tạo danh sách OrderDetail
-//        List<OrderDetail> orderDetails = new ArrayList<>();
+////// Tạo đối tượng ProductDetail
+////        ProductDetail productDetail = new ProductDetail(1, "M", 50); // productID = 1, size = "M", quantity = 50
+////        OrderDetail orderDetail = new OrderDetail(1, 1, "Giày Nike", "Nike", 1500.0, "M", 2, LocalDateTime.now()); // cart_id = 1, product_id = 1, quantity = 2
+////        // Tạo danh sách OrderDetail
+////        List<OrderDetail> orderDetails = new ArrayList<>();
+////
+////        // Thêm các OrderDetail vào danh sách
+////        orderDetails.add(new OrderDetail(1, 1, "Giày Nike", "Nike", 1500.0, "M", 2, LocalDateTime.now())); // cart_id = 1, product_id = 1, quantity = 2
+////        orderDetails.add(new OrderDetail(1, 2, "Giày Adidas", "Adidas", 1200.0, "L", 1, LocalDateTime.now())); // cart_id = 1, product_id = 2, quantity = 1
+////
+//////        // Gọi phương thức để thêm ProductDetail
+////        boolean isProductDetailAdded = addProductDetail(orderDetail, productDetail);
+////        System.out.println("Thêm ProductDetail thành công: " + isProductDetailAdded);
+////        System.out.println(productDetail.getProductDetailID());
+////
+////        // Gọi phương thức để thêm OrderDetail
+////        boolean isOrderDetailsAdded = addOrderDetails(orderDetails, 1); // Giả sử orderId là 1
+////        System.out.println("Thêm OrderDetail thành công: " + isOrderDetailsAdded);
+//        Order testOrder = new Order();
 //
-//        // Thêm các OrderDetail vào danh sách
-//        orderDetails.add(new OrderDetail(1, 1, "Giày Nike", "Nike", 1500.0, "M", 2, LocalDateTime.now())); // cart_id = 1, product_id = 1, quantity = 2
-//        orderDetails.add(new OrderDetail(1, 2, "Giày Adidas", "Adidas", 1200.0, "L", 1, LocalDateTime.now())); // cart_id = 1, product_id = 2, quantity = 1
+//        // Thiết lập các thuộc tính cho testOrder
+//        testOrder.setUser_id(1); // Ví dụ: user_id là 1
+//        testOrder.setOrder_date("2024-10-28"); // Định dạng yyyy-MM-dd
+//        testOrder.setStatus("Pending"); // Ví dụ: trạng thái là "Pending"
+//        testOrder.setTotal_price(200.0f); // Ví dụ: tổng giá là 200.0
+//        testOrder.setFeeship(15.0f); // Ví dụ: phí giao hàng là 15.0
+//        testOrder.setAddress("123 Main Street"); // Địa chỉ giao hàng
+//        testOrder.setCoupon(2); // Ví dụ: ID của coupon là 2
 //
-////        // Gọi phương thức để thêm ProductDetail
-//        boolean isProductDetailAdded = addProductDetail(orderDetail, productDetail);
-//        System.out.println("Thêm ProductDetail thành công: " + isProductDetailAdded);
-//        System.out.println(productDetail.getProductDetailID());
+//        // Gọi method addNewOrder để thêm đơn hàng vào cơ sở dữ liệu
+//        boolean result = addNewOrder(testOrder); // Thay "YourClassName" bằng tên class chứa method addNewOrder
 //
-//        // Gọi phương thức để thêm OrderDetail
-//        boolean isOrderDetailsAdded = addOrderDetails(orderDetails, 1); // Giả sử orderId là 1
-//        System.out.println("Thêm OrderDetail thành công: " + isOrderDetailsAdded);
-        Order testOrder = new Order();
-
-        // Thiết lập các thuộc tính cho testOrder
-        testOrder.setUser_id(1); // Ví dụ: user_id là 1
-        testOrder.setOrder_date("2024-10-28"); // Định dạng yyyy-MM-dd
-        testOrder.setStatus("Pending"); // Ví dụ: trạng thái là "Pending"
-        testOrder.setTotal_price(200.0f); // Ví dụ: tổng giá là 200.0
-        testOrder.setFeeship(15.0f); // Ví dụ: phí giao hàng là 15.0
-        testOrder.setAddress("123 Main Street"); // Địa chỉ giao hàng
-        testOrder.setCoupon(2); // Ví dụ: ID của coupon là 2
-
-        // Gọi method addNewOrder để thêm đơn hàng vào cơ sở dữ liệu
-        boolean result = addNewOrder(testOrder); // Thay "YourClassName" bằng tên class chứa method addNewOrder
-
-        // Kiểm tra kết quả
-        if (result) {
-            System.out.println("Đơn hàng đã được thêm thành công với Order ID: " + testOrder.getOrder_id());
-        } else {
-            System.out.println("Thêm đơn hàng thất bại.");
+//        // Kiểm tra kết quả
+//        if (result) {
+//            System.out.println("Đơn hàng đã được thêm thành công với Order ID: " + testOrder.getOrder_id());
+//        } else {
+//            System.out.println("Thêm đơn hàng thất bại.");
+//        }
+        List<OrderDetail> order = OrderDB.getOrderDetailsById(1);
+        for(OrderDetail orders : order) {
+            System.out.println(orders);
         }
+        
     }
 }

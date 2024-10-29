@@ -98,6 +98,8 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("listCart", lo);
                 session.setAttribute("order", o);
                 response.sendRedirect("landingPage.jsp");
+            } else {
+                response.sendRedirect("WarehouseInventory.jsp");
             }
         }  else {
             request.setAttribute("u",username);

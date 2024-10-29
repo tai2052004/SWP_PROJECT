@@ -238,7 +238,10 @@
                                 <span>Coupon</span>
                                 <%
                                     Coupon coupon = CouponDB.getCouponById(order.getCoupon());                    
-                                    float coupon_value = (float) coupon.getDiscountValue();
+                                    float coupon_value = 0;
+                                    if(coupon_value != 0 ) {
+                                        coupon_value = (float) coupon.getDiscountValue();
+                                    }
                                     String formatCoupon = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(coupon_value);
                                     float feeship = order.getFeeship();
                                     float total = subtotal - discount - coupon_value + feeship;

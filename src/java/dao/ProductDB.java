@@ -9,6 +9,7 @@ import static dao.DatabaseInfo.DRIVERNAME;
 import static dao.DatabaseInfo.PASSDB;
 import static dao.DatabaseInfo.USERDB;
 import static dao.UserDB.getConnect;
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -160,6 +161,52 @@ public class ProductDB implements DatabaseInfo {
         }
     }
     
+    public static boolean addNewProduct(Product product) {
+        try (Connection conn = getConnect()) {
+            // Insert into Product table
+            PreparedStatement productStmt = conn.prepareStatement(
+                    "INSERT INTO Product (name, brand, price, discount, description,image_urls, status) VALUES (?, ?, ?, ?, ?, ?,?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
+            );
+            float price = (float)product.getPrice();
+            float discount = Float.parseFloat(product.getDiscount());
+            productStmt.setString(1, product.getProductName());
+            productStmt.setString(2, product.getBrand());
+            productStmt.setFloat(3,price);
+            productStmt.setString(4, product.getDiscount());
+            productStmt.setString(5, product.getDescription());
+            productStmt.setString(6, product.getImg_url());
+            productStmt.setInt(7, product.getStatus());
+
+            int rowsInserted = productStmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                // Retrieve generated product_id
+                ResultSet generatedKeys = productStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int productId = generatedKeys.getInt(1);
+                    product.setProductID(productId); // Set the generated ID to the product object
+
+                    // Insert product details into ProductDetail table
+                    PreparedStatement detailStmt = conn.prepareStatement(
+                            "INSERT INTO ProductDetail (product_id, size, quantity) VALUES (?, ?, ?)"
+                    );
+                    for (ProductDetail detail : product.getProductDetails()) {
+                        detailStmt.setInt(1, productId);
+                        detailStmt.setString(2, detail.getSize());
+                        detailStmt.setInt(3, detail.getQuantity());
+                        detailStmt.executeUpdate();
+                    }
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    
     public static int countProductsByStatus(int status) {
         int count = 0;
         String sql = "SELECT COUNT(*) AS total FROM Product WHERE status = ?";
@@ -197,10 +244,38 @@ public class ProductDB implements DatabaseInfo {
         }
         return count;
     }
+    public static List<Product> getProductsByStatus(int status) {
+        List<Product> productList = new ArrayList<>();
+        String sql = "SELECT product_id, name, brand, price, discount, description, image_urls, status "
+                   + "FROM Product WHERE status = ?";
+        try (Connection con = getConnect();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, status);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("product_id");
+                String productName = rs.getString("name");
+                String brand = rs.getString("brand");
+                double price = rs.getDouble("price");
+                String discount = rs.getString("discount");
+                String description = rs.getString("description");
+                String imageUrl = rs.getString("image_urls");
+                int productStatus = rs.getInt("status");
+
+                Product product = new Product(id, productName, brand, price, discount, description, imageUrl, productStatus);
+                productList.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+
 
 
     public static void main(String[] args) {
-        Product p = getProductById(1);
-        System.out.println(p.toString());
     }
 }
+

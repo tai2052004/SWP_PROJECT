@@ -32,7 +32,7 @@
                     </span>
         </div>
         <div>
-            <div class="logout-button">
+            <div class="logout-button" onclick="window.location.href='LogoutControl'" style= "cursor: pointer;">
                 <span class="title black-text">Logout</span>
                 <img src="assets/logout.svg" width="30" height="30" />
             </div>
