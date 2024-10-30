@@ -7,7 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
-<%@page import="model.User" %> 
+<%@page import="model.*" %> 
+<%@ page import="java.util.*, java.time.LocalDateTime, dao.*" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%
     User user = (User) session.getAttribute("user"); 
 %>
@@ -91,6 +94,9 @@
         </div>
     </div>
 
+    <%
+        List<Product> productList = ProductDB.allListProduct();
+    %>
     <section class="lastest-products">
         <h2>LASTEST PRODUCTS</h2>
         <div class="product-list">

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package servlet;
+package Servlet;
 
 import dao.CouponDB;
 import java.io.IOException;
