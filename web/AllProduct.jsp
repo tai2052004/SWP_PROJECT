@@ -93,18 +93,18 @@
                 </form>
 
                 <script>
-                    
+
                     document.getElementById('priceRange').addEventListener('input', function () {
                         // Get the current value of the range input
                         var priceValue = this.value;
-                        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(priceValue);
+                        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(priceValue);
                         // Update the displayed price
-                        document.getElementById('priceDisplay').textContent =   formattedPrice;
+                        document.getElementById('priceDisplay').textContent = formattedPrice;
 
                         // Automatically submit the form when the slider is moved
                         document.getElementById('priceForm').submit();
                     });
-                    
+
                 </script>
 
                 <h3>Color</h3>
@@ -134,62 +134,58 @@
                 <div class="product-grid">
 
                     <%
-                        // Get the maxPrice from the form submission (default to 1000 if not provided)
-                         maxPriceParam = request.getParameter("maxPrice");
-                         maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000;
-
-                        // Fetch all products
-                        List<Product> products = ProductDB.allListProduct();
-
-                        // Filter products that are less than or equal to the maxPrice
-                        List<Product> filteredProducts = new ArrayList<>();
-                        for (Product p : products) {
-                            if (p.getPrice() <= maxPrice) {
-                                filteredProducts.add(p);
-                                a = false;
-
-                            }                                                  
-
+                        // Check if maxPrice is provided in the request
+                        maxPriceParam = request.getParameter("maxPrice");
+            
+                        List<Product> products = ProductDB.allListProduct(); // Fetch all products
+            
+                        List<Product> filteredProducts;
+            
+                        if (maxPriceParam != null) {
+                            // If maxPrice is provided, parse it and filter the products
+                            maxPrice = Integer.parseInt(maxPriceParam);
+                            filteredProducts = new ArrayList<>();
+                
+                            for (Product p : products) {
+                                if (p.getPrice() <= maxPrice) {
+                                    filteredProducts.add(p);
+                                }
+                            }
+                        } else {
+                            // If maxPrice is not provided, show all products
+                            filteredProducts = products;
                         }
                     %>
+
                     <% 
-            // Display the filtered products
-            if(a){
-            for (Product product1 : products) {
-                double price = product1.getPrice();
-                String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price); 
+                        // Display products or a message if no products meet the criteria
+                        if(filteredProducts.isEmpty()) { 
                     %>
-                    <div class='product-card' onclick='chooseProduct(<%= product1.getProductID() %>)' style="cursor: pointer;">
-                        <img src="<%= product1.getImg_url() %>" alt="<%= product1.getProductName() %>">
-                        <h4><%= product1.getProductName() %></h4>
-                        <p><%= formatPrice %></p>
-                    </div>
+                    <p>No products found within the specified price range.</p>
                     <% 
-                        }
-                        
-                    }else{
-                                    for (Product product2 : filteredProducts) {
-                                    double price1 = product2.getPrice();
-                String formatPrice2 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price1); 
+                        } else {
+                            for (Product product2 : filteredProducts) { 
+                                double price1 = product2.getPrice();
+                                  String formatPrice2 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price1); 
                     %>
-                    <div class='product-card' onclick='chooseProduct(<%= product2.getProductID() %>)'>
+                    <div class='product-card' onclick='chooseProduct(<%= product2.getProductID() %>)' style="cursor: pointer;">
                         <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
                         <h4><%= product2.getProductName() %></h4>
-                        <p><%= formatPrice2  %></p>
+                        <p><%= formatPrice2 %></p>
                     </div>
-                        <%
-                            }}
-
-                            %>
+                    <% 
+                            } 
+                        }
+                    %>
                 </div>
                 <form id="productSelectionForm" action="ProductDetailServlet" method="GET">
                     <input type="hidden" id="selectedProduct" name="productId" value="">
                 </form>
                 <!-- Pagination -->
                 <div id="pagination-buttons"></div>
-
             </section>
         </div>
+
         <footer class="row footer" id="footer">
             <div class="col-md-4 footer-text">
                 <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
@@ -210,11 +206,12 @@
 
     </body>
     <script>
-                    function chooseProduct(productId) {
+                        function chooseProduct(productId) {
 
-                        document.getElementById('selectedProduct').value = productId;
+                            document.getElementById('selectedProduct').value = productId;
 
-                        document.getElementById('productSelectionForm').submit();
-                    }
+                            document.getElementById('productSelectionForm').submit();
+                        }
     </script>
 </html>
+            
