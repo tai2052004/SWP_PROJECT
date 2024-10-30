@@ -242,8 +242,9 @@ input[type="range"] {
 .product-card img {
     padding: 50px 20px 20px 20px;
     width: 100%;
-    height: auto;
+    height: 175px;
     object-fit: contain;
+    background-color: white;
 }
 
 .product-card h4 {

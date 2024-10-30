@@ -47,3 +47,36 @@ document.addEventListener("DOMContentLoaded", () => {
         updateProduct(currentIndex);
     });
 });
+
+const productList = document.querySelector('.product-list');
+const itemsVisible = 3; // Số sản phẩm hiển thị trên màn hình
+let currentIndex = 0;
+
+function autoSlide() {
+    currentIndex++;
+    productList.style.transition = 'transform 0.5s ease';
+    productList.style.transform = `translateX(-${currentIndex * (100 / itemsVisible)}%)`;
+
+    productList.addEventListener('transitionend', function handleTransition() {
+        productList.style.transition = 'none'; // Tắt hiệu ứng
+        productList.appendChild(productList.firstElementChild); // Di chuyển phần tử đầu tiên xuống cuối
+        productList.style.transform = `translateX(0)`; // Đặt lại vị trí
+
+        currentIndex = 0; // Đặt lại chỉ số
+        setTimeout(() => {
+            productList.style.transition = 'transform 0.5s ease'; // Khôi phục hiệu ứng
+        }, 50);
+
+        productList.removeEventListener('transitionend', handleTransition); // Gỡ bỏ sự kiện sau khi thực thi
+    });
+}
+
+// Chạy hàm autoSlide tự động sau mỗi khoảng thời gian nhất định
+setInterval(autoSlide, 3000); // Thời gian lướt, có thể điều chỉnh
+
+
+
+
+
+
+

@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="col-md-6 menu">
-                    <a href="" class="menuText">HOME</a>
+                    <a href="landingPage.jsp" class="menuText">HOME</a>
                     <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                     <a href="#footer" class="menuText">CONTACT</a>
                 </div>
