@@ -205,7 +205,7 @@
                                 <div class="badge <%= statusClass %>"><%= status != null ? status : "N/A" %></div> <!-- Status Badge -->
                             </div>
                             <div>
-                                <form id="orderSelectionForm<%= orders.getOrder_id() %>" action="OrderInfoServlet" method="GET">
+                                <form id="orderSelectionForm<%= orders.getOrder_id() %>" action="OrderInfoServler" method="GET">
                                     <button class="icon" type="submit" onclick="chooseOrder(<%= orders.getOrder_id() %>)">
                                         <div></div> <!-- Icon inside button -->
                                     </button>
