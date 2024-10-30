@@ -6,9 +6,27 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.util.List, java.util.ArrayList, java.util.stream.Collectors" %>
 <%
     List<Product> listProducts = new ArrayList<Product>();
-    listProducts = ProductDB.allListProduct();
+    String statusChosen = request.getParameter("status");
+    String keyword = request.getParameter("keyword");
+    if (statusChosen != null) {
+        if (statusChosen.equals("Publish")) {
+            listProducts = ProductDB.getProductsByStatus(1);
+        } else if (statusChosen.equals("Unpublish")) {
+            listProducts = ProductDB.getProductsByStatus(0);
+        } else {
+            listProducts = ProductDB.allListProduct();
+        }
+    } else {
+        listProducts = ProductDB.allListProduct();
+    }
+    if (keyword != null && !keyword.isEmpty()) {
+        listProducts = listProducts.stream()
+            .filter(product -> product.getProductName().toLowerCase().contains(keyword.toLowerCase()))
+            .collect(Collectors.toList());
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -220,7 +238,7 @@
                     <div style="display: flex; justify-content: space-around;">
                         <div>
                             <h1>All products</h1>
-                            <h2><%= listProducts.size() %></h2>
+                            <h2><%= ProductDB.allListProduct().size() %></h2>
                         </div>
                         <div>
                             <h1>In Store</h1>
@@ -249,55 +267,55 @@
                         <div>
                             <h1>Inventory List</h1>
                         </div>
-                        <!-- Search section -->
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-weight: 500;">Search:</span>
-                            <input type="text" placeholder="Enter Here" style="
-                                   padding: 8px 12px;
-                                   border: 1px solid #ccc;
-                                   border-radius: 4px;
-                                   width: 200px;
-                                   ">
-                            <button style="
-                                    padding: 8px 16px;
-                                    border-radius: 4px;
-                                    border: 1px solid #ccc;
-                                    background: white;
-                                    cursor: pointer;
-                                    ">Search</button>
-                        </div>
+                        
+
+                       
+                            
 
                         <!-- Sort and Add new buttons -->
                         <div style="display: flex; gap: 16px; align-items: center;">
-                            <button style="
-                                    padding: 8px 16px;
-                                    border-radius: 4px;
-                                    border: 1px solid #1d81f3;
-                                    background: transparent;
-                                    color: #1d81f3;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 8px;
-                                    cursor: pointer;
-                                    ">
-                                <img src="assets/filter.svg" alt="sort" width="20" height="20">
-                                Filter
-                            </button>
+                            <form action="WarehouseInventory.jsp" method="GET" style="display: flex; gap: 16px; align-items: center;">
+                                <!-- Search section -->
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span style="font-weight: 500;">Search:</span>
+                                    <input name="keyword" type="text" placeholder="Enter Here" style="
+                                           padding: 8px 12px;
+                                           border: 1px solid #ccc;
+                                           border-radius: 4px;
+                                           width: 200px;
+                                           " value="<%= keyword != null ? keyword : "" %>">
+                                    <button style="
+                                            padding: 8px 16px;
+                                            border-radius: 4px;
+                                            border: 1px solid #ccc;
+                                            background: white;
+                                            cursor: pointer;
+                                            ">Search</button>
+                                </div>
+                                <!-- Filter section -->
+                                <div style="display: flex; gap: 16px; align-items: center;">
+                                    <select id="statusFilter" name="status" style="padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc;" value="<%= statusChosen %>"> 
+                                        <option value="All" <%= "All".equals(statusChosen) ? "selected" : "" %>>All</option>
+                                        <option value="Publish" <%= "Publish".equals(statusChosen) ? "selected" : "" %>>Publish</option>
+                                        <option value="Unpublish" <%= "Unpublish".equals(statusChosen) ? "selected" : "" %>>Unpublish</option>
 
-                            <button  style="
-                                     padding: 8px 16px;
-                                     border-radius: 4px;
-                                     border: 1px solid #1d81f3;
-                                     background: transparent;
-                                     color: #1d81f3;
-                                     display: flex;
-                                     align-items: center;
-                                     gap: 8px;
-                                     cursor: pointer;
-                                     ">
-                                <img src="assets/sort2.svg" alt="sort" width="20" height="20">
-                                sort
-                            </button>
+                                    </select>
+                                    <button style="
+                                        padding: 8px 16px;
+                                        border-radius: 4px;
+                                        border: 1px solid #1d81f3;
+                                        background: transparent;
+                                        color: #1d81f3;
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 8px;
+                                        cursor: pointer;
+                                    ">
+                                        <img src="assets/filter.svg" alt="sort" width="20" height="20">
+                                        Filter
+                                    </button>
+                                </div>
+                            </form> 
                         </div>
                     </div>
 
