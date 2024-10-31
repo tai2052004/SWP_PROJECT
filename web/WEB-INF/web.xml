@@ -80,6 +80,10 @@
         <servlet-name>ToVNPAY</servlet-name>
         <servlet-class>Servlet.ToVNPAY</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginGoogleHandler</servlet-name>
+        <servlet-class>Servlet.LoginGoogleHandler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>ToVNPAY</servlet-name>
         <url-pattern>/ToVNPAY</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginGoogleHandler</servlet-name>
+        <url-pattern>/LoginGoogleHandler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

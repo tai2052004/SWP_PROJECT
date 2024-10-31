@@ -19,6 +19,23 @@ public class User {
     private String phone;
     private String address;
     private String gender;
+    private String name;
+    private String email;
+
+    public User(int user_id, String user_name, String user_password, String user_email, String user_role, String fullname, String dob, String phone, String address, String gender, String name, String mail) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_password = user_password;
+        this.user_email = user_email;
+        this.user_role = user_role;
+        this.fullname = fullname;
+        this.dob = dob;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.name = name;
+        this.email = mail;
+    }
     public User() {
     }
 
@@ -158,6 +175,22 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMail() {
+        return email;
+    }
+
+    public void setMail(String mail) {
+        this.email = mail;
     }
 
     @Override

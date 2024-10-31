@@ -1,4 +1,4 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -13,8 +13,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import model.User;
+import model.UserGoogleDto;
 
-public class UserDB implements DatabaseInfo{
+public class UserDB implements DatabaseInfo {
+
     public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
@@ -29,6 +31,7 @@ public class UserDB implements DatabaseInfo{
         }
         return null;
     }
+
     public static User login(String username, String password) {
         User user = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -46,7 +49,7 @@ public class UserDB implements DatabaseInfo{
                 String address = rs.getString("User_address");
                 String gender = rs.getString("User_gender");
                 String phone = rs.getString("User_phone");
-                user = new User(userID,username, password, email, role,fullname, dob, phone, address,gender);
+                user = new User(userID, username, password, email, role, fullname, dob, phone, address, gender);
             }
             con.close();
         } catch (Exception ex) {
@@ -54,6 +57,7 @@ public class UserDB implements DatabaseInfo{
         }
         return user;
     }
+
     public static boolean addUser(User user) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
@@ -78,6 +82,7 @@ public class UserDB implements DatabaseInfo{
         }
         return false;
     }
+
     public static boolean addUserDetailS(User user) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
@@ -88,7 +93,7 @@ public class UserDB implements DatabaseInfo{
             stmt.setString(2, user.getUser_password());
             stmt.setString(3, user.getUser_email());
             stmt.setString(4, user.getUser_role());
-            stmt.setString(5,user.getFullname());
+            stmt.setString(5, user.getFullname());
             stmt.setString(6, user.getPhone());
             stmt.setString(7, user.getAddress());
             int rowsInserted = stmt.executeUpdate();
@@ -105,9 +110,10 @@ public class UserDB implements DatabaseInfo{
         }
         return false;
     }
+
     public static ArrayList<User> listAllUsers() {
         ArrayList<User> userList = new ArrayList<>();
-        try (Connection con=getConnect()) {
+        try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT ID, User_name, User_password,User_email,User_role, User_phone FROM Users");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -117,7 +123,7 @@ public class UserDB implements DatabaseInfo{
                 String email = rs.getString("User_email");
                 String role = rs.getString("User_role");
                 String phone = rs.getString("User_phone");
-                User user = new User(id,user_name, password, email, role, phone);
+                User user = new User(id, user_name, password, email, role, phone);
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -125,6 +131,7 @@ public class UserDB implements DatabaseInfo{
         }
         return userList;
     }
+
     public static boolean userExists(String username) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM Users WHERE User_name = ?");
@@ -138,6 +145,7 @@ public class UserDB implements DatabaseInfo{
         }
         return false;
     }
+
     public static boolean userExistsEmail(String email) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM Users WHERE User_email = ?");
@@ -176,6 +184,7 @@ public class UserDB implements DatabaseInfo{
 //        }
 //        return totalUsers;
 //    }
+
     public static User getUserDetailById(int userId) {
         User user = null;
 
@@ -197,26 +206,27 @@ public class UserDB implements DatabaseInfo{
                 user.setDob(rs.getString("User_dob"));
                 user.setPhone(rs.getString("User_phone"));
                 user.setAddress(rs.getString("User_address"));
-                user.setGender(rs.getString("User_gender"));  
+                user.setGender(rs.getString("User_gender"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
     }
+
     public static boolean UpdateProfile(User user) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
                     "UPDATE Users SET User_fullname = ?, User_gender = ?, User_dob = ?, User_phone = ?, User_address = ?, User_email = ? WHERE ID = ?",
                     PreparedStatement.RETURN_GENERATED_KEYS
             );
-            stmt.setString(1, user.getFullname()); 
-            stmt.setString(2, user.getGender());   
-            stmt.setString(3, user.getDob());    
-            stmt.setString(4, user.getPhone());    
-            stmt.setString(5, user.getAddress()); 
+            stmt.setString(1, user.getFullname());
+            stmt.setString(2, user.getGender());
+            stmt.setString(3, user.getDob());
+            stmt.setString(4, user.getPhone());
+            stmt.setString(5, user.getAddress());
             stmt.setString(6, user.getUser_email());
-            stmt.setInt(7,user.getUser_id());
+            stmt.setInt(7, user.getUser_id());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (Exception e) {
@@ -224,6 +234,7 @@ public class UserDB implements DatabaseInfo{
         }
         return false;
     }
+
     public static boolean ChangePassword(User user) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
@@ -239,18 +250,19 @@ public class UserDB implements DatabaseInfo{
         }
         return false;
     }
+
     public static boolean UpdateUser(User user) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement(
                     "UPDATE Users SET User_fullname = ?, User_gender = ?, User_phone = ?, User_email = ?, User_role = ? WHERE ID = ?",
                     PreparedStatement.RETURN_GENERATED_KEYS
             );
-            stmt.setString(1, user.getFullname()); 
-            stmt.setString(2, user.getGender());      
-            stmt.setString(3, user.getPhone());    
+            stmt.setString(1, user.getFullname());
+            stmt.setString(2, user.getGender());
+            stmt.setString(3, user.getPhone());
             stmt.setString(4, user.getUser_email());
             stmt.setString(5, user.getUser_role());
-            stmt.setInt(6,user.getUser_id());
+            stmt.setInt(6, user.getUser_id());
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
         } catch (Exception e) {
@@ -259,9 +271,45 @@ public class UserDB implements DatabaseInfo{
         return false;
     }
 
-    public static void main(String[] args){
-        User user = new User("tran ngoc thien",1,"male","0702411147","ngocthien2902@gmail.com","user");
+    public static boolean addUser1(User user) {
+        try (Connection con = getConnect()) {
+            // First, check if the email already exists in the Users table
+            PreparedStatement checkStmt = con.prepareStatement(
+                    "SELECT COUNT(*) FROM Users WHERE User_email = ?"
+            );
+            checkStmt.setString(1, user.getMail());
+            ResultSet checkResult = checkStmt.executeQuery();
+            if (checkResult.next() && checkResult.getInt(1) > 0) {
+                // Email already exists, return false to indicate failure
+                System.out.println("User with email " + user.getMail() + " already exists.");
+                return false;
+            }
+
+            // Proceed with inserting the user if the email is not found
+            PreparedStatement stmt = con.prepareStatement(
+                    "INSERT INTO Users(User_name, User_email, User_role) VALUES (?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
+            );
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getMail());
+            stmt.setString(3, "user");
+            int rowsInserted = stmt.executeUpdate();
+
+            if (rowsInserted > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    user.setUser_id(generatedKeys.getInt(1));
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        User user = new User("tran ngoc thien", 1, "male", "0702411147", "ngocthien2902@gmail.com", "user");
         System.out.println(UserDB.UpdateUser(user));
     }
 }
-

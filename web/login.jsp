@@ -51,26 +51,29 @@
                 <input type="hidden" name="action" value="login">
                 <div class="google_login">
                     <button id = google-login-btn class="google-button">
-                        <img class="google_login_logo" src="img/google_logo.png" alt="alt"/> Or, sign-in with Google
+                        <img class="google_login_logo" src="img/google_logo.png" alt="alt"/> <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/SWP_PROJECT-4/LoginGoogleHandler&response_type=code&client_id=694682208973-brbas2nmtq2sq41s0nr8qin1q8evno3j.apps.googleusercontent.com&approval_prompt=force">
+                            Or, sign-in with Google
+                        </a>
+
                     </button>
                 </div>
-                
+
                 <div class="signup_link">
                     Not a member yet?  <a href="register.jsp">Register!</a>
                 </div>
             </form>
         </div>
-        <script src="js/login.js?v=1.0.1" type="module"></script>
+        <!--        <script src="js/login.js?v=1.0.1" type="module"></script>-->
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const closeButtons = document.querySelectorAll('.alert .close');
-    
-    closeButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            this.closest('.alert').style.display = 'none';
-        });
-    });
-});
+            document.addEventListener('DOMContentLoaded', function () {
+                const closeButtons = document.querySelectorAll('.alert .close');
+
+                closeButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        this.closest('.alert').style.display = 'none';
+                    });
+                });
+            });
         </script>
     </body>
 </html>
