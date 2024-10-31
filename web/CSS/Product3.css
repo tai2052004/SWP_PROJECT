@@ -452,3 +452,24 @@ textarea {
     display: flex;
     justify-content: space-between;
 }
+.star {
+    font-size: 20px;
+    color: gray;
+}
+
+.star.selected {
+    color: gold;
+}
+.review-list {
+    margin-top: 50px;
+}
+.review-list h3 {
+    padding-left: 30px;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.review-item {
+    padding: 15px 30px;
+    border-bottom: 1px solid #000;
+}

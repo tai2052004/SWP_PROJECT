@@ -184,16 +184,49 @@
             </div>
 
             <div id="reviewContent" class="content">
-                <h2 class="title">Review</h2>
-                <div class="star-rating">
-                    <span data-value="1" class="star">&#9733;</span>
-                    <span data-value="2" class="star">&#9733;</span>
-                    <span data-value="3" class="star">&#9733;</span>
-                    <span data-value="4" class="star">&#9733;</span>
-                    <span data-value="5" class="star">&#9733;</span>
+                <form action="AddCommentServlet" method="post"> 
+                    <div class="new-review">
+                        <h2 class="title">Review</h2>
+                        <div class="star-rating">
+                            <input type="hidden" name="starRating" id="starRating">
+                            <span data-value="1" class="star" onclick="setRating(1)">&#9733;</span>
+                            <span data-value="2" class="star" onclick="setRating(2)">&#9733;</span>
+                            <span data-value="3" class="star" onclick="setRating(3)">&#9733;</span>
+                            <span data-value="4" class="star" onclick="setRating(4)">&#9733;</span>
+                            <span data-value="5" class="star" onclick="setRating(5)">&#9733;</span>
+                        </div>
+                        <textarea name="commentContent" class="decription" placeholder="Leave a comment"></textarea>
+                        <button class="submit-button" type="submit">Submit Review</button>
+                    </div>
+                </form>
+                
+                <div class="review-list">
+                    <h3>Reviews</h3>
+                    <% 
+                        ArrayList<Comment> commentList = CommentDB.listAllCommentsByProductID(product.getProductID());  
+                        for (Comment com : commentList) {
+                    %>
+                    <div class="review-item">
+                        <div class="user-name"><%= user.getFullname() %></div>
+                        <div class="user-rating">
+                            <% 
+                                int starCount = com.getStar();
+                                for (int i = 1; i <= 5; i++) {
+                                    String starClass = starCount >= i ? "selected" : "";
+                            %>
+                            <span class="star <%= starClass %>">&#9733;</span>
+                            <% 
+                                }
+                            %>
+                        </div>
+                            <div class="user-comment"><%= com.getContent() %> </div>
+                    </div>
+                    <%
+                        }
+                    %>
+                    </div>
                 </div>
-                <textarea class="decription" placeholder="Leave a comment"></textarea>
-                <button class="submit-button" type="submit">Submit Review</button>
+                
             </div>
         </div>
 
@@ -267,5 +300,9 @@
                 });
             }
         });
+        
+        function setRating(value) {
+            document.getElementById("starRating").value = value;
+        }
     </script>
 </html>
