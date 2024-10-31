@@ -72,7 +72,7 @@ function autoSlide() {
 }
 
 // Chạy hàm autoSlide tự động sau mỗi khoảng thời gian nhất định
-setInterval(autoSlide, 3000); // Thời gian lướt, có thể điều chỉnh
+setInterval(autoSlide, 2500); // Thời gian lướt, có thể điều chỉnh
 
 
 

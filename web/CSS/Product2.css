@@ -25,7 +25,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
 .menu {
     text-align: center;
 }
-
+.size-container
+{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
 .menu a {
     color: #fff;
     font-size: 24px;
@@ -164,12 +169,13 @@ body {
 .product-price {
     font-size: 41px;
     color: #333;
-    margin: 10px 75px;
+    margin: 10px 75px 40px 75px;
     /* display: flex; */
     font-weight: bold;
 }
 .size{
         color: slategray;
+        width: 100px;
 
 }
 
@@ -253,6 +259,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: background-position 0.5s ease, border-color 0.5s ease;
+    margin-top: 30px;
 }
 
 .add-to-cart:hover
@@ -273,6 +280,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     transition: background-position 0.5s ease, border-color 0.5s ease;
+    margin-top: 30px;
 }
 .buy-now:hover
 {
@@ -451,25 +459,4 @@ textarea {
     padding: 0 15px;
     display: flex;
     justify-content: space-between;
-}
-.star {
-    font-size: 20px;
-    color: gray;
-}
-
-.star.selected {
-    color: gold;
-}
-.review-list {
-    margin-top: 50px;
-}
-.review-list h3 {
-    padding-left: 30px;
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 30px;
-}
-.review-item {
-    padding: 15px 30px;
-    border-bottom: 1px solid #000;
 }

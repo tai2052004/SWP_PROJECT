@@ -29,7 +29,7 @@ public class OrderDetail {
     private float discount;
     private float coupon;
     private String img_url;
-    public OrderDetail(int cart_id, int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate) {
+    public OrderDetail(int cart_id, int product_id, String productName, String brand, double price, String size, int quantity, LocalDateTime orderDate, float discount) {
         this.cart_id = cart_id;
         this.product_id = product_id;
         this.productName = productName;
@@ -38,6 +38,7 @@ public class OrderDetail {
         this.size = size;
         this.quantity = quantity;
         this.orderDate = orderDate;
+        this.discount = discount;
     }
     
     public OrderDetail() {

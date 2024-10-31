@@ -112,6 +112,9 @@ body {
     font-size: 24px;
     font-weight: 700;
 }
+.landing-text button:hover {
+    
+}
 
 .landing-product {
     position: relative;

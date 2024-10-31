@@ -75,9 +75,14 @@
             }
         }
         }
+        float discount = 0;
+        float priceee = 0;
         if ( size != null)
         {
-            od = new OrderDetail(maxCartId, p.getProductID() ,p.getProductName(), p.getBrand(), p.getPrice(), size, quantity, now);
+            discount = Float.parseFloat(p.getDiscount());
+            priceee = (float) p.getPrice();
+            priceee = priceee - priceee * discount / 100 ;
+            od = new OrderDetail(maxCartId, p.getProductID() ,p.getProductName(), p.getBrand(), priceee, size, quantity, now, discount);
             for ( ProductDetail pd : liPD)
             {
                 if ( pd.getSize().equals(size))
@@ -157,12 +162,13 @@
                     {
                         Product product = ProductDB.getProductById(o.getProduct_id());
                         List<ProductDetail> pd = product.getProductDetails();
-                        double totalPrice = product.getPrice() * o.getQuantity();
+                        double priceDiscount = product.getPrice() - product.getPrice() * o.getDiscount() / 100;
+                        double totalPrice = priceDiscount * o.getQuantity();
                         String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalPrice);
                         o.setTotalPrice(totalPrice);
                         o.setImg_url(product.getImg_url());
                         o.setProductName(product.getProductName());
-                        String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
+                        String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(priceDiscount);
                         subtotal += totalPrice;
                     %>    
 

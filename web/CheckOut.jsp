@@ -10,7 +10,11 @@
 <%@ page import="java.text.NumberFormat" %>
 <%
     Product p = (Product) session.getAttribute("product");
-    List<ProductDetail> liPD = p.getProductDetails();
+    List<ProductDetail> liPD = new ArrayList<ProductDetail>();
+    if ( p != null )
+    {
+        liPD = p.getProductDetails();
+    }
     String quantity1 = (String) request.getAttribute("productQuantity");
     String size = (String) request.getAttribute("selectedSize");   
     User user = (User) session.getAttribute("user");
@@ -56,6 +60,8 @@
         OrderDetail od = null;      
         for ( OrderDetail ode : listOD)
         {
+        if ( p != null )
+        {
             if ( ode.getProduct_id() == p.getProductID())
             {
                 if ( size == null)
@@ -68,10 +74,16 @@
                     odet = ode;
                 }
             }
+}
         }
+        float discount = 0;
+        float priceee = 0;
         if ( size != null)
         {
-            od = new OrderDetail(maxCartId, p.getProductID() ,p.getProductName(), p.getBrand(), p.getPrice(), size, quantity, now);
+            discount = Float.parseFloat(p.getDiscount());
+            priceee = (float) p.getPrice();
+            priceee = priceee - priceee * discount / 100 ;
+            od = new OrderDetail(maxCartId, p.getProductID() ,p.getProductName(), p.getBrand(), priceee, size, quantity, now, discount);
             od.setTotalPrice(p.getPrice() * quantity);
             od.setImg_url(p.getImg_url());
             od.setProductName(p.getProductName());
@@ -133,166 +145,166 @@
             </div>
         </header>
         <form id="checkoutForm" action="ToVNPAY" method="post">
-        <div>
-            <p class="title"> CHECK OUT </p>  
-            <div class="Form">
-                <div class="form-container">
-                    <div class="form-group">
-                        <p class="detail">PERSONAL DETAILS</p>
-                        <%
-                            if (user.getFullname() != null)
-                            {
-                        %>    
-                        <div>
-                            <input class="inputName" type="text" id="fullname" name="fullname"  placeholder="Full Name" value="<%= user.getFullname() %>">
-                        </div>
-                        <%
-                            }
-                            else
-                            {
-                        %>
-                        <div>
-                            <input class="inputName" type="text" id="fullname" name="fullname"  placeholder="Full Name" value="">
-                        </div>
-                        <%
-                            }
-                        %>
-                    </div>
-                    <div class="input-inline" >
-                        <div>
+            <div>
+                <p class="title"> CHECK OUT </p>  
+                <div class="Form">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <p class="detail">PERSONAL DETAILS</p>
                             <%
-                                if (user.getUser_email() != null)
+                                if (user.getFullname() != null)
                                 {
-                            %>
-                            <input class ="inputEmail" type="email" id="email" name="email" placeholder="Email" cols="20" value="<%= user.getUser_email() %>">
+                            %>    
+                            <div>
+                                <input class="inputName" type="text" id="fullname" name="fullname"  placeholder="Full Name" value="<%= user.getFullname() %>">
+                            </div>
                             <%
                                 }
                                 else
                                 {
                             %>
-                            <input class ="inputEmail" type="email" id="email" name="email" placeholder="Email" cols="20" value="">
+                            <div>
+                                <input class="inputName" type="text" id="fullname" name="fullname"  placeholder="Full Name" value="">
+                            </div>
                             <%
                                 }
                             %>
                         </div>
-
-                        <div>
-                            <div class="spacenumber">
-                                <select class="country-code" id="country-code" name="country-code">
-                                    <option value="+84">+84</option>
-                                    <option value="+1">+1</option>
-                                    <option value="+44">+44</option>
-                                </select>
+                        <div class="input-inline" >
+                            <div>
                                 <%
-                                    if ( user.getPhone() != null)
+                                    if (user.getUser_email() != null)
                                     {
                                 %>
-                                <input class="inputNumber" type="text" id="phone" name="phone" placeholder="Phone Number" value="<%= user.getPhone() %>">
+                                <input class ="inputEmail" type="email" id="email" name="email" placeholder="Email" cols="20" value="<%= user.getUser_email() %>">
                                 <%
                                     }
                                     else
                                     {
                                 %>
-                                <input class="inputNumber" type="text" id="phone" name="phone" placeholder="Phone Number" value="">
+                                <input class ="inputEmail" type="email" id="email" name="email" placeholder="Email" cols="20" value="">
                                 <%
                                     }
                                 %>
                             </div>
+
+                            <div>
+                                <div class="spacenumber">
+                                    <select class="country-code" id="country-code" name="country-code">
+                                        <option value="+84">+84</option>
+                                        <option value="+1">+1</option>
+                                        <option value="+44">+44</option>
+                                    </select>
+                                    <%
+                                        if ( user.getPhone() != null)
+                                        {
+                                    %>
+                                    <input class="inputNumber" type="text" id="phone" name="phone" placeholder="Phone Number" value="<%= user.getPhone() %>">
+                                    <%
+                                        }
+                                        else
+                                        {
+                                    %>
+                                    <input class="inputNumber" type="text" id="phone" name="phone" placeholder="Phone Number" value="">
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <p class="detail2">SHIPPING DETAILS</p>
+                        </div>
+                        <div>
+                            <% 
+                               if ( user.getAddress() != null)
+                               {
+                            %>
+                            <input class="inputAddress" type="text" id="address" name="address"  placeholder="Address" value="<%= user.getAddress() %>">
+                            <%
+                                }
+                                else
+                                {
+                            %>
+                            <input class="inputAddress" type="text" id="address" name="address"  placeholder="Address" value="" required>
+                            <%
+                                }
+                            %>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div>
-                        <p class="detail2">SHIPPING DETAILS</p>
-                    </div>
-                    <div>
-                        <% 
-                           if ( user.getAddress() != null)
-                           {
-                        %>
-                        <input class="inputAddress" type="text" id="address" name="address"  placeholder="Address" value="<%= user.getAddress() %>">
-                        <%
-                            }
-                            else
-                            {
-                        %>
-                        <input class="inputAddress" type="text" id="address" name="address"  placeholder="Address" value="" required>
-                        <%
-                            }
-                        %>
-                    </div>
+            <div class="order-container">
+                <h2>Your Order</h2>
+                <div class="order-header">
+                    <div>Product</div>
+                    <div>Price</div>
+                    <div>Quantity</div>
+                    <div>Subtotal</div>
                 </div>
-            </div>
-        </div>
 
-        <div class="order-container">
-            <h2>Your Order</h2>
-            <div class="order-header">
-                <div>Product</div>
-                <div>Price</div>
-                <div>Quantity</div>
-                <div>Subtotal</div>
-            </div>
-
-            <% 
-                    for (OrderDetail o : listOD)
-                    {
-                        Product product = ProductDB.getProductById(o.getProduct_id());
-                        String formatTotalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(o.getTotalPrice());
-                        String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(o.getPrice());
-                        subTotal += o.getTotalPrice();
+                <% 
+                        for (OrderDetail o : listOD)
+                        {
+                            Product product = ProductDB.getProductById(o.getProduct_id());
+                            String formatTotalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(o.getTotalPrice());
+                            String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(o.getPrice());
+                            subTotal += o.getTotalPrice();
                         
-            %> 
-            <div class="order-item">
-                <div class="product">
-                    <img src="<%= product.getImg_url() %>" alt="New Balance 530 - Dark Olivine" />
-                    <div>
-                        <p><%= o.getProductName()  %></p>
-                        <p>Size : <%= o.getSize()  %></p>
+                %> 
+                <div class="order-item">
+                    <div class="product">
+                        <img src="<%= product.getImg_url() %>" alt="New Balance 530 - Dark Olivine" />
+                        <div>
+                            <p><%= o.getProductName()  %></p>
+                            <p>Size : <%= o.getSize()  %></p>
+                        </div>
                     </div>
+                    <div><%= formatPrice  %></div>
+                    <div><%= o.getQuantity()  %></div>
+                    <div><%= formatTotalPrice  %></div>
                 </div>
-                <div><%= formatPrice  %></div>
-                <div><%= o.getQuantity()  %></div>
-                <div><%= formatTotalPrice  %></div>
-            </div>
-            <%
-                            }
-                            String formatSubTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subTotal);
-                            double cp = 0;
-                            if ( !totalCouponString.equals("0"))
-                            {
-                                cp = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).parse(totalCouponString).doubleValue();
-                            }
-                            allTotal = subTotal - cp;
-                            order.setTotal_price((float)allTotal + feeship);
-                            String formatAllTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(allTotal);
-            %>
-            <!-- Order summary -->
-            <div class="order-summary">
-                <div></div>
-                <div></div>
-                <div>Subtotal</div>
-                <div><%= formatSubTotal %></div>
+                <%
+                                }
+                                String formatSubTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subTotal);
+                                double cp = 0;
+                                if ( !totalCouponString.equals("0"))
+                                {
+                                    cp = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).parse(totalCouponString).doubleValue();
+                                }
+                                allTotal = subTotal - cp;
+                                order.setTotal_price((float)allTotal + feeship);
+                                String formatAllTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(allTotal);
+                %>
+                <!-- Order summary -->
+                <div class="order-summary">
+                    <div></div>
+                    <div></div>
+                    <div>Subtotal</div>
+                    <div><%= formatSubTotal %></div>
 
-                <div></div>
-                <div></div>
-                <div>Discount</div>
-                <div>- <%= totalCouponString %></div>
+                    <div></div>
+                    <div></div>
+                    <div>Coupon</div>
+                    <div>- <%= totalCouponString %></div>
 
-                <div></div>
-                <div></div>
-                <div>Total</div>
-                <div><%= formatAllTotal %></div>
-            </div>
+                    <div></div>
+                    <div></div>
+                    <div>Total</div>
+                    <div><%= formatAllTotal %></div>
+                </div>
 
-            <div class="confirm-button-container">
-                
+                <div class="confirm-button-container">
+
                     <button type="button" onclick="validateForm(event)" class="confirm-button">Confirm</button>
-                              
+
+                </div>
             </div>
-        </div>
-            </form> 
+        </form> 
 
         <div class="footer">
             <div class="footer1">

@@ -120,7 +120,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this t
     color: gray;
 }
 .container {
-     display: flex;
+    display: flex;
     max-width: 2200px;  /* Increased the maximum width */
     margin: 0 auto;     /* Center the container */
     padding: 20px;
@@ -230,6 +230,7 @@ input[type="range"] {
 }
 
 .product-card {
+    position: relative;
     height: 290px;
     width: 290px;
     background-color: white;
@@ -238,7 +239,18 @@ input[type="range"] {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 20px;
 }
-
+.discount
+{
+    position : absolute;
+    top: 2px;
+    left: 2px;
+    background-color: red;
+    color: white;
+    width: 70px;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: bold;
+}
 .product-card img {
     padding: 50px 20px 20px 20px;
     width: 100%;
@@ -256,6 +268,11 @@ input[type="range"] {
     font-size: 22px;
     font-weight: 500;
     margin-bottom: 0;
+}
+.merge-price
+{
+    display: flex;
+    gap: 20px;
 }
 .pagination-buttons {
     margin-top: 20px;
@@ -275,7 +292,7 @@ input[type="range"] {
     background-color: lightgray;
 }
 .Checkbox{
-        box-sizing: border-box;
+    box-sizing: border-box;
     padding: 0px;
     width: 25px
 }
@@ -352,7 +369,7 @@ input[type="range"] {
 .dropdown:hover .dropdown-toggle {
     color: #FE5B0F;
 }
-    /* General button style for pagination */
+/* General button style for pagination */
 #pagination-buttons button {
     background-color: #f1f1f1;  /* Light gray background */
     border: none;

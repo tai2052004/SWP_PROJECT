@@ -10,15 +10,18 @@
 <%@ page import="java.text.NumberFormat" %>
 <%
     Product product = (Product) session.getAttribute("product");
-    User user = (User) session.getAttribute("user"); 
-    String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
+    User user = (User) session.getAttribute("user");
+    double discount = Double.parseDouble(product.getDiscount());
+    double pricee = product.getPrice() - product.getPrice() * discount / 100;
+    String formatPrice3 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
+    String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(pricee);
     int inStock = 0;
 %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product3.css"/>
+        <link rel="stylesheet" href="CSS/Product2.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -108,30 +111,52 @@
             <div class="product-details">
 
                 <div id="productTitle" class="product-title"><%= product.getProductName()%></div>
-                <div id="productPrice" class="product-price"><%= formattedPrice%></div>
-
-                <!-- Size options -->
-                <p class="size">Size</p>
-                <div class="sizes">
-                    <%
-                        List<ProductDetail> productDetails = product.getProductDetails();
-                        for (ProductDetail detail : productDetails) {
-                        inStock = detail.getQuantity();
-                    %>
-                    <!--                    <button class="size-button active">38</button>-->
-                    <button class="size-button"><%= detail.getSize()%></button>
-                    <%
-                                            }
-                    %>
-
+                <%
+                    if ( discount != 0)
+                    {
+                %>
+                <div style="display: flex;">
+                    <div style="display: flex; align-items: center; text-decoration: line-through;"><%= formatPrice3 %></div>
+                    <div id="productPrice" class="product-price"><%= formattedPrice%></div>
                 </div>
 
-                <!-- Quantity Selector -->
-                <div class="product-quantity">
-                    <button class="quantity-btn" id="decrease">-</button>
-                    <input type="text" id="quantity" value="1" readonly>
-                    <button class="quantity-btn" id="increase">+</button>
+                <%
+                    }
+                    else
+                    {
+                %>
+                <div id="productPrice" class="product-price"><%= formatPrice3 %></div>
+                <%
+                    }
+                %>
+                <div class="size-container">
+                    <!-- Size options -->
+                    <p class="size">Size</p>
+                    <div class="sizes">
+                        <%
+                            List<ProductDetail> productDetails = product.getProductDetails();
+                            for (ProductDetail detail : productDetails) {
+                            inStock = detail.getQuantity();
+                        %>
+                        <!--                    <button class="size-button active">38</button>-->
+                        <button class="size-button"><%= detail.getSize()%></button>
+                        <%
+                                                }
+                        %>
+
+                    </div>
                 </div>
+
+                <div class="size-container">
+                    <p class="size">Quantity</p>
+                    <!-- Quantity Selector -->
+                    <div class="product-quantity">
+                        <button class="quantity-btn" id="decrease">-</button>
+                        <input type="text" id="quantity" value="1" readonly>
+                        <button class="quantity-btn" id="increase">+</button>
+                    </div>
+                </div>
+
 
                 <div class="product-buttons">                    
                     <input type="hidden" class="selectedSize" name="selectedSize">
@@ -275,18 +300,18 @@
     <script src="js/Product.js"></script>
 
     <script>
-        document.querySelector(".add-to-cart").addEventListener("click", function (event) {
-            var selectedSize = document.querySelector(".selectedSize").value;
-            if (!selectedSize) {
-                event.preventDefault(); // Ngăn chặn việc gửi form
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Oops...',
-                    text: 'Please choose size before add to cart!',
-                    confirmButtonText: 'Chọn size'
-                });
-            }
-        });
+            document.querySelector(".add-to-cart").addEventListener("click", function (event) {
+                var selectedSize = document.querySelector(".selectedSize").value;
+                if (!selectedSize) {
+                    event.preventDefault(); // Ngăn chặn việc gửi form
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Please choose size before add to cart!',
+                        confirmButtonText: 'Chọn size'
+                    });
+                }
+            });
 
         document.querySelector(".buy-now").addEventListener("click", function (event) {
             var selectedSize = document.querySelector(".selectedSize").value;

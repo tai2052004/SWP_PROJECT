@@ -24,7 +24,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-        <link rel="stylesheet" href="CSS/AllProduct2.css?v=1.0.1"/>
+        <link rel="stylesheet" href="CSS/AllProduct3.css?v=1.0.1"/>
 
     </head>
     <body>
@@ -166,12 +166,35 @@
                         } else {
                             for (Product product2 : filteredProducts) { 
                                 double price1 = product2.getPrice();
-                                  String formatPrice2 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price1); 
+                                  String formatPrice2 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price1);
+                                  double discount = Double.parseDouble(product2.getDiscount());
+                                  
                     %>
                     <div class='product-card' onclick='chooseProduct(<%= product2.getProductID() %>)' style="cursor: pointer;">
+                        <% 
+                            if ( discount != 0)
+                            {
+                                double pricee = price1 - price1 * discount / 100;
+                                String formatPrice3 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(pricee);
+                        %>
+                        <div class="discount"><%= discount %>%</div>                       
+                        <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
+                        <h4><%= product2.getProductName() %></h4>
+                        <div class="merge-price">
+                            <p style="font-size: 15px; text-decoration-line: line-through;"><%= formatPrice2 %></p>
+                            <p><%=  formatPrice3 %></p>
+                        </div>
+                        <%
+                            }
+                            else
+                            {
+                        %>                     
                         <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
                         <h4><%= product2.getProductName() %></h4>
                         <p><%= formatPrice2 %></p>
+                        <%
+                            }
+                        %>
                     </div>
                     <% 
                             } 
@@ -214,4 +237,4 @@
                         }
     </script>
 </html>
-            
+

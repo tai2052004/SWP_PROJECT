@@ -154,7 +154,7 @@
                 <span><i class="bi bi-envelope"></i>hesh-shoe-selling@gmail.com</span>
             </div>
         </footer>
-        <script src="js/landing_page.js?v=1.0.1"></script>
+        <script src="js/landing_page1.js?v=1.0.1"></script>
         <script>
             function chooseProduct(productId) {
 

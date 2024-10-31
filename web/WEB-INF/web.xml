@@ -169,15 +169,11 @@
     </filter>
     <filter-mapping>
         <filter-name>Authentication</filter-name>
-        <url-pattern>/ProductDetailServlet</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>Authentication</filter-name>
-        <url-pattern>/Product.jsp</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>Authentication</filter-name>
         <url-pattern>/ShoppingCart.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>Authentication</filter-name>
+        <url-pattern>/ProductToCartAndPayServlet</url-pattern>
     </filter-mapping>
     <welcome-file-list>
         <welcome-file>landingPage.jsp</welcome-file>
