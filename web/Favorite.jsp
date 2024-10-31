@@ -13,7 +13,7 @@
     <title>Search</title>
     <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/Search.css?v=1.0.1"/>
+    <link rel="stylesheet" href="CSS/Favorite.css?v=1.0.1"/>
   
 </head>
 <body>
@@ -46,32 +46,40 @@
     </header>
 
     <main class="container-fluid">
-        <h2>SEARCH</h2>
-        <p>Resulted for ""</p>
+        <h2>My Favodrite Products</h2>
+        <p>Has 5 products</p>
         <div class="product-grid">
 
         </div>
         <div class="product-grid">
            <div class="product-card">
+                <i class="bi bi-heart-fill favorite-icon"></i>
                 <img src="img/shoes_4.png" alt="Product Name">
                 <h3>Nike Full Force Low - Black / Fire Red</h3>
                 <p class="price">2.190.000</p>
+                <i class="bi bi-cart3 cart-icon"></i>
             </div>
             <div class="product-card">
+                <i class="bi bi-heart-fill favorite-icon"></i>
                 <img src="img/shoes_2.png" alt="Product Name">
                 <h3>New Balance 530 - Dark Olivine</h3>
                 <p class="price">2.190.000</p>
                 <span class="discount">10%</span>
+                <i class="bi bi-cart3 cart-icon"></i>
             </div>
             <div class="product-card">
+                <i class="bi bi-heart-fill favorite-icon"></i>
                 <img src="img/shoes_4.png" alt="Product Name">
                 <h3>Nike Full Force Low - Black / Fire Red</h3>
                 <p class="price">2.190.000</p>
+                <i class="bi bi-cart3 cart-icon"></i>
             </div>
             <div class="product-card">
+                <i class="bi bi-heart-fill favorite-icon"></i>
                 <img src="img/shoes_4.png" alt="Product Name">
                 <h3>Nike Full Force Low - Black / Fire Red</h3>
                 <p class="price">2.190.000</p>
+                <i class="bi bi-cart3 cart-icon"></i>
             </div>
             
         </div>
