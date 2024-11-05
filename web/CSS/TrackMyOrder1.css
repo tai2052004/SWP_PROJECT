@@ -1,0 +1,390 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Konkhmer+Sleokchher&display=swap');
+
+body {
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: #1A202C;
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    margin-left: 10px;
+    height: 60px;
+    width: 160px;
+}
+
+.menu {
+    text-align: center;
+}
+
+.menu a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 5px 15px;
+}
+
+.menu a:hover {
+    color: #FE5B0F;
+    border-bottom: 2px solid #FE5B0F;
+    text-decoration: none;
+}
+
+.user-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-actions div {
+    margin: 0px 20px;
+}
+
+.user-actions a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.user-actions a:hover {
+    text-decoration: none;
+}
+
+.user-actions i {
+    font-size: 25px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.logout .bi-person-fill {
+    margin-right: 10px;
+}
+
+.user-actions :hover {
+    color: #FE5B0F;
+}
+
+.bi-search {
+    color: #fff;
+    width: 30px;
+    height: 30px;
+}
+.footer {
+    background-color: #1A202C;
+    color: #fff;
+    padding: 20px 10px;
+}
+.footer-text {
+    border-right: 2px solid #fff ;
+    font-weight: 200;
+    padding-top: 10px;
+    padding-left: 50px;
+}
+.information {
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+}
+.information a {
+    color: #fff;
+    margin-top: 10px;
+}
+.information a:hover {
+    text-decoration: none;
+}
+.contact {
+    display: flex;
+    flex-direction: column;
+}
+.contact span{
+    margin-top: 2px;
+}
+.contact i {
+    margin-right: 15px;
+}
+
+main {
+    flex: 1;
+    max-width: 1800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e0e0e0;
+    width: 1000px;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    margin-bottom: 2rem;
+}
+
+.status-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.status-btn.active {
+    background-color: white;
+    font-weight: bold;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 2rem;
+}
+
+.order-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #000;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-status {
+    color: green;
+    font-weight: bold;
+}
+
+.shipping-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.shipping-arrow {
+    color: #999;
+}
+
+.product-info {
+    margin-bottom: 1rem;
+}
+
+.product {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.product img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.product-details h3 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.product-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-price {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.details-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+.order-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.order-id span {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.order-id strong {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.order-date {
+    font-size: 0.9em;
+    color: #666;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.order-status {
+    color: #4CAF50;
+    font-weight: 600;
+}
+
+.shipping-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.from, .to {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+}
+
+.from i, .to i {
+    margin-right: 8px;
+}
+
+.shipping-arrow {
+    color: #999;
+    font-size: 1.2em;
+}
+
+.products {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.product {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.product img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-right: 15px;
+}
+
+.product-details h3 {
+    font-size: 1em;
+    margin: 0 0 5px 0;
+}
+
+.product-details p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-price {
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.details-button {
+    background-color: #000;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 260px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+    top: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown:hover .dropdown-toggle {
+    color: #FE5B0F;
+}

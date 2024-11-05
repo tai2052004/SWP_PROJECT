@@ -84,7 +84,6 @@ public class CheckOutServlet extends HttpServlet {
             pd.setQuantity(pd.getQuantity() - od.getQuantity());
             ProductDetailDB.updateProductDetail(pd);
         }
-        boolean success2 = false;
         boolean success3 = false;
         if (success)
         {

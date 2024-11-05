@@ -18,7 +18,7 @@
     <title>Hesh Shoes</title>
     <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="CSS/TrackMyOrder.css?v=1.0.1"/>
+    <link rel="stylesheet" href="CSS/TrackMyOrder1.css?v=1.0.1"/>
   
 </head>
 <body>
@@ -47,7 +47,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="/favorites">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                 <% } %>
@@ -110,12 +110,10 @@
                 </div>
                 <%
                     double subtotal =0;
-                    double discount = 0;
                     int quantity = 0;
                     List<OrderDetail> orderDetail = OrderDB.getOrderDetailsById(orders.getOrder_id());
                     for(OrderDetail orderDetails : orderDetail) {
                         subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
-                        discount =+ orderDetails.getDiscount();
                         String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(orderDetails.getPrice());
                         quantity++;
                         if ( quantity == 1)
@@ -135,7 +133,6 @@
                 <%
                     }
                     }
-                        double totalDiscount = (subtotal) *(discount/100);
                         Coupon coupon = CouponDB.getCouponById(orders.getCoupon());
                         double coupon_value = 0;
                         if ( coupon != null)
@@ -143,7 +140,7 @@
                             coupon_value = coupon.getDiscountValue();
                         }
                         double feeship = orders.getFeeship();
-                        double total = subtotal - discount - coupon_value + feeship;
+                        double total = subtotal - coupon_value + feeship;
                         String formatTotalPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);
                 %>
                 <div class="order-footer">

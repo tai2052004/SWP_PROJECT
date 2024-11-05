@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <%@page import="model.User , dao.UserDB, dao.OrderDB, model.OrderDetail" %> 
 <%@ page import="java.util.*" %>
+<%@ page import="java.text.NumberFormat" %>
 <%@page import="model.* , dao.*, java.util.*" %> 
 <%
     User user = (User) session.getAttribute("user");
@@ -33,11 +34,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>HESH - SHOE WEBSITE</title>
-        <link rel="stylesheet" href="CSS/ViewHistoryOrder3.css?v=1.0.1">
+       
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="CSS/ViewHistoryOrder3.css?v=1.0.1">
+        
     </head>
     <body>
         <% 
@@ -77,42 +83,42 @@
         <% }
         %>
         <header>
-        
-        <div class="row header">
-            <div class="col-md-3 logo">
-                <img src="img/logo1.png">
-            </div>
 
-            <div class="col-md-6 menu">
-                <a href="landingPage.jsp" class="menuText">HOME</a>
-                <a href="AllProduct.jsp" class="menuText">SHOP</a>
-                <a href="#footer" class="menuText">CONTACT</a>
-            </div>
-            
-            <div class="col-md-3 user-actions">
-                <% if(user == null) {%> 
+            <div class="row header">
+                <div class="col-md-3 logo">
+                    <img src="img/logo1.png">
+                </div>
+
+                <div class="col-md-6 menu">
+                    <a href="landingPage.jsp" class="menuText">HOME</a>
+                    <a href="AllProduct.jsp" class="menuText">SHOP</a>
+                    <a href="#footer" class="menuText">CONTACT</a>
+                </div>
+
+                <div class="col-md-3 user-actions">
+                    <% if(user == null) {%> 
                     <div class="login">
                         <a href="login.jsp"><i class="bi bi-person-fill"></i>Login</a>
                     </div>
-                <% } else { %>
+                    <% } else { %>
                     <div class="logout dropdown">
                         <a href="LogoutControl" class="dropdown-toggle"><i class="bi bi-list"></i><i class="bi bi-person-fill"></i>Logout</a>
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="/favorites">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
-                <% } %>
-                <div class="cart">
-                    <a href="ShoppingCart.jsp"><i class="bi bi-cart"></i></a>
-                </div>
-                <div class="search">
-                    <i class="bi bi-search"></i>
+                    <% } %>
+                    <div class="cart">
+                        <a href="ShoppingCart.jsp"><i class="bi bi-cart"></i></a>
+                    </div>
+                    <div class="search">
+                        <i class="bi bi-search"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
         <div class="body">
             <div class="video-background">
@@ -169,8 +175,8 @@
                     <p>Order History</p>
                 </div>
                 <div class="body-2-part2">
-                    <div class="table-container">
-                        <table>
+                    <div class="table-container" >
+                        <table id="table-container">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -188,12 +194,13 @@
                                 for (Order o : orderList) {
                                     List<OrderDetail> oDT = OrderDB.getOrderDetailsById(o.getOrder_id());
                                     for (OrderDetail orderDetail : oDT) {
+                                    String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(orderDetail.getPrice());
                                 %>
                                 <tr>
                                     <td><%= ++i %></td>
                                     <td><%= orderDetail.getProductName() %></td>
                                     <td><%= orderDetail.getBrand() %></td>
-                                    <td><%= orderDetail.getPrice() %></td>
+                                    <td><%= formatPrice %></td>
                                     <td><%= orderDetail.getSize() %></td>
                                     <td><%= orderDetail.getQuantity() %></td>
                                     <td><%= orderDetail.getOrderDate() %></td>
@@ -230,17 +237,24 @@
             <span><i class="bi bi-envelope"></i>hesh-shoe-selling@gmail.com</span>
         </div>
     </footer>
-        <% System.out.println(user.getUser_id());%>
-        <script src="js/ManageProfile.js" type="module"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const closeButtons = document.querySelectorAll('.alert .close');
+    <% System.out.println(user.getUser_id());%>
+    <script src="js/ManageProfile.js" type="module"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const closeButtons = document.querySelectorAll('.alert .close');
 
-                closeButtons.forEach(function (button) {
-                    button.addEventListener('click', function () {
-                        this.closest('.alert').style.display = 'none';
-                    });
+            closeButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    this.closest('.alert').style.display = 'none';
                 });
             });
-        </script>
+        });
+        $(document).ready(function () {
+            $('#table-container').DataTable({
+                "paging": true, // Bật phân trang
+                "pageLength": 10 // Số dòng mỗi trang
+            });
+        });
+        
+    </script>
 </html>

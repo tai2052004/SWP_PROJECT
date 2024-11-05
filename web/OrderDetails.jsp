@@ -93,19 +93,18 @@
             for(OrderDetail orderDetails : orderDetail) { 
                 subtotal += orderDetails.getPrice() * orderDetails.getQuantity() ;
                 discount =+ orderDetails.getDiscount();
+                String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(orderDetails.getPrice());
          %>
         <div class="product-info">
             <img src="<%= orderDetails.getImg_url()%>" alt="<%= orderDetails.getProductName()%>" class="product-img">
             <div class="product-details">
                 <h3><%= orderDetails.getProductName()%></h3>
-                <p class="price"><%= orderDetails.getPrice()%> x <%= orderDetails.getQuantity()%> </p>
+                <p class="price"><%= formatPrice%> x <%= orderDetails.getQuantity()%> </p>
             </div>
         </div>
         <%
             }
                 String formatSubPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(subtotal);
-                float totalDiscount = (subtotal) *(discount/100);
-                String formatTotalDiscout = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(totalDiscount);
                 Coupon coupon = CouponDB.getCouponById(order.getCoupon());
                 float coupon_value = 0;
                 if ( coupon != null)
@@ -115,7 +114,7 @@
                 String formatCouponValue = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(coupon_value);
                 float feeship = order.getFeeship();
                 String formatFeeShip = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(feeship);
-                float total = subtotal - discount - coupon_value + feeship;
+                float total = subtotal - coupon_value + feeship;
                 String formatTotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(total);
         %>
         <table class="order-summary">
@@ -126,20 +125,6 @@
             <tr>
                 <td class="text-left">Shipping fee</td>
                 <td class="text-right"><%= formatFeeShip%></td>
-            </tr>
-            <tr>
-                <td class="text-left">Discount on shipping fees</td>
-                <%
-                    if(totalDiscount == 0) {
-                %>
-                <td class="text-right">0</td>
-                <%
-                    } else {
-                %>
-                <td class="text-right">-<%= formatTotalDiscout%></td>
-                <%
-                    }
-                %>
             </tr>
             <tr>
                 <td class="text-left">Voucher from Shop</td>
@@ -173,7 +158,7 @@
                 <%
                     } else if(status.equals("Shipping")) {
                 %>
-                 <button id="cancelOrderBtn" name="action" value="Arrived" class="cancel-btn" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">DA nhan duoc hang</button>
+                 <button id="cancelOrderBtn" name="action" value="Arrived" class="cancel-btn" type="submit" onclick="chooseOrder(<%= order.getOrder_id()%>)">Received</button>
                 <%
                     } 
                 %>

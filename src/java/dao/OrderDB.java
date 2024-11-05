@@ -174,7 +174,7 @@ public class OrderDB implements DatabaseInfo {
     public static List<OrderDetail> getOrderDetailsById(int orderId) {
         List<OrderDetail> orderDetail = new ArrayList<>();
         String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, p.brand, "
-                + "od.quantity, p.price, p.discount,p.image_urls, o.order_date, o.status "
+                + "od.quantity, od.price, p.discount,p.image_urls, o.order_date, o.status "
                 + "FROM [Order] o "
                 + "JOIN Users u ON o.user_id = u.ID "
                 + "JOIN OrderDetail od ON o.order_id = od.order_id "

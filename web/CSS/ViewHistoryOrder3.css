@@ -161,7 +161,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .video-background {
     position: absolute;
     width: 100%;
-    height: 800px;
+    height: auto;
+    flex: 1;
     overflow: hidden;
     z-index: -1;
 }
@@ -458,12 +459,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .bounceOutRight {
     animation: bounceOutRight 1s forwards;
 }
+.dataTables_wrapper .dataTables_filter input {
+    background-color: #d6e9c6 !important;
+    border: 1px solid #ccc !important;
+    color: #333 !important;
+}
 
+.dataTables_wrapper .dataTables_length select {
+    background-color: #d6e9c6 !important;
+    border: 1px solid #ccc !important;
+    color: #333 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: #d1c4e9 !important; /* Màu nền tùy chỉnh */
+    color: #333 !important; /* Màu chữ */
+    border-radius: 4px; /* Tùy chỉnh góc bo tròn */
+    padding: 5px 10px; /* Tùy chỉnh khoảng cách trong */
+    margin: 0 2px; /* Khoảng cách giữa các nút */
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #9575cd !important; /* Màu khi di chuột vào */
+    color: #d6e9c6 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #5e35b1 !important; /* Màu cho trang hiện tại */
+    color: #333 !important;
+    cursor: pointer;
+}
+.dataTables_wrapper .dataTables_info {
+    background-color: #d1c4e9; /* Màu nền */
+    color: #333; /* Màu chữ */
+    padding: 5px; /* Khoảng cách trong */
+    border-radius: 4px; /* Góc bo tròn */
+    font-weight: bold; /* Đậm chữ */
+}
 .table-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    max-height: 400px;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;

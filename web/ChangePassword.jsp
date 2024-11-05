@@ -105,7 +105,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="/favorites">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                 <% } %>

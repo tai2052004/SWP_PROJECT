@@ -50,7 +50,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="/favorites">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                     <% } %>
@@ -68,7 +68,7 @@
             <div class="col-md-4 landing-text">
                 <h1>MAKE YOUR</h1>
                 <h1>STYLE</h1>
-                <button>Buy now</button>
+                <button onclick='window.location.href = "AllProduct.jsp" '>Buy now</button>
             </div>
             <div class="col-md-8 landing-product">
                 <div class="landing-product-image">

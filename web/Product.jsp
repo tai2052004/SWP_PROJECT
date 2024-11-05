@@ -72,7 +72,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="/favorites">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                     <% } %>
@@ -137,13 +137,21 @@
                             List<ProductDetail> productDetails = product.getProductDetails();
                             for (ProductDetail detail : productDetails) {
                             inStock = detail.getQuantity();
+                            if ( inStock != 0 )
+                            {
                         %>
                         <!--                    <button class="size-button active">38</button>-->
                         <button class="size-button"><%= detail.getSize()%></button>
                         <%
-                                                }
+                            }
+                                else
+                                {
                         %>
-
+                        <button type="button" style="background-color: #A5A5A5;"><%= detail.getSize()%></button>
+                        <%
+                            }
+                                }
+                        %>
                     </div>
                 </div>
 
@@ -224,7 +232,7 @@
                         <button class="submit-button" type="submit">Submit Review</button>
                     </div>
                 </form>
-                
+
                 <div class="review-list">
                     <h3>Reviews</h3>
                     <% 
@@ -244,90 +252,90 @@
                                 }
                             %>
                         </div>
-                            <div class="user-comment"><%= com.getContent() %> </div>
+                        <div class="user-comment"><%= com.getContent() %> </div>
                     </div>
                     <%
                         }
                     %>
-                    </div>
                 </div>
-                
             </div>
+
         </div>
+    </div>
 
-        <div class="footer">
-            <div class="footer1">
-                <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
-            </div>   
-            <div class="footer2">
-                <div class="footer2-inside-1">
-                    <div class="infor">
-                        <p id="infor-detail">Information<p>
-                    </div>
-                    <div class="infor">
-                        <p>Email : taidepchai@gmail.com<p>
-                    </div>
-                    <div class="infor">
-                        <p>Phone : 0123456789<p>
-                    </div>
-                    <div class="infor">
-                        <p>Addres : do biet o dau<p>
-                    </div>
+    <div class="footer">
+        <div class="footer1">
+            <p>HESH (Heaven Shoes) is your top choice for stylish, high-quality footwear. We believe the right shoes boost your confidence and comfort, making every step a delight. Explore our diverse, trendy collection to find the perfect fit for your unique style.</p>
+        </div>   
+        <div class="footer2">
+            <div class="footer2-inside-1">
+                <div class="infor">
+                    <p id="infor-detail">Information<p>
                 </div>
-                <div class="footer2-inside-2">
-                    <div class="contact">
-                        <p>Contact us<p>
+                <div class="infor">
+                    <p>Email : taidepchai@gmail.com<p>
+                </div>
+                <div class="infor">
+                    <p>Phone : 0123456789<p>
+                </div>
+                <div class="infor">
+                    <p>Addres : do biet o dau<p>
+                </div>
+            </div>
+            <div class="footer2-inside-2">
+                <div class="contact">
+                    <p>Contact us<p>
+                </div>
+                <div class="contact-img">
+                    <div class="contact-detail">
+                        <img src="img/facebook.jpg" />
                     </div>
-                    <div class="contact-img">
-                        <div class="contact-detail">
-                            <img src="img/facebook.jpg" />
-                        </div>
-                        <div class="contact-detail">
-                            <img src="img/instagram.jpg" />
-                        </div>
-                        <div class="contact-detail">
-                            <img src="img/tiktok.png" />
-                        </div>
+                    <div class="contact-detail">
+                        <img src="img/instagram.jpg" />
                     </div>
-
+                    <div class="contact-detail">
+                        <img src="img/tiktok.png" />
+                    </div>
                 </div>
 
             </div>
+
         </div>
-        <h2 id="displayQuantity"></h2>
-    </body>
+    </div>
+    <h2 id="displayQuantity"></h2>
+</body>
 
-    <script src="js/Product.js"></script>
+<script src="js/Product.js"></script>
 
-    <script>
-            document.querySelector(".add-to-cart").addEventListener("click", function (event) {
-                var selectedSize = document.querySelector(".selectedSize").value;
-                if (!selectedSize) {
-                    event.preventDefault(); // Ngăn chặn việc gửi form
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Oops...',
-                        text: 'Please choose size before add to cart!',
-                        confirmButtonText: 'Chọn size'
-                    });
-                }
-            });
+<script>
+                            document.querySelector(".add-to-cart").addEventListener("click", function (event) {
+                                var selectedSize = document.querySelector(".selectedSize").value;
+                                if (!selectedSize) {
+                                    event.preventDefault(); // Ngăn chặn việc gửi form
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Oops...',
+                                        text: 'Please choose size before add to cart!',
+                                        confirmButtonText: 'Chọn size'
+                                    });
+                                }
+                            });
 
-        document.querySelector(".buy-now").addEventListener("click", function (event) {
-            var selectedSize = document.querySelector(".selectedSize").value;
-            if (!selectedSize) {
-                event.preventDefault(); // Ngăn chặn việc gửi form
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Oops...',
-                    text: 'Please choose size before check out!',
-                    confirmButtonText: 'Chọn size'
-                });
-            }
-        });
-        
-        function setRating(value) {
-            document.getElementById("starRating").value = value;
-        }
-    </script>
+                            document.querySelector(".buy-now").addEventListener("click", function (event) {
+                                var selectedSize = document.querySelector(".selectedSize").value;
+                                if (!selectedSize) {
+                                    event.preventDefault(); // Ngăn chặn việc gửi form
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Oops...',
+                                        text: 'Please choose size before check out!',
+                                        confirmButtonText: 'Chọn size'
+                                    });
+                                }
+                            });
+
+                            function setRating(value) {
+                                document.getElementById("starRating").value = value;
+                            }
+</script>
 </html>

@@ -99,7 +99,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="/favorites">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                 <% } %>
@@ -168,6 +168,9 @@
                 <div class="part2-first">
                      <p id="p-profile">Personal Profile</p>
                      <p style="font-family: 'Dancing Script', cursive;">Edit Profile</p>
+                </div>
+                <div>
+                    <%= user.getUser_id()%>
                 </div>
                 <div class="part2-second">
                     <form action="ManageProfileServlet" method="post">

@@ -39,7 +39,6 @@
                     <a href="landingPage.jsp" class="menuText">HOME</a>
                     <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                     <a href="#footer" class="menuText">CONTACT</a>
-                    <a href="#" class="menuText">CHAT</a>
                 </div>
 
                 <div class="col-md-3 user-actions">
@@ -53,7 +52,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="favorites.jsp">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                     <% } %>
