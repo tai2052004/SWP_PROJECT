@@ -38,14 +38,32 @@ function updateImage() {
     }
 }
 
-function updateColor() {
-    // Lấy màu đang được chọn (nút có class "active")
-    var activeColorButton = document.querySelector(".color-button.active").style.backgroundColor;
-    if (activeColorButton) {
-        // Lấy giá trị màu từ thuộc tính background-color của nút
-        document.querySelectorAll(".selectedColor").forEach(input => input.value = activeColorButton);
-    }
-}
+// Zoom in effect on hover
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const productImg = document.getElementById('productImg');
+
+                                    // Add event listeners for mouseover and mousemove
+                                    productImg.addEventListener('mouseover', function () {
+                                        productImg.style.transform = "scale(1.5)"; // Zoom level, adjust as necessary
+                                        productImg.style.transition = "transform 0.2s ease-in-out";
+                                        productImg.style.cursor = "zoom-in";
+                                    });
+
+                                    productImg.addEventListener('mousemove', function (e) {
+                                        // Get bounding rectangle of the image
+                                        const rect = productImg.getBoundingClientRect();
+                                        // Calculate the position of the mouse on the image
+                                        const x = e.clientX - rect.left;
+                                        const y = e.clientY - rect.top;
+                                        // Set the transform-origin to the mouse position
+                                        productImg.style.transformOrigin = `${x}px ${y}px`;
+                                    });
+
+                                    // Reset zoom on mouse out
+                                    productImg.addEventListener('mouseout', function () {
+                                        productImg.style.transform = "scale(1)";
+                                    });
+                                });
 
 
 
@@ -151,7 +169,8 @@ const products = [
         price: '3.990.000'
     }
 ];
-
+document.querySelector('.arrow-left').classList.toggle('hidden');
+document.querySelector('.arrow-right').classList.toggle('hidden');
 // Current product index
 let currentIndex = 0;
 

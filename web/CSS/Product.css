@@ -103,16 +103,24 @@ body {
 }
 
 .product-image {
-    width: 45%; /* Adjust width for product image container */
+    width: 40%; /* Adjust width for product image container */
     position: relative;
-
+    border: 2px solid black;
+    margin-right: 200px;
+    border-radius: 20px;
+    height: 450px;
+    background-image: url('../img/shoes-bg-1.jpg');
+    background-size: 300%;
+    background-position: 70% 100%;
+    overflow: hidden;
 }
 
 .product-image img {
-    width: 80%;
-    max-width: 100%;
+    position: relative;
+    top: 160px;
+    left: 80px;
+    width: 60%;
     border-radius: 10px;
-
 }
 
 /* Left and Right arrows */
@@ -162,20 +170,20 @@ body {
 }
 
 .product-title {
-    font-size: 24px;
+    font-size: 35px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .product-price {
-    font-size: 41px;
-    color: #333;
+    font-size: 30px;
     margin: 10px 75px 40px 75px;
     /* display: flex; */
     font-weight: bold;
 }
 .size{
-        color: slategray;
-        width: 100px;
+    color: slategray;
+    width: 100px;
 
 }
 
@@ -210,7 +218,7 @@ body {
 .product-quantity button {
     width: 30px;
     height: 30px;
-   
+
 }
 /*  */
 
@@ -293,13 +301,13 @@ body {
 }
 
 .title {
-    
-      font-size: 55px;
+
+    font-size: 55px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-around;
     font-weight: bold;
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 /*.{
         border: 0px;
@@ -307,7 +315,7 @@ body {
 }*/
 .decription{
     line-height: 1.6;
-        font-size: 28px;
+    font-size: 28px;
 
 }
 .submit-button{
@@ -317,7 +325,7 @@ body {
 .additional-images {
     display: flex;
     margin-top: 10px;
-        gap: 110px;
+    gap: 110px;
 
 }
 
@@ -372,10 +380,6 @@ body {
     opacity: 0.8;
 }
 
-#productImg
-{
-    height: 400px;
-}
 /* Star Rating Style */
 .star-rating {
     display: flex;
@@ -415,7 +419,7 @@ textarea {
     background-color: #1A202C;
     color: white;
     padding : 20px 10px;
-        margin-top: 50px;
+    margin-top: 50px;
 
 
 }

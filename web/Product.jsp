@@ -21,7 +21,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product2.css"/>
+        <link rel="stylesheet" href="CSS/Product.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -89,10 +89,8 @@
         <div class="product-container">
             <!-- Product Image Section -->
             <div class="product-image">
-                <!-- Left arrow -->
-                <i class="fas fa-chevron-left arrow-left"></i>
-                <!-- Right arrow -->
-                <i class="fas fa-chevron-right arrow-right"></i>
+                <i style="display: none" class="fas fa-chevron-left arrow-left"></i>
+                <i  style="display: none " class="fas fa-chevron-right arrow-right"></i>
 
                 <!-- Heart favorite icon -->
                 <i class="far fa-heart favorite-heart"></i>
@@ -100,11 +98,7 @@
                 <!-- Main Product Image -->
                 <img id="productImg" src="<%= product.getImg_url()%>" alt="Product Image">
                 <!-- Additional Images -->
-                <div class="additional-images">
-                    <img src="<%= product.getImg_url()%>" alt="Product Thumbnail" class="additional-image active-thumbnail">
-                    <img src="img/giay3.png" alt="Product Thumbnail" class="additional-image">
-                    <img src="img/giay4.png" alt="Product Thumbnail" class="additional-image">
-                </div>
+
             </div>
 
             <!-- Product Details Section -->
@@ -117,7 +111,7 @@
                 %>
                 <div style="display: flex;">
                     <div style="display: flex; align-items: center; text-decoration: line-through;"><%= formatPrice3 %></div>
-                    <div id="productPrice" class="product-price"><%= formattedPrice%></div>
+                    <div style="color: #34ce57; font-size: 30px;" id="productPrice" class="product-price"><%= formattedPrice%></div>
                 </div>
 
                 <%
@@ -308,34 +302,36 @@
 <script src="js/Product.js"></script>
 
 <script>
-                            document.querySelector(".add-to-cart").addEventListener("click", function (event) {
-                                var selectedSize = document.querySelector(".selectedSize").value;
-                                if (!selectedSize) {
-                                    event.preventDefault(); // Ngăn chặn việc gửi form
-                                    Swal.fire({
-                                        icon: 'warning',
-                                        title: 'Oops...',
-                                        text: 'Please choose size before add to cart!',
-                                        confirmButtonText: 'Chọn size'
-                                    });
-                                }
-                            });
+                                document.querySelector(".add-to-cart").addEventListener("click", function (event) {
+                                    var selectedSize = document.querySelector(".selectedSize").value;
+                                    if (!selectedSize) {
+                                        event.preventDefault(); // Ngăn chặn việc gửi form
+                                        Swal.fire({
+                                            icon: 'warning',
+                                            title: 'Oops...',
+                                            text: 'Please choose size before add to cart!',
+                                            confirmButtonText: 'Chọn size'
+                                        });
+                                    }
+                                });
 
-                            document.querySelector(".buy-now").addEventListener("click", function (event) {
-                                var selectedSize = document.querySelector(".selectedSize").value;
-                                if (!selectedSize) {
-                                    event.preventDefault(); // Ngăn chặn việc gửi form
-                                    Swal.fire({
-                                        icon: 'warning',
-                                        title: 'Oops...',
-                                        text: 'Please choose size before check out!',
-                                        confirmButtonText: 'Chọn size'
-                                    });
-                                }
-                            });
+                                document.querySelector(".buy-now").addEventListener("click", function (event) {
+                                    var selectedSize = document.querySelector(".selectedSize").value;
+                                    if (!selectedSize) {
+                                        event.preventDefault(); // Ngăn chặn việc gửi form
+                                        Swal.fire({
+                                            icon: 'warning',
+                                            title: 'Oops...',
+                                            text: 'Please choose size before check out!',
+                                            confirmButtonText: 'Chọn size'
+                                        });
+                                    }
+                                });
 
-                            function setRating(value) {
-                                document.getElementById("starRating").value = value;
-                            }
+                                function setRating(value) {
+                                    document.getElementById("starRating").value = value;
+                                }
+                                
+                                
 </script>
 </html>
