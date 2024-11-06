@@ -109,17 +109,18 @@ body {
     margin-right: 200px;
     border-radius: 20px;
     height: 450px;
-    background-image: url('../img/shoes-bg-1.jpg');
-    background-size: 300%;
-    background-position: 70% 100%;
+    background-image: url('../img/shoes-bg-2.jpg');
+    background-size: 110%;
+    background-position: center;
     overflow: hidden;
+    background-repeat: no-repeat;
 }
 
 .product-image img {
     position: relative;
-    top: 160px;
-    left: 80px;
-    width: 60%;
+    top: 150px;
+    left: 130px;
+    width: 50%;
     border-radius: 10px;
 }
 

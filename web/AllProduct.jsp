@@ -12,8 +12,26 @@
     User user = (User) session.getAttribute("user"); 
     Product product = (Product) request.getAttribute("product");
     String maxPriceParam = request.getParameter("maxPrice");
-    int maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 1000000;
+    String[] selectedBrands = request.getParameterValues("brand");
+    int maxPrice = (maxPriceParam != null) ? Integer.parseInt(maxPriceParam) : 5000000;
     boolean a = true;
+    List<Product> products = ProductDB.allListProduct();
+    String sortOrder = request.getParameter("sortOrder");
+
+    // Filter products based on maxPrice and selected brands
+    List<Product> filteredProducts = new ArrayList<>();
+    for (Product p : products) {
+        // Check if product is within the selected price range
+        boolean withinPriceRange = p.getPrice() <= maxPrice;
+
+        // Check if product matches any of the selected brands (or no brands selected)
+        boolean matchesBrand = (selectedBrands == null) || Arrays.asList(selectedBrands).contains(p.getBrand());
+
+        // Add to filtered list if it meets both conditions
+        if (withinPriceRange && matchesBrand) {
+            filteredProducts.add(p);
+        }
+    }
     
 %>
 <html>
@@ -39,6 +57,7 @@
                     <a href="landingPage.jsp" class="menuText">HOME</a>
                     <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                     <a href="#footer" class="menuText">CONTACT</a>
+                    <a href="#" class="menuText">CHAT</a>
                 </div>
 
                 <div class="col-md-3 user-actions">
@@ -52,7 +71,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="Favorite.jsp">Favorite Items</a>
+                            <a href="favorites.jsp">Favorite Items</a>
                         </div>
                     </div>
                     <% } %>
@@ -80,36 +99,37 @@
             <!-- Filters Section -->
             <aside class="filters">
                 <h3>Keywords</h3>
-                <label><input class="Checkbox" type="checkbox" checked> Nike</label><br>
-                <label><input class="Checkbox" type="checkbox" checked> Adidas</label><br>
-                <label><input class="Checkbox" type="checkbox" checked> Converse</label><br>
+                <form id="filterForm" action="AllProduct.jsp" method="get">
+                    <!-- Include both brand checkboxes and price slider inside the same form -->
+                    <label><input class="Checkbox" type="checkbox" name="brand" value="Nike" <% if (request.getParameterValues("brand") != null && Arrays.asList(request.getParameterValues("brand")).contains("Nike")) { %> checked <% } %> onclick="submitFilter()"> Nike</label><br>
+                    <label><input class="Checkbox" type="checkbox" name="brand" value="Adidas" <% if (request.getParameterValues("brand") != null && Arrays.asList(request.getParameterValues("brand")).contains("Adidas")) { %> checked <% } %> onclick="submitFilter()"> Adidas</label><br>
+                    <label><input class="Checkbox" type="checkbox" name="brand" value="Converse" <% if (request.getParameterValues("brand") != null && Arrays.asList(request.getParameterValues("brand")).contains("Converse")) { %> checked <% } %> onclick="submitFilter()"> Converse</label><br>
+                    <label><input class="Checkbox" type="checkbox" name="brand" value="Puma" <% if (request.getParameterValues("brand") != null && Arrays.asList(request.getParameterValues("brand")).contains("Puma")) { %> checked <% } %> onclick="submitFilter()"> Puma</label><br>
+                    <label><input class="Checkbox" type="checkbox" name="brand" value="New Balance" <% if (request.getParameterValues("brand") != null && Arrays.asList(request.getParameterValues("brand")).contains("New Balance")) { %> checked <% } %> onclick="submitFilter()"> New Balance</label><br>
+                    <label><input class="Checkbox" type="checkbox" name="brand" value="Reebok" <% if (request.getParameterValues("brand") != null && Arrays.asList(request.getParameterValues("brand")).contains("Reebok")) { %> checked <% } %> onclick="submitFilter()"> Reebok</label><br>
 
-                <h3>Price</h3>
-                <form id="priceForm" action="AllProduct.jsp" method="get">
-                    <!-- Set the range value dynamically based on the maxPrice parameter -->
-                    <input type="range" min="0" max="5000000" value="<%= (maxPriceParam != null) ? maxPrice : 5000000 %>" id="priceRange" name="maxPrice">
-                    <span id="priceDisplay"><%= (maxPriceParam != null) ? maxPrice : 5000000 %> d</span>
+                    <!-- Repeat for other brands as needed -->
+
+                    <h3>Price</h3>
+                    <input type="range" min="0" max="5000000" value="<%= maxPrice %>" id="priceRange" name="maxPrice" oninput="updatePrice(this.value)">
+                    <span id="priceDisplay"><%= maxPrice %> d</span>
                 </form>
 
                 <script>
 
-                    document.getElementById('priceRange').addEventListener('input', function () {
-                        // Get the current value of the range input
-                        var priceValue = this.value;
-                        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(priceValue);
-                        // Update the displayed price
-                        document.getElementById('priceDisplay').textContent = formattedPrice;
 
-                        // Automatically submit the form when the slider is moved
-                        document.getElementById('priceForm').submit();
-                    });
 
+                    function submitFilter() {
+                        document.getElementById("filterForm").submit();
+                    }
+
+                    function updatePrice(value) {
+                        document.getElementById("priceDisplay").textContent = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(value);
+                        submitFilter();
+                    }
                 </script>
 
-                <h3>Color</h3>
-                <label><input class="Checkbox" type="checkbox" checked> Yellow</label><br>
-                <label><input  class="Checkbox" type="checkbox" checked> Red</label><br>
-                <label><input class="Checkbox" type="checkbox" checked> White</label><br>
+
 
                 <h3>Size</h3>
                 <label><input class="Checkbox" type="checkbox" checked> 41</label><br>
@@ -119,93 +139,68 @@
 
             <!-- Product Listing Section -->
             <section class="products">
-                <!-- Sorting and Filters Row -->
                 <div class="sort">
-                    <select>
-                        <option>New</option>
-                        <option>Price ascending</option>
-                        <option>Price descending</option>
-                        <option>Rating</option>
-                    </select>
+                    <form action="AllProduct.jsp" method="get">
+                        <select name="sortOrder" onchange="this.form.submit()">                          
+                            <option value="new" <%= "new".equals(sortOrder) ? "selected" : "" %>>New</option>
+                            <option value="priceAsc" <%= "priceAsc".equals(sortOrder) ? "selected" : "" %>>Price ascending</option>
+                            <option value="priceDesc" <%= "priceDesc".equals(sortOrder) ? "selected" : "" %>>Price descending</option>
+                        </select>
+                    </form>
+
                 </div>
-
-                <!-- Product Cards -->
+                <!-- Display the filtered products -->
                 <div class="product-grid">
-
-                    <%
-                        // Check if maxPrice is provided in the request
-                        maxPriceParam = request.getParameter("maxPrice");
-            
-                        List<Product> products = ProductDB.allListProduct(); // Fetch all products
-            
-                        List<Product> filteredProducts;
-            
-                        if (maxPriceParam != null) {
-                            // If maxPrice is provided, parse it and filter the products
-                            maxPrice = Integer.parseInt(maxPriceParam);
-                            filteredProducts = new ArrayList<>();
-                
-                            for (Product p : products) {
-                                if (p.getPrice() <= maxPrice) {
-                                    filteredProducts.add(p);
-                                }
-                            }
-                        } else {
-                            // If maxPrice is not provided, show all products
-                            filteredProducts = products;
-                        }
-                    %>
-
                     <% 
-                        // Display products or a message if no products meet the criteria
+                        // Check if any products meet the criteria
                         if(filteredProducts.isEmpty()) { 
                     %>
-                    <p>No products found within the specified price range.</p>
+                    <p>No products found within the specified price range and selected brands.</p>
                     <% 
                         } else {
+                            if (sortOrder != null) {
+                                   if (sortOrder.equals("new")) {
+                                       // Sort by New (ProductID descending)
+                                       filteredProducts.sort(Comparator.comparingInt(Product::getProductID).reversed());
+                                   } else if (sortOrder.equals("priceAsc")) {
+                                       // Sort by Price ascending
+                                       filteredProducts.sort(Comparator.comparingDouble(Product::getPrice));
+                                   } else if (sortOrder.equals("priceDesc")) {
+                                       // Sort by Price descending
+                                       filteredProducts.sort(Comparator.comparingDouble(Product::getPrice).reversed());
+                                   }
+                               }
                             for (Product product2 : filteredProducts) { 
-                                double price1 = product2.getPrice();
-                                  String formatPrice2 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price1);
-                                  double discount = Double.parseDouble(product2.getDiscount());
-                                  
+                                double price = product2.getPrice();
+                                String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price);
+                                double discount = Double.parseDouble(product2.getDiscount());
+                                boolean hasDiscount = (discount != 0);
+                                String finalPrice = hasDiscount ? 
+                                    NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price - price * discount / 100) : formattedPrice;
                     %>
                     <div class='product-card' onclick='chooseProduct(<%= product2.getProductID() %>)' style="cursor: pointer;">
-                        <% 
-                            if ( discount != 0)
-                            {
-                                double pricee = price1 - price1 * discount / 100;
-                                String formatPrice3 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(pricee);
-                        %>
-                        <div class="discount"><%= discount %>%</div>                       
+                        <% if (hasDiscount) { %>
+                        <div class="discount"><%= discount %>%</div>
+                        <% } %>
                         <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
                         <h4><%= product2.getProductName() %></h4>
                         <div class="merge-price">
-                            <p style="font-size: 15px; text-decoration-line: line-through;"><%= formatPrice2 %></p>
-                            <p><%=  formatPrice3 %></p>
+                            <% if (hasDiscount) { %>
+                            <p style="font-size: 15px; text-decoration-line: line-through;"><%= formattedPrice %></p>
+                            <% } %>
+                            <p><%= finalPrice %></p>
                         </div>
-                        <%
-                            }
-                            else
-                            {
-                        %>                     
-                        <img src="<%= product2.getImg_url() %>" alt="<%= product2.getProductName() %>">
-                        <h4><%= product2.getProductName() %></h4>
-                        <p><%= formatPrice2 %></p>
-                        <%
-                            }
-                        %>
                     </div>
                     <% 
                             } 
                         }
                     %>
                 </div>
-                <form id="productSelectionForm" action="ProductDetailServlet" method="GET">
-                    <input type="hidden" id="selectedProduct" name="productId" value="">
-                </form>
-                <!-- Pagination -->
-                <div id="pagination-buttons"></div>
             </section>
+            <!-- Hidden form for product selection -->
+            <form id="productSelectionForm" action="ProductDetailServlet" method="GET">
+                <input type="hidden" id="selectedProduct" name="productId" value="">
+            </form>
         </div>
 
         <footer class="row footer" id="footer">
@@ -236,4 +231,3 @@
                         }
     </script>
 </html>
-

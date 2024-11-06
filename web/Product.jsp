@@ -21,7 +21,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product.css"/>
+        <link rel="stylesheet" href="CSS/Product4.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -299,7 +299,7 @@
     <h2 id="displayQuantity"></h2>
 </body>
 
-<script src="js/Product.js"></script>
+<script src="js/Product2.js"></script>
 
 <script>
                                 document.querySelector(".add-to-cart").addEventListener("click", function (event) {
