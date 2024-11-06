@@ -186,4 +186,12 @@
     <welcome-file-list>
         <welcome-file>landingPage.jsp</welcome-file>
     </welcome-file-list>
+     <servlet>
+    <servlet-name>DeleteCouponServlet</servlet-name>
+    <servlet-class>Servlet.DeleteCouponServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>DeleteCouponServlet</servlet-name>
+    <url-pattern>/DeleteCouponServlet</url-pattern>
+</servlet-mapping>
 </web-app>
