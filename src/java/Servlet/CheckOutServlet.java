@@ -78,11 +78,16 @@ public class CheckOutServlet extends HttpServlet {
         order.setOrder_date(nowStr);
         order.setFeeship(20);
         boolean success = OrderDB.addNewOrder(order);
+        boolean success2 = false;
         for ( OrderDetail od : listOD)
         {
             ProductDetail pd = ProductDetailDB.getProductDetailByProductDetailID(od.getProduct_detail_id());
             pd.setQuantity(pd.getQuantity() - od.getQuantity());
-            ProductDetailDB.updateProductDetail(pd);
+            success2 = ProductDetailDB.updateProductDetail(pd);
+            if ( success2 == false)
+            {
+                return;
+            }
         }
         boolean success3 = false;
         if (success)

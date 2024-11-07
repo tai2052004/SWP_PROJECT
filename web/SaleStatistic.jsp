@@ -147,82 +147,55 @@
                     </div>
                 </div>
             </div>
-            <div class="content">
+                       <div class="content">
                 <div>
                     <span class="title">Sales statistics</span>
                     <div class="today-sales">
-                        <span class="subtitle" style="margin-bottom: 6px">
-                            Today's Sales
-                        </span>
+                        <span class="subtitle" style="margin-bottom: 6px">Today's Sales</span>
                         <span class="small">Sales Summary</span>
                         <div class="item-grid">
                             <div>
                                 <div class="item">
                                     <div class="icon">
-                                        <img
-                                            src="assets/sales_report.svg"
-                                            width="48"
-                                            height="48"
-                                            />
+                                        <img src="assets/sales_report.svg" width="48" height="48" />
                                     </div>
-                                    <span class="big-text">
-                                        15.090.000 vnd
-                                    </span>
+                                    <span class="big-text">${stats.totalSales} vnd</span>
                                     <span class="small-text">Total sales</span>
-                                    <span class="percent-text"
-                                          >+ 5% from yesterday</span
-                                    >
+                                    <span class="percent-text">+ 5% from yesterday</span>
                                 </div>
                             </div>
                             <div>
-                                <div
-                                    class="item"
-                                    style="background-color: #fff4de"
-                                    >
-                                    <div
-                                        class="icon"
-                                        style="background-color: #ff9479"
-                                        >
-                                        <img
-                                            src="assets/order_report.svg"
-                                            width="35"
-                                            height="35"
-                                            />
+                                <div class="item" style="background-color: #fff4de">
+                                    <div class="icon" style="background-color: #ff9479">
+                                        <img src="assets/order_report.svg" width="35" height="35" />
                                     </div>
-                                    <span class="big-text">11</span>
+                                    <span class="big-text">${stats.totalOrders}</span>
                                     <span class="small-text">Total orders</span>
-                                    <span class="percent-text"
-                                          >+ 2% from yesterday</span
-                                    >
+                                    <span class="percent-text">+ 2% from yesterday</span>
                                 </div>
                             </div>
                             <div>
-                                <div
-                                    class="item"
-                                    style="background-color: #f4e8ff"
-                                    >
-                                    <div
-                                        class="icon"
-                                        style="background-color: #bf83fe"
-                                        >
-                                        <img
-                                            src="assets/product_report.svg"
-                                            width="30"
-                                            height="27"
-                                            />
+                                <div class="item" style="background-color: #f4e8ff">
+                                    <div class="icon" style="background-color: #bf83fe">
+                                        <img src="assets/product_report.svg" width="30" height="27" />
                                     </div>
-                                    <span class="big-text">17</span>
+                                    <span class="big-text">${stats.productsSold}</span>
                                     <span class="small-text">Product sold</span>
-                                    <span class="percent-text">
-                                        + 8% from yesterday</span
-                                    >
+                                    <span class="percent-text">+ 8% from yesterday</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="filter-container">
+                        <select id="periodFilter" class="period-filter" onchange="updateChart()">
+                            <option value="week">Weekly</option>
+                            <option value="month">Monthly</option>
+                            <option value="year">Yearly</option>
+                        </select>
+                    </div>
                     <div class="graph-grid">
                         <div class="graph-container">
-                            <div id="dataGraph"></div>
+                            <canvas id="salesChart"></canvas>
                         </div>
                     </div>
                     <div class="table-grid">
@@ -230,50 +203,18 @@
                             <div>
                                 <span class="title">Top products</span>
                                 <div class="inner-grid inner-grid-header">
-                                    <div>
-                                        <span>#</span>
-                                    </div>
-                                    <div>
-                                        <span>Name</span>
-                                    </div>
-                                    <div>
-                                        <span>Sales</span>
-                                    </div>
+                                    <div><span>#</span></div>
+                                    <div><span>Name</span></div>
+                                    <div><span>Sales</span></div>
                                     <span class="line"></span>
                                 </div>
                                 <div class="inner-grid content-grid">
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
+                                    <c:forEach var="product" items="${topProducts}" varStatus="loop">
+                                        <div>${loop.index + 1}</div>
+                                        <div>${product.name}</div>
+                                        <div>${product.totalSold}</div>
+                                        <span class="line"></span>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -281,50 +222,18 @@
                             <div>
                                 <span class="title">Sales by brand</span>
                                 <div class="inner-grid inner-grid-header">
-                                    <div>
-                                        <span>#</span>
-                                    </div>
-                                    <div>
-                                        <span>Name</span>
-                                    </div>
-                                    <div>
-                                        <span>Sales</span>
-                                    </div>
+                                    <div><span>#</span></div>
+                                    <div><span>Name</span></div>
+                                    <div><span>Sales</span></div>
                                     <span class="line"></span>
                                 </div>
                                 <div class="inner-grid content-grid">
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <div>a</div>
-                                    <span class="line"></span>
+                                    <c:forEach var="product" items="${topProducts}" varStatus="loop">
+                                        <div>${loop.index + 1}</div>
+                                        <div>${product.brand}</div>
+                                        <div>${product.totalRevenue}</div>
+                                        <span class="line"></span>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -334,24 +243,43 @@
         </div>
 
         <script>
-            const xArray = [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday",
-            ];
-            const yArray = [8000, 12000, 15000, 11000, 10000, 11500, 16500];
-            const data = [
-                {
-                    x: xArray,
-                    y: yArray,
-                    type: "bar",
+            var chartData = [];
+            <c:forEach var="data" items="${chartData}">
+                chartData.push({
+                    label: "${data.label}",
+                    value: ${data.value}
+                });
+            </c:forEach>
+            
+            var labels = chartData.map(data => data.label);
+            var salesData = chartData.map(data => data.value);
+            
+            var ctx = document.getElementById('salesChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Sales',
+                        data: salesData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
                 },
-            ];
-            Plotly.newPlot("dataGraph", data, {}, {staticPlot: true});
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            function updateChart() {
+                var period = document.getElementById('periodFilter').value;
+                window.location.href = 'SaleStatistic?period=' + period;
+            }
         </script>
     </body>
 </html>

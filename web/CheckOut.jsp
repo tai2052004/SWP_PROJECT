@@ -22,6 +22,7 @@
     double allTotal = 0;
     Coupon coupon = (Coupon) request.getAttribute("coupon");
     Order order = (Order) session.getAttribute("order");
+    order.setUser_id(user.getUser_id());
     float feeship = 20;
     order.setFeeship(feeship);
     int flag = 0;
