@@ -64,7 +64,7 @@
 
     <main class="container-fluid">
         <h2>My Favorite Products</h2>
-        <p>Has 5 products</p>
+        <p>Has 5    products</p>
      
         <div class="product-grid">
         <%

@@ -194,14 +194,7 @@
                                     <div><%= String.format("%,.0f", coupon.getDiscountValue()) %></div>
                                     <div><%= coupon.getQuantity() %></div>
                                     <div style="display: flex; gap: 8px;">
-                                        <form id="couponSelectionForm<%= coupon.getCouponId() %>" action="UpdateCouponServlet" method="GET">
-                                            <div style="border: none; background: none; cursor: pointer; text-decoration: none;">
-                                                <button type="submit" style="border: none; background: none; cursor: pointer;" onclick="chooseCoupon(<%= coupon.getCouponId() %>)">
-                                                    <img src="assets/edit.svg" alt="edit" width="20" height="20">
-                                                </button>
-                                                <input type="hidden" id="selectedCoupon<%= coupon.getCouponId() %>" name="couponId" value="">
-                                            </div>
-                                        </form>
+                                        
                                         <button onclick="confirmDelete(<%= coupon.getCouponId() %>)" style="border: none; background: none; cursor: pointer;">
     <img src="assets/delete.svg" alt="delete" width="20" height="20">
 </button>

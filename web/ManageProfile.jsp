@@ -169,9 +169,6 @@
                      <p id="p-profile">Personal Profile</p>
                      <p style="font-family: 'Dancing Script', cursive;">Edit Profile</p>
                 </div>
-                <div>
-                    <%= user.getUser_id()%>
-                </div>
                 <div class="part2-second">
                     <form action="ManageProfileServlet" method="post">
                         <table>
@@ -244,7 +241,7 @@
                             <tr>
                                 <td></td>
                                 <td style="text-align: center;">
-                                    <button type="submit" class="btn btn-success btn-lg">Submit</button>
+                                    <button type="submit" class="btn btn-success btn-lg">Save</button>
                                 </td>
                             </tr>
                         </table>
