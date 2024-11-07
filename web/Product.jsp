@@ -16,6 +16,7 @@
     String formatPrice3 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(product.getPrice());
     String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(pricee);
     int inStock = 0;
+    boolean isFavorite = FavouriteDB.checkFavourite(user.getUser_id(), product.getProductID());
 %>
 <html>
     <head>
@@ -93,7 +94,13 @@
                 <i  style="display: none " class="fas fa-chevron-right arrow-right"></i>
 
                 <!-- Heart favorite icon -->
-                <i class="far fa-heart favorite-heart"></i>
+                <form id="productSelectionForm" action="FavouriteProductServlet" method="GET" style="border: 1.5px solid #000;border-radius: 50%; width: fit-content">
+                    <button type="submit" style="background: none; border: none;">
+                        <i class="bi bi-heart-fill <%= isFavorite ? "fa-favourite" : "fa-not-favourite" %>"></i>
+                    </button>
+                    <input type="hidden" id="selectedProduct" name="productId" value="<%= product.getProductID()%>">
+                    <input type="hidden" id="selectedUser" name="userId" value="<%= user.getUser_id()%>">
+                </form> 
 
                 <!-- Main Product Image -->
                 <img id="productImg" src="<%= product.getImg_url()%>" alt="Product Image">

@@ -344,18 +344,15 @@ public class OrderDB implements DatabaseInfo {
         List<Order> orders = new ArrayList<>();
         String query = "";
 
-        // Xây dựng truy vấn SQL dựa trên khoảng thời gian
         switch (timeframe.toLowerCase()) {
-            case "this day":
+            case "thisday":
                 query = "SELECT * FROM [Order] WHERE CAST(order_date AS DATE) = CAST(GETDATE() AS DATE)";
                 break;
-            case "this week":
-                query = "SELECT * FROM [Order] WHERE DATEPART(week, order_date) = DATEPART(week, GETDATE()) "
-                        + "AND YEAR(order_date) = YEAR(GETDATE())";
+            case "thisweek":
+                query = "SELECT * FROM [Order] WHERE DATEPART(week, order_date) = DATEPART(week, GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())";
                 break;
-            case "this month":
-                query = "SELECT * FROM [Order] WHERE MONTH(order_date) = MONTH(GETDATE()) "
-                        + "AND YEAR(order_date) = YEAR(GETDATE())";
+            case "thismonth":
+                query = "SELECT * FROM [Order] WHERE MONTH(order_date) = MONTH(GETDATE()) AND YEAR(order_date) = YEAR(GETDATE())";
                 break;
             default:
                 System.out.println("Invalid timeframe specified.");
@@ -363,7 +360,6 @@ public class OrderDB implements DatabaseInfo {
         }
 
         try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
-
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -381,7 +377,16 @@ public class OrderDB implements DatabaseInfo {
         }
         return orders;
     }
-
+    
+    public static int countByStatus(String status, List<Order> orders){
+        int count = 0;
+        for (Order o : orders) {
+            if (o.getStatus().equals(status)){
+                count++;
+            }
+        }
+        return count;
+    }
     public static void main(String[] args) {
 ////// Tạo đối tượng ProductDetail
 ////        ProductDetail productDetail = new ProductDetail(1, "M", 50); // productID = 1, size = "M", quantity = 50

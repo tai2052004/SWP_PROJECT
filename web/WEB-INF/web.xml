@@ -84,6 +84,10 @@
         <servlet-name>LoginGoogleHandler</servlet-name>
         <servlet-class>Servlet.LoginGoogleHandler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FavouriteProductServlet</servlet-name>
+        <servlet-class>Servlet.FavouriteProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -168,6 +172,10 @@
         <servlet-name>LoginGoogleHandler</servlet-name>
         <url-pattern>/LoginGoogleHandler</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FavouriteProductServlet</servlet-name>
+        <url-pattern>/FavouriteProductServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
@@ -186,12 +194,12 @@
     <welcome-file-list>
         <welcome-file>landingPage.jsp</welcome-file>
     </welcome-file-list>
-     <servlet>
-    <servlet-name>DeleteCouponServlet</servlet-name>
-    <servlet-class>Servlet.DeleteCouponServlet</servlet-class>
-</servlet>
-<servlet-mapping>
-    <servlet-name>DeleteCouponServlet</servlet-name>
-    <url-pattern>/DeleteCouponServlet</url-pattern>
-</servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteCouponServlet</servlet-name>
+        <servlet-class>Servlet.DeleteCouponServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteCouponServlet</servlet-name>
+        <url-pattern>/DeleteCouponServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

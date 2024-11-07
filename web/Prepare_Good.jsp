@@ -7,8 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.* , dao.*, java.util.*" %> 
 <% 
-    int shippingCount = 0;
-    int confirmedCount = 0;
+    String timeframe = request.getParameter("timeframe");
+    List<Order> listOrders = new ArrayList<Order>();
+    if (timeframe == null || timeframe.isEmpty()) {
+        listOrders = OrderDB.getOrder();
+    } else {
+        listOrders = OrderDB.getOrderByTimeframe(timeframe);
+    }
+    int shippingCount = OrderDB.countByStatus("Shipping", listOrders);
+    int confirmedCount = OrderDB.countByStatus("Confirmed", listOrders);
 %>
 <!DOCTYPE html>
 <html>
@@ -199,9 +206,9 @@
                                     margin-top: -25px;" >
                             <form id="timeframe" action="Prepare_Good.jsp" method="get">
                                 <select id="daySelect" name="timeframe" style="font-size: 28px; padding: 5px; font-family: 'Poppins', sans-serif; font-weight: 500;    margin-top: 18px;">
-                                <option value="This day">This day</option>
-                                <option value="This week">This week</option>
-                                <option value="This month">This month</option>
+                                <option value="thisday" <%= "thisday".equals(timeframe)? "selected" : "" %>>This day</option>
+                                <option value="thisweek" <%= "thisweek".equals(timeframe)? "selected" : "" %>>This week</option>
+                                <option value="thismonth" <%= "thismonth".equals(timeframe)? "selected" : "" %>>This month</option>
                                 </select>
                             </form>
                             <script>
@@ -215,11 +222,11 @@
                     <div style="display: flex; justify-content: space-around;">
                     <div>
                         <h1>All orders</h1>
-                        <h2><%= shippingCount + confirmedCount %></h2>
+                        <h2><%= confirmedCount + shippingCount %></h2>
                     </div>
                     <div>
                         <h1 style="color:green;">Shipping</h1>
-                        <h2><%=shippingCount %></h2>
+                        <h2><%= shippingCount %></h2>
                     </div>
                     <div>
                       <div> <h1 style="color: red;">Confirmed</h1> </div> 
@@ -240,56 +247,6 @@
                     <div>
                         <h1> Order List</h1>
                     </div>
-                        <!-- Search section -->
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-weight: 500;">Search:</span>
-                            <input type="text" placeholder="Enter Here" style="
-                                padding: 8px 12px;
-                                border: 1px solid #ccc;
-                                border-radius: 4px;
-                                width: 200px;
-                            ">
-                            <button style="
-                                padding: 8px 16px;
-                                border-radius: 4px;
-                                border: 1px solid #ccc;
-                                background: white;
-                                cursor: pointer;
-                            ">Search</button>
-                        </div>
-
-                        <!-- Sort and Add new buttons -->
-                        <div style="display: flex; gap: 16px; align-items: center;">
-                            <button style="
-                                padding: 8px 16px;
-                                border-radius: 4px;
-                                border: 1px solid #1d81f3;
-                                background: transparent;
-                                color: #1d81f3;
-                                display: flex;
-                                align-items: center;
-                                gap: 8px;
-                                cursor: pointer;
-                            ">
-                                <img src="assets/filter.svg" alt="sort" width="20" height="20">
-                                Filter
-                            </button>
-
-                            <button  style="
-                                padding: 8px 16px;
-                                border-radius: 4px;
-                                border: 1px solid #1d81f3;
-                                background: transparent;
-                                color: #1d81f3;
-                                display: flex;
-                                align-items: center;
-                                gap: 8px;
-                                cursor: pointer;
-                            ">
-                            <img src="assets/sort2.svg" alt="sort" width="20" height="20">
-                                sort
-                            </button>
-                        </div>
                     </div>
                     <div>
                        
@@ -303,13 +260,10 @@
                         </div>
                         <div class="order-table">
                             <% 
-                            String timeframe = request.getParameter("timeframe");
-                            List<Order> listOrders = new ArrayList<Order>();
-                            listOrders = OrderDB.getOrder();
                             for (Order r : listOrders) {
                                 String fullname = OrderDB.getUserFullName(r.getUser_id());
                                 if (r.getStatus().equals("Confirmed") || r.getStatus().equals("Shipping")) {
-                       %>
+                            %>
                                 <div><%= r.getOrder_id() %> </div>
                                 <div><%= fullname %> </div>
                                 <div><%= r.getOrder_date() %> </div>
@@ -319,19 +273,18 @@
                                      if(r.getStatus().equals("Shipping")) {
                                         shippingCount++;
                                  %>
-                                 <div>
+                                <div>
                                      <div class="badge on-deliver"><%= r.getStatus()%></div>
-                                 </div>
+                                </div>
                                  <%
                                      } else {
-                                       confirmedCount++;
                                  %>
-                                 <div>
+                                <div>
                                      <div class="badge"><%= r.getStatus()%></div>
-                                 </div>
-                                 <%
-                                     }
-                                 %>
+                                </div>
+                                <%
+                                    }
+                                %>
                                 </div>
                                 <div>
                                          <button class="icon" onclick="redirectToUpdate(<%= r.getOrder_id() %>)">
@@ -339,8 +292,8 @@
                                          </button>
                                  </div>
                             <% 
-                                    }
                                 }
+                            }
                             %>
                         </div>
                     </div>

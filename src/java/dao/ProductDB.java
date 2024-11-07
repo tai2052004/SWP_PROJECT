@@ -272,6 +272,32 @@ public class ProductDB implements DatabaseInfo {
         }
         return productList;
     }
+    public static List<Product> getProductByFavourite(int user_id) {
+        List<Product> productList = new ArrayList<>();
+        String sql = "Select * from Product p "
+                + "JOIN Favorite f ON p.product_id = f.product_id "
+                + "JOIN Users u on f.user_id = u.ID "
+                + "Where u.ID = ? ";
+        try (Connection con = getConnect();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, user_id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product();
+                product.setProductID(rs.getInt("product_id"));
+                product.setProductName(rs.getString("name"));
+                product.setImg_url(rs.getString("image_urls"));
+                product.setPrice(rs.getDouble("price"));
+                product.setDiscount(rs.getString("discount"));
+                productList.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
 
 
 
