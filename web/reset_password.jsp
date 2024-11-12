@@ -3,21 +3,16 @@
 <%@ page import="java.io.UnsupportedEncodingException" %>
 <%
     String email = "";
-    // Lấy giá trị của 'continueUrl' từ tham số query string
     String continueUrl = request.getParameter("continueUrl");
     
-    // Kiểm tra nếu 'continueUrl' không phải null
     if (continueUrl != null) {
         try {
             String decodedUrl = URLDecoder.decode(continueUrl, "UTF-8");
             String emailParam = decodedUrl.split("email=")[1];
             email = URLDecoder.decode(emailParam, "UTF-8");
-            
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    } else {
-        out.println("Không có continueUrl trong URL.");
     }
 %>
 
@@ -30,8 +25,28 @@
         <title>Reset Password </title>
     </head>
     <body>
+        <% 
+            if (request.getParameter("error") != null && request.getParameter("error").equals("invalid")) { 
+        %>
+            <div class="alerts">    
+                <div class="alert alert-danger animated bounceInRight">
+                    <div class="icon pull-left">
+                        <i class='fa fa-exclamation-triangle fa-2x'></i>
+                    </div>
+                    <div class="copy">
+                        <h4>ERROR</h4>
+                        <p>Old password not correct or confirm password does not match!</p>
+                    </div>
+                    <a class="close">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+        <% 
+            } 
+        %>
         <div class="login_container">
-            <h1>Register</h1>
+            <h1>Reset Password</h1>
             <div class="signup_link login">
                 Remember your password?  <a href="login.jsp">Login here</a>
             </div>
@@ -49,4 +64,15 @@
             </form>
         </div>
     </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.alert .close');
+
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    this.closest('.alert').style.display = 'none';
+                });
+            });
+        });
+    </script>
 </html>

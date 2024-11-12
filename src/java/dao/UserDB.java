@@ -307,6 +307,35 @@ public class UserDB implements DatabaseInfo {
         }
         return false;
     }
+    
+    public static User getUserByEmail(String email) {
+        User user = null;
+
+        try (Connection con = getConnect()) {
+            String query = "SELECT * FROM Users WHERE User_email = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setString(1, email);  // Set the email parameter
+
+            ResultSet rs = stmt.executeQuery();  
+            if (rs.next()) {
+                user = new User();
+                user.setUser_id(rs.getInt("ID"));
+                user.setUser_name(rs.getString("User_name"));
+                user.setUser_password(rs.getString("User_password"));
+                user.setUser_email(rs.getString("User_email"));
+                user.setUser_role(rs.getString("User_role"));
+                user.setFullname(rs.getString("User_fullname"));
+                user.setDob(rs.getString("User_dob"));
+                user.setPhone(rs.getString("User_phone"));
+                user.setAddress(rs.getString("User_address"));
+                user.setGender(rs.getString("User_gender"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return user;  // Return the user object or null if not found
+    }
 
     public static void main(String[] args) {
         User user = new User("tran ngoc thien", 1, "male", "0702411147", "ngocthien2902@gmail.com", "user");

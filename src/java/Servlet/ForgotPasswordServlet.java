@@ -82,7 +82,7 @@ public class ForgotPasswordServlet extends HttpServlet {
         user.setUser_password(newpassword);
         boolean success = UserDB.ChangePassword(user);
         if(success) {
-            request.getRequestDispatcher("login.jsp?success=true").forward(request,response);
+            request.getRequestDispatcher("login.jsp").forward(request,response);
         }
     }
 
