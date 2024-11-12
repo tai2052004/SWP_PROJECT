@@ -26,7 +26,6 @@
                 <button type="button" id="reset" class="input_container_submit">Request password reset</button>
             </form>
         </div>
-        <script src=""
         <script src="js/forgot_password.js" type="module"></script>
     </body>
 </html>
