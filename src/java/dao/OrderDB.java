@@ -467,15 +467,6 @@ public class OrderDB implements DatabaseInfo {
         return point;
     }
 
-    public static int countByStatus(String status, List<Order> orders) {
-        int count = 0;
-        for (Order o : orders) {
-            if (o.getStatus().equals(status)) {
-                count++;
-            }
-        }
-        return count;
-    }
 
     public static void main(String[] args) {
 ////// Tạo đối tượng ProductDetail
