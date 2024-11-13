@@ -106,55 +106,64 @@
                              align-items: center;
                              margin-bottom: 20px;
                              ">
-                            <!-- Search section -->
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-weight: 500;">Search:</span>
-                                <input type="text" placeholder="Enter Here" style="
-                                       padding: 8px 12px;
-                                       border: 1px solid #ccc;
-                                       border-radius: 4px;
-                                       width: 200px;
-                                       ">
-                                <button style="
-                                        padding: 8px 16px;
-                                        border-radius: 4px;
-                                        border: 1px solid #ccc;
-                                        background: white;
-                                        cursor: pointer;
-                                        ">Search</button>
-                            </div>
+                          <!-- Search section -->
+<div style="display: flex; align-items: center; gap: 10px;">
+    <span style="font-weight: 500;">Search:</span>
+    <input type="text" placeholder="Enter Here" style="
+           padding: 8px 12px;
+           border: 1px solid #ccc;
+           border-radius: 4px;
+           width: 200px;
+           " id="couponSearchInput">
+    <button style="
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+            " onclick="filterCoupons()">Search</button>
+</div>
 
-                            <!-- Sort and Add new buttons -->
-                            <div style="display: flex; gap: 16px; align-items: center;">
-                                <button style="
-                                        padding: 8px 16px;
-                                        border-radius: 4px;
-                                        border: 1px solid #1d81f3;
-                                        background: transparent;
-                                        color: #1d81f3;
-                                        display: flex;
-                                        align-items: center;
-                                        gap: 8px;
-                                        cursor: pointer;
-                                        ">
-                                    <img src="assets/sort.svg" alt="sort" width="20" height="20">
-                                    Sort by
-                                </button>
+              <!-- Sort and Add new buttons -->
+<div style="display: flex; gap: 16px; align-items: center;">
+    <form action="CouponList.jsp" method="get" style="display: flex; align-items: center;">
+        <div style="position: relative; display: flex; align-items: center;">
+            <img src="assets/sort.svg" alt="sort" width="20" height="20" style="position: absolute; left: 10px;">
+            <select name="sortOrder" onchange="this.form.submit()" style="
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    appearance: none;
+                    padding: 8px 16px 8px 40px;
+                    border-radius: 4px;
+                    border: 1px solid #1d81f3;
+                    background: transparent;
+                    color: #1d81f3;
+                    cursor: pointer;
+                    font-size: 14px;
+                    min-width: 150px;">
+                <option value="">Sort by</option>
+                <option value="valueAsc" <%= "valueAsc".equals(request.getParameter("sortOrder")) ? "selected" : "" %>>Value ascending</option>
+                <option value="valueDesc" <%= "valueDesc".equals(request.getParameter("sortOrder")) ? "selected" : "" %>>Value descending</option>
+                <option value="quantityAsc" <%= "quantityAsc".equals(request.getParameter("sortOrder")) ? "selected" : "" %>>Quantity ascending</option>
+                <option value="quantityDesc" <%= "quantityDesc".equals(request.getParameter("sortOrder")) ? "selected" : "" %>>Quantity descending</option>
+            </select>
+        </div>
+    </form>
 
-                                <a href="AddCoupon.jsp" style="
-                                   padding: 8px 16px;
-                                   border-radius: 4px;
-                                   background: #1d81f3;
-                                   color: white;
-                                   border: none;
-                                   display: flex;
-                                   align-items: center;
-                                   gap: 20px;
-                                   cursor: pointer;
-                                   text-decoration: none;">
-                                    + Add new
-                                </a>
-                            </div>
+    <a href="AddCoupon.jsp" style="
+       padding: 8px 16px;
+       border-radius: 4px;
+       background: #1d81f3;
+       color: white;
+       border: none;
+       display: flex;
+       align-items: center;
+       gap: 20px;
+       cursor: pointer;
+       text-decoration: none;">
+        + Add new
+    </a>
+</div>
                         </div>
 
                         <!-- User table -->
@@ -178,38 +187,63 @@
                                 <div style="color: #1d81f3; font-weight: 600;">Action</div>
                             </div>
 
-                            <!-- Table rows -->
-                            <div>
-                                <%
-                                    List<Coupon> coupons = CouponDB.listAllCoupons();
-                                    for(Coupon coupon : coupons) {
-                                %>
-                                <div style="
-                                     display: grid;
-                                     grid-template-columns: 80px 200px 200px 150px 150px 100px;
-                                     padding: 16px;
-                                     border-bottom: 1px solid #eee;
-                                     ">
-                                    <div><%= coupon.getCouponId() %></div>
-                                    <div><%= coupon.getCouponName() %></div>
-                                    <div><%= coupon.getCouponCode() %></div>
-                                    <div><%= String.format("%,.0f", coupon.getDiscountValue()) %></div>
-                                    <div><%= coupon.getQuantity() %></div>
-                                    <div style="display: flex; gap: 8px;">
-
-                                        <button onclick="confirmDelete(<%= coupon.getCouponId() %>)" style="border: none; background: none; cursor: pointer;">
-                                            <img src="assets/delete.svg" alt="delete" width="20" height="20">
-                                        </button>
-                                        <form id="deleteForm" action="DeleteCouponServlet" method="POST" style="display: none;">
-                                            <input type="hidden" id="deleteId" name="couponId" value="">
-                                        </form>
-
-                                    </div>
-                                </div>
-                                <%
-                                    }
-                                %>
-                            </div>
+                         <!-- Table rows -->
+<div class="coupon-container">
+    <%
+        List<Coupon> coupons = CouponDB.listAllCoupons();
+        String sortOrder = request.getParameter("sortOrder");
+        
+        // Sort the list based on sortOrder parameter
+        if (sortOrder != null) {
+            switch(sortOrder) {
+                case "valueAsc":
+                    coupons.sort(Comparator.comparingDouble(Coupon::getDiscountValue));
+                    break;
+                case "valueDesc":
+                    coupons.sort(Comparator.comparingDouble(Coupon::getDiscountValue).reversed());
+                    break;
+                case "quantityAsc":
+                    coupons.sort(Comparator.comparingInt(Coupon::getQuantity));
+                    break;
+                case "quantityDesc":
+                    coupons.sort(Comparator.comparingInt(Coupon::getQuantity).reversed());
+                    break;
+            }
+        }
+        
+        for(Coupon coupon : coupons) {
+    %>
+    <div style="
+         display: grid;
+         grid-template-columns: 80px 200px 200px 150px 150px 100px;
+         padding: 16px;
+         border-bottom: 1px solid #eee;
+         " 
+         class="coupon-row" 
+         data-coupon-id="<%= coupon.getCouponId() %>"
+         data-coupon-name="<%= coupon.getCouponName().toLowerCase() %>"
+         data-coupon-code="<%= coupon.getCouponCode().toLowerCase() %>">
+        <div><%= coupon.getCouponId() %></div>
+        <div><%= coupon.getCouponName() %></div>
+        <div><%= coupon.getCouponCode() %></div>
+        <div><%= String.format("%,.0f", coupon.getDiscountValue()) %></div>
+        <div><%= coupon.getQuantity() %></div>
+        <div style="display: flex; gap: 8px;">
+            <form id="couponSelectionForm<%= coupon.getCouponId() %>" action="UpdateCouponServlet" method="GET">
+                <div style="border: none; background: none; cursor: pointer; text-decoration: none;">
+                    
+                    <input type="hidden" id="selectedCoupon<%= coupon.getCouponId() %>" name="couponId" value="">
+                </div>
+            </form>
+            <button onclick="confirmDelete(<%= coupon.getCouponId() %>)" style="border: none; background: none; cursor: pointer;">
+                <img src="assets/delete.svg" alt="delete" width="20" height="20">
+            </button>
+        </div>
+    </div>
+    <%
+        }
+    %>
+</div>
                         </div>
                     </div>
                 </div>
@@ -269,5 +303,56 @@
                 }
             });
         </script>
+        <script>
+    function filterCoupons() {
+        const searchInput = document.getElementById('couponSearchInput').value.trim().toLowerCase();
+        const coupons = document.querySelectorAll('.coupon-row');
+        let visibleCouponCount = 0;
+        const couponContainer = document.querySelector('.coupon-container'); // Add class "coupon-container" to your table rows container
+        
+        // Convert NodeList to Array for sorting
+        const couponArray = Array.from(coupons);
+        
+        couponArray.forEach(coupon => {
+            const couponName = coupon.getAttribute('data-coupon-name');
+            const couponCode = coupon.getAttribute('data-coupon-code').toLowerCase();
+            
+            if (couponName.includes(searchInput) || couponCode.includes(searchInput)) {
+                coupon.style.visibility = "visible";
+                coupon.style.height = "";
+                visibleCouponCount++;
+                // Move matching items to top
+                couponContainer.insertBefore(coupon, couponContainer.firstChild);
+            } else {
+                coupon.style.visibility = "hidden";
+                coupon.style.height = "0";
+            }
+        });
+
+        if (visibleCouponCount === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'ERROR',
+                text: 'No coupon found',
+                confirmButtonText: 'OK'
+            });
+            // Reset display and order
+            couponArray.forEach(coupon => {
+                coupon.style.visibility = "visible";
+                coupon.style.height = "";
+                // Restore original order by ID
+                const couponId = parseInt(coupon.getAttribute('data-coupon-id'));
+                const nextCoupon = Array.from(couponContainer.children).find(c => 
+                    parseInt(c.getAttribute('data-coupon-id')) > couponId
+                );
+                if (nextCoupon) {
+                    couponContainer.insertBefore(coupon, nextCoupon);
+                } else {
+                    couponContainer.appendChild(coupon);
+                }
+            });
+        }
+    }
+</script>
     </body>
 </html>
