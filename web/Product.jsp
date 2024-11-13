@@ -31,7 +31,7 @@ if (user != null) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product5.css"/>
+        <link rel="stylesheet" href="CSS/Product6.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -240,7 +240,7 @@ if (user != null) {
                                 <span data-value="5" class="star" onclick="setRating(5)">&#9733;</span>
                             </div>
                             <textarea name="commentContent" class="decription" placeholder="Leave a comment"></textarea>
-                            <button class="submit-button" type="submit">Submit Review</button>
+                            <button class="btn btn-dangerous submit-button" type="submit">Submit Review</button>
                         </div>
                     </form>
                 <%

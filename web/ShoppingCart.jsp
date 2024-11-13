@@ -113,7 +113,25 @@
 
     </head>
     <body>
-
+        <%
+        String errorMessage = (String) session.getAttribute("error");
+        if (errorMessage != null) {
+        %>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: `<%= errorMessage.replace("'", "\\'") %>`,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+            <% session.removeAttribute("error"); %>
+                    }
+                });
+            });
+        </script>
+        <% } %>
         <header>
 
             <div class="row header">

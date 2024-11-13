@@ -128,6 +128,12 @@ public class ShoppingCart extends HttpServlet {
             ProductDetail pd = ProductDetailDB.getProductDetailByProductDetailID(o.getProduct_detail_id());
             if (s != null) {
                 int newQuantity = Integer.parseInt(s);
+                if ( newQuantity > pd.getQuantity())
+                {
+                    session.setAttribute("error", "Quantity not enough in stock!");
+                    request.getRequestDispatcher("ShoppingCart.jsp").forward(request, response);
+                    return;
+                }
                 o.setQuantity(newQuantity);
             }
             if (size != null) {
