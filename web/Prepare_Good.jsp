@@ -6,7 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.* , dao.*, java.util.*" %> 
+<%@page import="java.text.SimpleDateFormat" %>
+<%@page import="java.util.Date" %>
 <% 
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     String timeframe = request.getParameter("timeframe");
     List<Order> listOrders = new ArrayList<Order>();
     if (timeframe == null || timeframe.isEmpty()) {
@@ -262,11 +265,13 @@
                             <% 
                             for (Order r : listOrders) {
                                 String fullname = OrderDB.getUserFullName(r.getUser_id());
+                                String originalDateString = r.getOrder_date();
+                                Date date = java.sql.Timestamp.valueOf(originalDateString);
                                 if (r.getStatus().equals("Confirmed") || r.getStatus().equals("Shipping")) {
                             %>
                                 <div><%= r.getOrder_id() %> </div>
                                 <div><%= fullname %> </div>
-                                <div><%= r.getOrder_date() %> </div>
+                                <div><%= sdf.format(date) %> </div>
                                 <div> <%= r.getTotal_price() %> </div>
                                 <div> 
                                 <%
