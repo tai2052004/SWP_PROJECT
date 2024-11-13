@@ -76,7 +76,7 @@ public class CheckOutServlet extends HttpServlet {
         
         order.setStatus("Pending");
         order.setOrder_date(nowStr);
-        order.setFeeship(20);
+        order.setFeeship(20000);
         boolean success = OrderDB.addNewOrder(order);
         boolean success2 = false;
         for ( OrderDetail od : listOD)

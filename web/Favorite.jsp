@@ -64,19 +64,19 @@
 
     <main class="container-fluid">
         <h2>My Favorite Products</h2>
-        <p>Has 5    products</p>
      
         <div class="product-grid">
         <%
             int id = user.getUser_id();
             List<Product> product = ProductDB.getProductByFavourite(id);
             for(Product products : product) {
+            String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(products.getPrice());
         %>
            <div class="product-card" onclick="chooseProduct(<%= products.getProductID() %>)" style="cursor: pointer;">
                 <i class="bi bi-heart-fill favorite-icon"></i>
                 <img src="<%= products.getImg_url()%>" alt="<%= products.getProductName()%>">
                 <h3><%= products.getProductName()%></h3>
-                <p class="price"><%= products.getPrice()%></p>
+                <p class="price"><%= %></p>
                 <i class="bi bi-cart3 cart-icon"></i>
            </div>  
         <%

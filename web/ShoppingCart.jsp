@@ -26,11 +26,13 @@
         order.setUser_id(user.getUser_id());
         double couponValue = 0;
         float feeship = 20;
+        int cID = -1;
         order.setFeeship(feeship);
         if ( coupon != null)
         {
             couponValue = coupon.getDiscountValue();
             order.setCoupon(coupon.getCouponId());
+            cID = coupon.getCouponId();
         }
         else 
         {
@@ -246,6 +248,7 @@
                         String formatAlltotal = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(allTotal);
                         session.setAttribute("formatAlltotal", allTotal);
             %>
+            
             <div class="cart-totals">
                 <h2>Cart totals</h2>
                 <table>
@@ -265,6 +268,7 @@
                 </table>
                 <form action="ShoppingCart" method="post">
                     <input type="hidden" name="action" value="checkout">
+                    <input type="hidden" name="couponID" value="<%= cID %>" />
                     <button type="submit" class="checkout">Check out</button>
                 </form>
 

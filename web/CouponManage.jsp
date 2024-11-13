@@ -16,7 +16,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-        <link href="CSS/styless.css" rel="stylesheet" />
+        <link href="CSS/stylesss.css" rel="stylesheet" />
     </head>
     <body>
         <div class="header">
@@ -59,9 +59,11 @@
                             <a class="sidebar-button" href="OrderList.jsp">
                                 <img src="assets/cart.svg" width="36" height="36" style="margin-right: 13px" /> Orders Management
                             </a>
-                            <a class="sidebar-button" href="SaleStatistic.jsp">
-                                <img src="assets/sales.svg" width="36" height="36" style="margin-right: 13px" /> Sales Statistics
-                            </a>
+                            <form id="myForm" action="SaleStatisticServlet" method="post">
+                                <a class="sidebar-button" onclick="document.getElementById('myForm').submit();">
+                                    <img src="assets/sales.svg" width="36" height="36" style="margin-right: 13px" /> Sales Statistics
+                                </a>
+                            </form>
                             <a class="sidebar-button" href="UserManage.jsp">
                                 <img src="assets/user.svg" width="36" height="36" style="margin-right: 13px" /> User Management
                             </a>

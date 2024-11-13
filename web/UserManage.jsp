@@ -14,7 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -24,7 +24,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Kavoon&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-        <link href="CSS/styless.css?v=1.0.1" rel="stylesheet" />
+        <link href="CSS/stylesss.css?v=1.0.1" rel="stylesheet" />
     </head>
     <body>
         <% if (request.getParameter("success") != null && request.getParameter("success").equals("true")) { %>
@@ -102,9 +102,12 @@
                             <a class="sidebar-button " href="OrderList.jsp">
                                 <img src="assets/cart.svg" width="36" height="36" style="margin-right: 13px" /> Orders Management
                             </a>
-                            <a class="sidebar-button" href="SaleStatistic.jsp">
-                                <img src="assets/sales.svg" width="36" height="36" style="margin-right: 13px" /> Sales Statistics
-                            </a>
+                            <form id="myForm" action="SaleStatisticServlet" method="post">
+                                <a class="sidebar-button" onclick="document.getElementById('myForm').submit();">
+                                    <img src="assets/sales.svg" width="36" height="36" style="margin-right: 13px" /> Sales Statistics
+                                </a>
+                            </form>
+
                             <a class="sidebar-button is-active" href="UserManage.jsp">
                                 <img src="assets/user.svg" width="36" height="36" style="margin-right: 13px" /> User Management
                             </a>
@@ -286,7 +289,7 @@
                     }
                 }
 
-                
+
             </script>
         </div>
 
@@ -308,4 +311,4 @@
             document.getElementById('userSelectionForm' + userId).submit();
         }
         </script
-        </html>
+            </html>

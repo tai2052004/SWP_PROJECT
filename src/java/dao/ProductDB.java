@@ -341,6 +341,17 @@ public class ProductDB implements DatabaseInfo {
 
 
     public static void main(String[] args) {
+        HashMap<String, Double> hashmap = new HashMap<>();
+        List<OrderDetail> odLi = OrderDB.getOrderDetail();
+        for ( OrderDetail od : odLi)
+        {
+            Product p = ProductDB.getProductById(od.getProduct_id());
+            hashmap.put(p.getProductName(), hashmap.getOrDefault(p.getProductName(), 0D) + od.getTotalPrice());
+        }
+        for ( String key : hashmap.keySet())
+        {
+            System.out.println("Key : " + key + " Value : " + hashmap.get(key));
+        }
     }
 }
 

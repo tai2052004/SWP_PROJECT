@@ -110,8 +110,28 @@
         <link rel="stylesheet" href="CSS/CheckOut1.css"/>
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
+        <%
+        String errorMessage = (String) session.getAttribute("error");
+        if (errorMessage != null) {
+        %>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERROR',
+                    text: `<%= errorMessage.replace("'", "\\'") %>`,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+            <% session.removeAttribute("error"); %>
+                    }
+                });
+            });
+        </script>
+        <% } %>
         <header>
 
             <div class="row header">
@@ -317,7 +337,7 @@
                         <p>Phone : 0123456789<p>
                     </div>
                     <div class="infor">
-                        <p>Addres : do biet o dau<p>
+                        <p>Address : do biet o dau<p>
                     </div>
                 </div>
                 <div class="footer2-inside-2">
@@ -340,7 +360,7 @@
 
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
         <script>
                         function validateForm(event) {
                             event.preventDefault();

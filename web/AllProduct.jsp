@@ -17,21 +17,21 @@
     boolean a = true;
     List<Product> products = ProductDB.allListProduct();
     String sortOrder = request.getParameter("sortOrder");
-
+    // Existing code to retrieve the search term, brands, price range, and sort order
+    String searchTerm = request.getParameter("search");
     // Filter products based on maxPrice and selected brands
     List<Product> filteredProducts = new ArrayList<>();
     for (Product p : products) {
-        // Check if product is within the selected price range
         boolean withinPriceRange = p.getPrice() <= maxPrice;
-
-        // Check if product matches any of the selected brands (or no brands selected)
         boolean matchesBrand = (selectedBrands == null) || Arrays.asList(selectedBrands).contains(p.getBrand());
+        boolean matchesSearch = (searchTerm == null || searchTerm.isEmpty()) || p.getProductName().toLowerCase().contains(searchTerm.toLowerCase());
 
-        // Add to filtered list if it meets both conditions
-        if (withinPriceRange && matchesBrand) {
+        // Add to filtered list if it meets all conditions
+        if (withinPriceRange && matchesBrand && matchesSearch) {
             filteredProducts.add(p);
         }
     }
+
     
 %>
 <html>
@@ -71,7 +71,7 @@
                         <div class="dropdown-menu">
                             <a href="ManageProfile.jsp">My profile</a>
                             <a href="TrackMyOrder.jsp">Track my order</a>
-                            <a href="favorites.jsp">Favorite Items</a>
+                            <a href="Favorite.jsp">Favorite Items</a>
                         </div>
                     </div>
                     <% } %>
@@ -86,9 +86,9 @@
         </header>
 
         <div class="Search">
-            <form action="SearchProductServlet" method="post">
+            <form action="AllProduct.jsp" method="get">
                 <div class="search-container">
-                    <input type="text" placeholder="Search" name="search" value="${s}">
+                    <input type="text" placeholder="Search" name="search" value="<%= searchTerm != null ? searchTerm : "" %>">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
             </form>
@@ -146,30 +146,26 @@
                             <option value="priceAsc" <%= "priceAsc".equals(sortOrder) ? "selected" : "" %>>Price ascending</option>
                             <option value="priceDesc" <%= "priceDesc".equals(sortOrder) ? "selected" : "" %>>Price descending</option>
                         </select>
+                        <input type="hidden" name="search" value="<%= searchTerm != null ? searchTerm : "" %>">
                     </form>
-
                 </div>
-                <!-- Display the filtered products -->
+
                 <div class="product-grid">
                     <% 
-                        // Check if any products meet the criteria
-                        if(filteredProducts.isEmpty()) { 
+                        if (filteredProducts.isEmpty()) { 
                     %>
-                    <p>No products found within the specified price range and selected brands.</p>
+                    <p>No products found matching the specified criteria.</p>
                     <% 
                         } else {
                             if (sortOrder != null) {
-                                   if (sortOrder.equals("new")) {
-                                       // Sort by New (ProductID descending)
-                                       filteredProducts.sort(Comparator.comparingInt(Product::getProductID).reversed());
-                                   } else if (sortOrder.equals("priceAsc")) {
-                                       // Sort by Price ascending
-                                       filteredProducts.sort(Comparator.comparingDouble(Product::getPrice));
-                                   } else if (sortOrder.equals("priceDesc")) {
-                                       // Sort by Price descending
-                                       filteredProducts.sort(Comparator.comparingDouble(Product::getPrice).reversed());
-                                   }
-                               }
+                                if (sortOrder.equals("new")) {
+                                    filteredProducts.sort(Comparator.comparingInt(Product::getProductID).reversed());
+                                } else if (sortOrder.equals("priceAsc")) {
+                                    filteredProducts.sort(Comparator.comparingDouble(Product::getPrice));
+                                } else if (sortOrder.equals("priceDesc")) {
+                                    filteredProducts.sort(Comparator.comparingDouble(Product::getPrice).reversed());
+                                }
+                            }
                             for (Product product2 : filteredProducts) { 
                                 double price = product2.getPrice();
                                 String formattedPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price);
@@ -223,11 +219,11 @@
 
     </body>
     <script>
-                        function chooseProduct(productId) {
+            function chooseProduct(productId) {
 
-                            document.getElementById('selectedProduct').value = productId;
+                document.getElementById('selectedProduct').value = productId;
 
-                            document.getElementById('productSelectionForm').submit();
-                        }
+                document.getElementById('productSelectionForm').submit();
+            }
     </script>
 </html>

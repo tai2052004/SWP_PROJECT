@@ -12,9 +12,7 @@ public class User {
     private int user_id;
     private String user_name;
     private String user_password;
-    private String user_email;
     private String user_role;
-    private String fullname;
     private String dob;
     private String phone;
     private String address;
@@ -26,9 +24,7 @@ public class User {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_password = user_password;
-        this.user_email = user_email;
         this.user_role = user_role;
-        this.fullname = fullname;
         this.dob = dob;
         this.phone = phone;
         this.address = address;
@@ -43,9 +39,9 @@ public class User {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_password = user_password;
-        this.user_email = user_email;
+        this.email = user_email;
         this.user_role = user_role;
-        this.fullname = fullname;
+        this.name = fullname;
         this.dob = dob;
         this.phone = phone;
         this.address = address;
@@ -56,9 +52,9 @@ public class User {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_password = user_password;
-        this.user_email = user_email;
+        this.email = user_email;
         this.user_role = user_role;
-        this.fullname = fullname;
+        this.name = fullname;
         this.dob = dob;
         this.phone = phone;
         this.address = address;
@@ -68,32 +64,32 @@ public class User {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_password = user_password;
-        this.user_email = user_email;
+        this.email = user_email;
         this.user_role = user_role;
         this.phone = phone;
     }
     public User(String fullname, int user_id , String gender, String phone, String user_email,String user_role) {
-        this.fullname= fullname;
+        this.name = fullname;
         this.user_id = user_id;
         this.gender = gender;
         this.phone= phone;
-        this.user_email = user_email;
+        this.email = user_email;
         this.user_role = user_role;
     }
     public User(String user_name, String user_password, String user_email, String user_role) {
         this.user_id = 0;
         this.user_name = user_name;
         this.user_password = user_password;
-        this.user_email = user_email;
+        this.email = user_email;
         this.user_role = user_role;
     }
     public User(String user_name, String user_password, String user_email, String user_role, String fullname,String phone, String address) {
         this.user_id = 0;
         this.user_name = user_name;
         this.user_password = user_password;
-        this.user_email = user_email;
+        this.email = user_email;
         this.user_role = user_role;
-        this.fullname = fullname;
+        this.name = fullname;
         this.phone = phone;
         this.address = address;
     }
@@ -122,11 +118,11 @@ public class User {
     }
 
     public String getUser_email() {
-        return user_email;
+        return email;
     }
 
     public void setUser_email(String user_email) {
-        this.user_email = user_email;
+        this.email = user_email;
     }
 
     public String getUser_role() {
@@ -138,11 +134,11 @@ public class User {
     }
 
     public String getFullname() {
-        return fullname;
+        return name;
     }
 
     public void setFullname(String fullname) {
-        this.fullname = fullname;
+        this.name = fullname;
     }
 
     public String getDob() {
@@ -195,7 +191,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "user_id=" + user_id + ", user_name=" + user_name + ", user_password=" + user_password + ", user_email=" + user_email + ", user_role=" + user_role + ", fullname=" + fullname + ", dob=" + dob + ", phone=" + phone + ", address=" + address + ", gender=" + gender + '}';
+        return "User{" + "user_id=" + user_id + ", user_name=" + user_name + ", user_password=" + user_password + ", user_email=" + email + ", user_role=" + user_role + ", fullname=" + name + ", dob=" + dob + ", phone=" + phone + ", address=" + address + ", gender=" + gender + '}';
     }   
 }
 

@@ -5,6 +5,8 @@
 package Servlet;
 
 import dao.CouponDB;
+import dao.ProductDB;
+import dao.ProductDetailDB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import java.util.List;
 import model.Coupon;
 import model.OrderDetail;
 import model.Product;
+import model.ProductDetail;
 
 /**
  *
@@ -77,11 +80,19 @@ public class ShoppingCart extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        
         if ( action != null )
         {
             if (action.equalsIgnoreCase("updateCart")) {
                 updateCart(request, response);
             } else if (action.equalsIgnoreCase("checkout")) {
+                String c = request.getParameter("couponID");
+                Coupon coupon = null;
+                if ( c != null )
+                {
+                    coupon = CouponDB.getCouponById(Integer.parseInt(c));
+                }
+                request.setAttribute("coupon", coupon);
                 request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
             } else if (action.equalsIgnoreCase("applyCoupon")) {
                 applyCoupon(request, response);
@@ -114,6 +125,7 @@ public class ShoppingCart extends HttpServlet {
         for (OrderDetail o : lOD) {
             String s = request.getParameter("quantityChange" + o.getCart_id());
             String size = request.getParameter("sizeChange" + o.getCart_id());
+            ProductDetail pd = ProductDetailDB.getProductDetailByProductDetailID(o.getProduct_detail_id());
             if (s != null) {
                 int newQuantity = Integer.parseInt(s);
                 o.setQuantity(newQuantity);

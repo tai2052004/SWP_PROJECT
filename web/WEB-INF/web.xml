@@ -88,6 +88,10 @@
         <servlet-name>FavouriteProductServlet</servlet-name>
         <servlet-class>Servlet.FavouriteProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SaleStatisticServlet</servlet-name>
+        <servlet-class>Servlet.SaleStatisticServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ManageProfile</servlet-name>
         <url-pattern>/ManageProfile</url-pattern>
@@ -175,6 +179,10 @@
     <servlet-mapping>
         <servlet-name>FavouriteProductServlet</servlet-name>
         <url-pattern>/FavouriteProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaleStatisticServlet</servlet-name>
+        <url-pattern>/SaleStatisticServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>60</session-timeout>

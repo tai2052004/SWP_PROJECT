@@ -43,22 +43,22 @@ public class OrderDB implements DatabaseInfo {
         }
         return null;
     }
-    public static List<OrderDetail> getOrderDetail()
-    {
+
+    public static List<OrderDetail> getOrderDetail() {
         List<OrderDetail> orderDetails = new ArrayList<>();
-        
-        String query = "SELECT o.user_id, p.name AS product_name, " +
-               "p.brand, p.price, pd.size, od.quantity, o.order_date, o.total_price, o.order_id, o.status " +  // Thêm khoảng trắng sau o.status
-               "FROM [Order] o " +
-               "JOIN OrderDetail od ON o.order_id = od.order_id " +
-               "JOIN Product p ON od.product_id = p.product_id " +
-               "JOIN ProductDetail pd ON p.product_id = pd.product_id";
-        
-        try (Connection conn = getConnect(); 
-             PreparedStatement ps = conn.prepareStatement(query)) {
-            
+
+        String query = "SELECT o.user_id, p.name AS product_name, "
+                + "p.brand, p.price, pd.size, od.quantity, o.order_date, o.total_price, o.order_id, o.status, p.product_id "
+                + // Thêm khoảng trắng sau o.status
+                "FROM [Order] o "
+                + "JOIN OrderDetail od ON o.order_id = od.order_id "
+                + "JOIN ProductDetail pd ON od.product_detail_id = pd.id "
+                + "JOIN Product p ON pd.product_id = p.product_id ";
+
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setUser_id(rs.getInt("user_id"));
@@ -67,17 +67,18 @@ public class OrderDB implements DatabaseInfo {
                 orderDetail.setStatus("status");
                 orderDetail.setPrice(rs.getFloat("price"));
                 orderDetail.setSize(rs.getString("size"));
+                orderDetail.setProduct_id(rs.getInt("product_id"));
                 orderDetail.setQuantity(rs.getInt("quantity"));
                 orderDetail.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
                 orderDetail.setTotalPrice(rs.getDouble("total_price"));
                 orderDetail.setOrder_id(rs.getInt("order_id"));
                 orderDetails.add(orderDetail);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return orderDetails;
     }
 
@@ -174,7 +175,7 @@ public class OrderDB implements DatabaseInfo {
 
     public static List<OrderDetail> getOrderDetailsById(int orderId) {
         List<OrderDetail> orderDetail = new ArrayList<>();
-        String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, p.brand, "
+        String query = "SELECT o.order_id, od.order_detail_id, u.id AS user_id, p.name, pd.size, p.brand, p.product_id, od.total_price, "
                 + "od.quantity, od.price, p.discount,p.image_urls, o.order_date, o.status "
                 + "FROM [Order] o "
                 + "JOIN Users u ON o.user_id = u.ID "
@@ -193,6 +194,8 @@ public class OrderDB implements DatabaseInfo {
                 orderDetails.setSize(rs.getString("size"));
                 orderDetails.setQuantity(rs.getInt("quantity"));
                 orderDetails.setPrice(rs.getDouble("price"));
+                orderDetails.setProduct_id(rs.getInt("product_id"));
+                orderDetails.setTotalPrice(rs.getDouble("total_price"));
                 orderDetails.setOrderDate(rs.getObject("order_date", LocalDateTime.class));
                 orderDetails.setDiscount(rs.getFloat("discount"));
                 orderDetails.setImg_url(rs.getString("image_urls"));
@@ -265,7 +268,7 @@ public class OrderDB implements DatabaseInfo {
 
     public static boolean addOrderDetails(List<OrderDetail> orderDetails, int orderId) {
         try (Connection con = getConnect()) {
-            String query = "INSERT INTO OrderDetail (order_id, product_detail_id, quantity, price) VALUES (?, ?, ?, ?)";
+            String query = "INSERT INTO OrderDetail (order_id, product_detail_id, quantity, price, total_price) VALUES (?, ?, ?, ?, ?)";
 
             try (PreparedStatement stmt = con.prepareStatement(query)) {
                 for (OrderDetail orderDetail : orderDetails) {
@@ -273,6 +276,7 @@ public class OrderDB implements DatabaseInfo {
                     stmt.setInt(2, orderDetail.getProduct_detail_id());
                     stmt.setInt(3, orderDetail.getQuantity());
                     stmt.setDouble(4, orderDetail.getPrice());
+                    stmt.setDouble(5, orderDetail.getTotalPrice());
 
                     stmt.addBatch();
                 }
@@ -325,21 +329,22 @@ public class OrderDB implements DatabaseInfo {
             return false;
         }
     }
+
     public static boolean setStaus(int orderId, String action) {
-    String query = "UPDATE [order] SET status = ? WHERE order_id = ?";
-    
-    try (Connection con = getConnect()) {
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, action);
-        ps.setInt(2, orderId);
-        
-        // Thực hiện cập nhật và kiểm tra số hàng được cập nhật
-        return ps.executeUpdate() > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+        String query = "UPDATE [order] SET status = ? WHERE order_id = ?";
+
+        try (Connection con = getConnect()) {
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, action);
+            ps.setInt(2, orderId);
+
+            // Thực hiện cập nhật và kiểm tra số hàng được cập nhật
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
 
     public static List<Order> getOrderByTimeframe(String timeframe) {
         List<Order> orders = new ArrayList<>();
@@ -390,102 +395,87 @@ public class OrderDB implements DatabaseInfo {
     }
     
     public static SalesStatistic getTodayStatistics() {
-    try (Connection conn = getConnect()) {
-        String query = "SELECT COALESCE(SUM(o.total_price), 0) as total_sales, " +
-                       "COUNT(DISTINCT o.order_id) as total_orders, " +
-                       "COALESCE(SUM(od.quantity), 0) as products_sold " +
-                       "FROM [Order] o " +
-                       "LEFT JOIN OrderDetail od ON o.order_id = od.order_id " +
-                       "WHERE CAST(o.order_date AS DATE) = CAST(GETDATE() AS DATE)";
-        
-        PreparedStatement ps = conn.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();
-        
-        if (rs.next()) {
-            return new SalesStatistic(
-                rs.getDouble("total_sales"),
-                rs.getInt("total_orders"),
-                rs.getInt("products_sold")
-            );
+        try (Connection conn = getConnect()) {
+            String query = "SELECT COALESCE(SUM(o.total_price), 0) as total_sales, "
+                    + "COUNT(DISTINCT o.order_id) as total_orders, "
+                    + "COALESCE(SUM(od.quantity), 0) as products_sold "
+                    + "FROM [Order] o "
+                    + "LEFT JOIN OrderDetail od ON o.order_id = od.order_id "
+                    + "WHERE CAST(o.order_date AS DATE) = CAST(GETDATE() AS DATE)";
+
+            PreparedStatement ps = conn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new SalesStatistic(
+                        rs.getDouble("total_sales"),
+                        rs.getInt("total_orders"),
+                        rs.getInt("products_sold")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return new SalesStatistic(0, 0, 0);
     }
-    return new SalesStatistic(0, 0, 0);
-}
 
-public static List<Map<String, Object>> getTopProducts() {
-    List<Map<String, Object>> topProducts = new ArrayList<>();
-    String query = "SELECT TOP 10 p.name, p.brand, " +
-                   "SUM(od.quantity) as total_sold, " +
-                   "SUM(od.quantity * od.price) as total_revenue " +
-                   "FROM Product p " +
-                   "JOIN ProductDetail pd ON p.product_id = pd.product_id " +
-                   "JOIN OrderDetail od ON pd.id = od.product_detail_id " +
-                   "GROUP BY p.name, p.brand " +
-                   "ORDER BY total_revenue DESC";
+    public static List<Map<String, Object>> getTopProducts() {
+        List<Map<String, Object>> topProducts = new ArrayList<>();
+        String query = "SELECT TOP 10 p.name, p.brand, "
+                + "SUM(od.quantity) as total_sold, "
+                + "SUM(od.quantity * od.price) as total_revenue "
+                + "FROM Product p "
+                + "JOIN ProductDetail pd ON p.product_id = pd.product_id "
+                + "JOIN OrderDetail od ON pd.id = od.product_detail_id "
+                + "GROUP BY p.name, p.brand "
+                + "ORDER BY total_revenue DESC";
 
-    try (Connection conn = getConnect(); 
-         PreparedStatement ps = conn.prepareStatement(query);
-         ResultSet rs = ps.executeQuery()) {
-        
-        while (rs.next()) {
-            Map<String, Object> product = new HashMap<>();
-            product.put("name", rs.getString("name"));
-            product.put("brand", rs.getString("brand"));
-            product.put("totalSold", rs.getInt("total_sold"));
-            product.put("totalRevenue", rs.getDouble("total_revenue"));
-            topProducts.add(product);
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> product = new HashMap<>();
+                product.put("name", rs.getString("name"));
+                product.put("brand", rs.getString("brand"));
+                product.put("totalSold", rs.getInt("total_sold"));
+                product.put("totalRevenue", rs.getDouble("total_revenue"));
+                topProducts.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return topProducts;
-}
-
-public static List<Map<String, Object>> getChartData(String period) {
-    List<Map<String, Object>> data = new ArrayList<>();
-    String query = "";
-    
-    switch(period.toLowerCase()) {
-        case "week":
-            query = "SELECT DATENAME(WEEKDAY, o.order_date) as label, " +
-                    "SUM(o.total_price) as value " +
-                    "FROM [Order] o " +
-                    "WHERE o.order_date >= DATEADD(DAY, -6, CAST(GETDATE() AS DATE)) " +
-                    "GROUP BY DATENAME(WEEKDAY, o.order_date)";
-            break;
-        case "month":
-            query = "SELECT 'Week ' + CAST(DATEPART(WEEK, o.order_date) AS VARCHAR) as label, " +
-                    "SUM(o.total_price) as value " +
-                    "FROM [Order] o " +
-                    "WHERE o.order_date >= DATEADD(MONTH, -1, CAST(GETDATE() AS DATE)) " +
-                    "GROUP BY DATEPART(WEEK, o.order_date)";
-            break;
-        case "year":
-            query = "SELECT DATENAME(MONTH, o.order_date) as label, " +
-                    "SUM(o.total_price) as value " +
-                    "FROM [Order] o " +
-                    "WHERE o.order_date >= DATEADD(YEAR, -1, CAST(GETDATE() AS DATE)) " +
-                    "GROUP BY DATENAME(MONTH, o.order_date)";
-            break;
+        return topProducts;
     }
 
-    try (Connection conn = getConnect(); 
-         PreparedStatement ps = conn.prepareStatement(query);
-         ResultSet rs = ps.executeQuery()) {
-        
-        while (rs.next()) {
-            Map<String, Object> point = new HashMap<>();
-            point.put("label", rs.getString("label"));
-            point.put("value", rs.getDouble("value"));
-            data.add(point);
+    public static Map<String, Double> getChartData() {
+        Map<String, Double> point = new HashMap<>();
+        String query = "";
+
+        query = "SELECT DATENAME(MONTH, o.order_date) as label, "
+                + "SUM(o.total_price) as value "
+                + "FROM [Order] o "
+                + "WHERE o.order_date >= DATEADD(YEAR, -1, CAST(GETDATE() AS DATE)) "
+                + "GROUP BY DATENAME(MONTH, o.order_date)";
+
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                point.put(rs.getString("label"), point.getOrDefault(rs.getString("label"), 0D) + rs.getDouble("value"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return point;
     }
-    return data;
-}
+
+    public static int countByStatus(String status, List<Order> orders) {
+        int count = 0;
+        for (Order o : orders) {
+            if (o.getStatus().equals(status)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     public static void main(String[] args) {
 ////// Tạo đối tượng ProductDetail
@@ -530,6 +520,9 @@ public static List<Map<String, Object>> getChartData(String period) {
 //        for(OrderDetail orders : order) {
 //            System.out.println(orders);
 //        }
-        
+        SalesStatistic s = getTodayStatistics();
+        System.out.println(s.getTotalSales());
+        System.out.println(s.getTotalOrders());
+        System.out.println(s.getProductsSold());
     }
 }

@@ -68,6 +68,7 @@ create table OrderDetail (
     product_detail_id int,     -- ID của sản phẩm
     quantity int,               -- Số lượng của sản phẩm này trong đơn hàng
     price float,                -- Giá tại thời điểm đặt (để không bị thay đổi khi giá gốc của sản phẩm thay đổi)
+	total_price float,
     foreign key (order_id) references "Order"(order_id),
     foreign key (product_detail_id) references ProductDetail(id)
 );

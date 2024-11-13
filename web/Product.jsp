@@ -31,7 +31,7 @@ if (user != null) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="boostrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="CSS/Product4.css"/>
+        <link rel="stylesheet" href="CSS/Product5.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <title>JSP Page</title>
@@ -66,8 +66,8 @@ if (user != null) {
                 </div>
 
                 <div class="col-md-6 menu">
-                    <a href="landingPage.jsp" class="menuText active">HOME</a>
-                    <a href="AllProduct.jsp" class="menuText">SHOP</a>
+                    <a href="landingPage.jsp" class="menuText">HOME</a>
+                    <a href="AllProduct.jsp" class="menuText active">SHOP</a>
                     <a href="#footer" class="menuText">CONTACT</a>
                 </div>
 

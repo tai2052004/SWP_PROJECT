@@ -5,12 +5,16 @@
 package Servlet;
 
 import dao.OrderDB;
+import dao.ProductDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.*;
+import model.*;
 
 /**
  *
@@ -35,7 +39,7 @@ public class ComfirmAndCancelOrder extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ComfirmAndCancelOrder</title>");            
+            out.println("<title>Servlet ComfirmAndCancelOrder</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ComfirmAndCancelOrder at " + request.getContextPath() + "</h1>");
@@ -58,35 +62,49 @@ public class ComfirmAndCancelOrder extends HttpServlet {
             throws ServletException, IOException {
         String orderId = request.getParameter("orderId");
         String action = request.getParameter("action");
-        if(action.equals("Cancel")) {
+        if (action.equals("Cancel")) {
             String status = "Cancelled";
             boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
-            if(isUpdate) {
-                request.getRequestDispatcher("OrderList.jsp").forward(request,response);
+            if (isUpdate) {
+                request.getRequestDispatcher("OrderList.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("OrderInfo.jsp").forward(request, response);
             }
-        } else if(action.equals("Confirm")){
+        } else if (action.equals("Confirm")) {
             String status = "Confirmed";
             boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
-            if(isUpdate) {
-                request.getRequestDispatcher("OrderList.jsp").forward(request,response);
+            if (isUpdate) {
+                request.getRequestDispatcher("OrderList.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("OrderInfo.jsp").forward(request, response);
             }
-        }else if(action.equals("Arrived")){
+        } else if (action.equals("Arrived")) {
             String status = "Delivered";
             boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
-            if(isUpdate) {
-                request.getRequestDispatcher("TrackMyOrder.jsp").forward(request,response);
+            if (isUpdate) {
+                request.getRequestDispatcher("TrackMyOrder.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("OrderDetails.jsp").forward(request, response);
             }
+        } else if (action.equals("DeliAndCancelled")) {
+            List<OrderDetail> od = OrderDB.getOrderDetailsById(Integer.parseInt(orderId));
+            for (OrderDetail ode : od) {
+                Product p = ProductDB.getProductById(ode.getProduct_id());
+                List<ProductDetail> liPD = p.getProductDetails();
+                for (ProductDetail pd : liPD) {
+                    if (pd.getSize().equals(ode.getSize())) {
+                        ode.setProduct_detail_id(pd.getProductDetailID());
+                    }
+                }
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("listCart", od);
+            request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
         } else {
             String status = "Cancelled";
             boolean isUpdate = OrderDB.setStaus(Integer.parseInt(orderId), status);
-            if(isUpdate) {
-                request.getRequestDispatcher("TrackMyOrder.jsp").forward(request,response);
+            if (isUpdate) {
+                request.getRequestDispatcher("TrackMyOrder.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("OrderDetails.jsp").forward(request, response);
             }

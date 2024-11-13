@@ -15,6 +15,9 @@ public class SalesStatistic {
         this.productsSold = productsSold;
     }
 
+    public SalesStatistic() {
+    }
+    
     // Giữ nguyên các getters và setters
 
     public double getTotalSales() {

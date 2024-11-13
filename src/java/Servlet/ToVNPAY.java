@@ -65,10 +65,23 @@ public class ToVNPAY extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        List<OrderDetail> lOD = (List<OrderDetail>) session.getAttribute("listCart");
+        if ( lOD.isEmpty() || lOD == null)
+        {
+            session.setAttribute("error", "Your shopping cart is empty");
+            request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
+            return;
+        }
         User user = (User) session.getAttribute("user");
         String address = request.getParameter("address");
+        String fullN = request.getParameter("fullname");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
         Order order = (Order) session.getAttribute("order");
         user.setAddress(address);
+        user.setFullname(fullN);
+        user.setMail(email);
+        user.setPhone(phone);
         UserDB.UpdateProfile(user);
         order.setAddress(address);
         

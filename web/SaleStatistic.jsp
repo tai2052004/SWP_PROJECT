@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@page import="model.* , dao.*, java.util.*" %> 
+<%@ page import="java.text.NumberFormat" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,8 +31,37 @@
             href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
             rel="stylesheet"
             />
-        <link href="CSS/styless.css" rel="stylesheet" />
+        <link href="CSS/stylesss.css" rel="stylesheet" />
     </head>
+    <%
+
+        Map<String, Double> chartData = OrderDB.getChartData();
+
+
+        String[] allMonths = {
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        };
+
+
+        StringBuilder labels = new StringBuilder();
+        StringBuilder values = new StringBuilder();
+
+        // Duyệt qua tất cả các tháng, nếu không có dữ liệu, gán giá trị 0
+        for (String month : allMonths) {
+            labels.append("\"").append(month).append("\",");
+            // Kiểm tra xem có dữ liệu cho tháng này không
+            if (chartData.containsKey(month)) {
+                values.append(chartData.get(month)).append(",");
+            } else {
+                values.append("0,"); // Nếu không có dữ liệu, gán 0
+            }
+        }
+
+        // Xóa dấu phẩy cuối cùng
+        if (labels.length() > 0) labels.setLength(labels.length() - 1);
+        if (values.length() > 0) values.setLength(values.length() - 1);
+    %>
     <body>
         <div class="header">
             <div>
@@ -65,7 +96,7 @@
                 </span>
             </div>
             <div>
-                <div class="logout-button">
+                <div class="logout-button" onclick="window.location.href = 'LogoutControl'" style="cursor: pointer;">
                     <span class="title black-text">Logout</span>
                     <img src="assets/logout.svg" width="30" height="30" />
                 </div>
@@ -147,7 +178,7 @@
                     </div>
                 </div>
             </div>
-                       <div class="content">
+            <div class="content">
                 <div>
                     <span class="title">Sales statistics</span>
                     <div class="today-sales">
@@ -159,7 +190,12 @@
                                     <div class="icon">
                                         <img src="assets/sales_report.svg" width="48" height="48" />
                                     </div>
-                                    <span class="big-text">${stats.totalSales} vnd</span>
+                                    <%
+                                        
+                                        SalesStatistic ss = (SalesStatistic) request.getAttribute("stats");
+                                        String formatPrice3 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(ss.getTotalSales());
+                                    %>
+                                    <span class="big-text"><%= formatPrice3 %></span>
                                     <span class="small-text">Total sales</span>
                                     <span class="percent-text">+ 5% from yesterday</span>
                                 </div>
@@ -186,16 +222,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="filter-container">
-                        <select id="periodFilter" class="period-filter" onchange="updateChart()">
-                            <option value="week">Weekly</option>
-                            <option value="month">Monthly</option>
-                            <option value="year">Yearly</option>
-                        </select>
-                    </div>
-                    <div class="graph-grid">
+                    <div class="graph-grid" style="display: flex; justify-content: center;">
                         <div class="graph-container">
-                            <canvas id="salesChart"></canvas>
+                            <div id="dataGraph"></div>
                         </div>
                     </div>
                     <div class="table-grid">
@@ -209,12 +238,20 @@
                                     <span class="line"></span>
                                 </div>
                                 <div class="inner-grid content-grid">
-                                    <c:forEach var="product" items="${topProducts}" varStatus="loop">
-                                        <div>${loop.index + 1}</div>
-                                        <div>${product.name}</div>
-                                        <div>${product.totalSold}</div>
-                                        <span class="line"></span>
-                                    </c:forEach>
+                                    <%
+                                        LinkedHashMap<String, Double> hashmap = (LinkedHashMap<String, Double>) request.getAttribute("TopProductMap");
+                                        int i = 1;
+                                        for ( Map.Entry<String, Double> entry  : hashmap.entrySet())
+                                        {
+                                        String formatPrice = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(entry.getValue());
+                                    %>
+                                    <div><%= i++ %></div>
+                                    <div><%= entry.getKey() %></div>
+                                    <div><%= formatPrice %></div>
+                                    <span class="line"></span>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -228,12 +265,20 @@
                                     <span class="line"></span>
                                 </div>
                                 <div class="inner-grid content-grid">
-                                    <c:forEach var="product" items="${topProducts}" varStatus="loop">
-                                        <div>${loop.index + 1}</div>
-                                        <div>${product.brand}</div>
-                                        <div>${product.totalRevenue}</div>
-                                        <span class="line"></span>
-                                    </c:forEach>
+                                    <%
+                                        LinkedHashMap<String, Double> hashmapBrand = (LinkedHashMap<String, Double>) request.getAttribute("TopBrandMap");
+                                        int i2 = 1;
+                                        for ( Map.Entry<String, Double> entry  : hashmapBrand.entrySet())
+                                        {
+                                        String formatPrice1 = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(entry.getValue());
+                                    %>
+                                    <div><%= i2++ %></div>
+                                    <div><%= entry.getKey() %></div>
+                                    <div><%= formatPrice1 %></div>
+                                    <span class="line"></span>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
                         </div>
@@ -245,27 +290,27 @@
         <script>
             var chartData = [];
             <c:forEach var="data" items="${chartData}">
-                chartData.push({
+    chartData.push({
                     label: "${data.label}",
                     value: ${data.value}
-                });
-            </c:forEach>
-            
+        });
+        </c:forEach>
+
             var labels = chartData.map(data => data.label);
             var salesData = chartData.map(data => data.value);
-            
+
             var ctx = document.getElementById('salesChart').getContext('2d');
             var chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Sales',
-                        data: salesData,
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
+                            label: 'Sales',
+                            data: salesData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
                 },
                 options: {
                     scales: {
@@ -275,11 +320,26 @@
                     }
                 }
             });
-            
+
             function updateChart() {
                 var period = document.getElementById('periodFilter').value;
                 window.location.href = 'SaleStatistic?period=' + period;
             }
-        </script>
-    </body>
-</html>
+                </script>
+                <script>
+                    // Lấy dữ liệu từ JSP
+                    const xArray = [<%= labels.toString() %>];
+                    const yArray = [<%= values.toString() %>];
+
+                    // Sử dụng Plotly.js để vẽ biểu đồ
+                    const data = [
+                        {
+                            x: xArray,
+                            y: yArray,
+                            type: "bar",
+                        },
+                    ];
+                    Plotly.newPlot("dataGraph", data, {}, {staticPlot: true});
+                </script>
+                </body>
+                </html>
