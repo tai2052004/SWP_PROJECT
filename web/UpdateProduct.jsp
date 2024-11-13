@@ -120,7 +120,7 @@
                     <span class="title">Update Product</span>
                 </div>
                 <div class="main">
-                    <form action="UpdateProductServlet" method="POST" class="form">
+                    <form action="UpdateProductServlet" method="POST" class="form" onsubmit="return validateForm()">
                      <div class="main-image">
                         <% if (p != null) { %>
                             <img src="<%= p.getImg_url() %>">
@@ -143,7 +143,7 @@
                         </div>
                         <div class="form-group">
                             <label for="discount">Discount </label>
-                            <input type="text" id="discount" name="discount" value="<%= p != null ? p.getDiscount() : "" %>"required>
+                            <input type="number" id="discount" name="discount" value="<%= p != null ? p.getDiscount() : "" %>"required>
                         </div>
                         <div class="form-group full-width">
                             <label for="productDescription">Product Description</label>
@@ -196,7 +196,7 @@
                 </div>
             </div>
         </div>
-       <script>
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
             const closeButtons = document.querySelectorAll('.alert .close');
 
@@ -206,6 +206,41 @@
                 });
             });
         });
+        
+        function validateForm() {
+            const productName = document.getElementById("productName").value.trim();
+            const brand = document.getElementById("brand").value.trim();
+            const productPrice = document.getElementById("productPrice").value;
+            const discount = document.getElementById("discount").value.trim();
+            const productDescription = document.getElementById("productDescription").value.trim();
+
+            if (productName === "") {
+                alert("Product Name cannot be empty");
+                return false;
+            }
+            if (brand === "") {
+                alert("Brand cannot be empty");
+                return false;
+            }
+            if (productPrice === "" || isNaN(productPrice) || productPrice <= 0) {
+                alert("Product Price must be a valid number greater than 0");
+                return false;
+            }
+
+            // Kiểm tra discount: Chuyển đổi thành số và kiểm tra
+            const discountValue = parseFloat(discount);
+            if (isNaN(discountValue) || discountValue < 0) {
+                alert("Discount must be a valid number and cannot be negative");
+                return false;
+            }
+
+            if (productDescription === "") {
+                alert("Product Description cannot be empty");
+                return false;
+            }
+
+            return true;
+        }
         </script>
     </body>
 </html>

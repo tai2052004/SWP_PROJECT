@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.ProductDetail;
 import model.User;
 
@@ -244,6 +246,43 @@ public class ProductDB implements DatabaseInfo {
         }
         return count;
     }
+    public static List<Product> getLowStockProducts() {
+        Map<Integer, Product> productMap = new HashMap<>(); // Use a Map to keep products unique by ID
+        int threshold = 3; // If quantity < 3 => low in-stock
+
+        String sql = "SELECT p.product_id, p.name, p.brand, p.price, p.discount, description, p.image_urls, p.status " +
+                     "FROM Product p " +
+                     "JOIN ProductDetail pd ON p.product_id = pd.product_id " +
+                     "WHERE pd.quantity < ?";
+
+        try (Connection con = getConnect(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, threshold);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("product_id");
+
+                // Add to the map only if it doesn't already contain the product ID
+                if (!productMap.containsKey(id)) {
+                    String product_name = rs.getString("name");
+                    String brand = rs.getString("brand");
+                    double price = rs.getDouble("price");
+                    String discount = rs.getString("discount");
+                    String description = rs.getString("description");
+                    String url = rs.getString("image_urls");
+                    int status = rs.getInt("status");
+
+                    // Create and put the Product into the map
+                    Product product = new Product(id, product_name, brand, price, discount, description, url, status);
+                    productMap.put(id, product);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>(productMap.values());
+    }
+
     public static List<Product> getProductsByStatus(int status) {
         List<Product> productList = new ArrayList<>();
         String sql = "SELECT product_id, name, brand, price, discount, description, image_urls, status "

@@ -11,17 +11,21 @@
     List<Product> listProducts = new ArrayList<Product>();
     String statusChosen = request.getParameter("status");
     String keyword = request.getParameter("keyword");
-    if (statusChosen != null) {
-        if (statusChosen.equals("Publish")) {
-            listProducts = ProductDB.getProductsByStatus(1);
-        } else if (statusChosen.equals("Unpublish")) {
-            listProducts = ProductDB.getProductsByStatus(0);
-        } else {
-            listProducts = ProductDB.allListProduct();
-        }
+    boolean showLowStock = "true".equals(request.getParameter("lowStock"));
+        if (showLowStock) {
+        listProducts = ProductDB.getLowStockProducts();
     } else {
         listProducts = ProductDB.allListProduct();
     }
+
+    // Apply status filter
+    if (statusChosen != null && !statusChosen.equals("All")) {
+        int statusValue = statusChosen.equals("Publish") ? 1 : 0;
+        listProducts = listProducts.stream()
+            .filter(product -> product.getStatus() == statusValue)
+            .collect(Collectors.toList());
+    }
+
     if (keyword != null && !keyword.isEmpty()) {
         listProducts = listProducts.stream()
             .filter(product -> product.getProductName().toLowerCase().contains(keyword.toLowerCase()))
@@ -268,13 +272,9 @@
                             <h1>Inventory List</h1>
                         </div>
                         
-
-                       
-                            
-
                         <!-- Sort and Add new buttons -->
                         <div style="display: flex; gap: 16px; align-items: center;">
-                            <form action="WarehouseInventory.jsp" method="GET" style="display: flex; gap: 16px; align-items: center;">
+                            <form id="product" action="WarehouseInventory.jsp" method="GET" style="display: flex; gap: 16px; align-items: center;">
                                 <!-- Search section -->
                                 <div style="display: flex; align-items: center; gap: 10px;">
                                     <span style="font-weight: 500;">Search:</span>
@@ -291,6 +291,15 @@
                                             background: white;
                                             cursor: pointer;
                                             ">Search</button>
+                                </div>
+                                  
+                                <!-- Check box low in-stock-->
+                                <div>
+                                    <label type="submit" style="display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1px solid #000; padding: 5px;">
+                                        <input type="checkbox" name="lowStock" value="true" <%= showLowStock ? "checked" : "" %> 
+                                               style="margin: 0; cursor: pointer;" onchange="this.form.submit()">
+                                        <span style="user-select: none;">Low In-Stock</span>
+                                    </label>
                                 </div>
                                 <!-- Filter section -->
                                 <div style="display: flex; gap: 16px; align-items: center;">

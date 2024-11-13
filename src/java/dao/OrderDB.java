@@ -379,6 +379,16 @@ public class OrderDB implements DatabaseInfo {
         return orders;
     }
     
+    public static int countByStatus(String status, List<Order> orders){
+        int count = 0;
+        for (Order o : orders) {
+            if (o.getStatus().equals(status)){
+                count++;
+            }
+        }
+        return count;
+    }
+    
     public static SalesStatistic getTodayStatistics() {
     try (Connection conn = getConnect()) {
         String query = "SELECT COALESCE(SUM(o.total_price), 0) as total_sales, " +

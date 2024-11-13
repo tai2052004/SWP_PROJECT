@@ -291,12 +291,12 @@
                             <div class="main-2">
                                 <div class="form-group">
                                     <p style="background: bisque; padding: 10px; width: fit-content;">Product Detail Description</p>
-                                    <input style="padding-bottom: 27%" main="description" placeholder="Enter product description" />
+                                    <input style="padding-bottom: 27%" main="description" placeholder="Enter product description" required/>
                                 </div>
 
                                 <div class="form-group">    
                                     <p>Discount</p>
-                                    <input style="width: 300px" type="number" name="discount" placeholder="Enter discount value">
+                                    <input style="width: 300px" type="number" name="discount" placeholder="Enter discount value" required>
                                 </div>
                                 <button type="submit" style="margin-left:50px; margin-top: 80px;">Save & Publish</button>
                             </div>
