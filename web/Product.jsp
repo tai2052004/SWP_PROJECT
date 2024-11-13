@@ -213,21 +213,7 @@ if (user != null) {
             <!-- Buttons for Cart and Buy -->
 
         </div>
-
-
-
-        <!-- Product Description Section -->
-        <!--        <div class="product-description">
-                    <div class="description-title">
-                        <button>
-                            Product description
-                        </button>
-                        <button> Review</button>
-                    </div>
-                    <p>Nike Full Force Low - Black / Fire Red is a great choice for those who love a sporty style. Featuring a striking design with three colors—white, red, and black—the shoe offers an eye-catching and dynamic look. The midsole is made with cushioning technology, providing a soft feel and maximum support for the feet. The outsole is crafted from rubber, offering high durability and excellent grip on various surfaces. This ensures users can move confidently, whether on the streets or the training field. The shoe’s upper is made from synthetic leather, providing durability and a solid feel when worn.</p>
-                    <div class="foot-img">  <img src="img/giay5.png" alt="Product Image"> </div>
-        
-                </div>-->
+                    
         <div class="product-info" style="margin-top: 250px;">
             <div class="review-title">
                 <button class="review-button" id="descriptionBtn" class="active">Product Description</button>
@@ -239,21 +225,27 @@ if (user != null) {
             </div>
 
             <div id="reviewContent" class="content">
-                <form action="AddCommentServlet" method="post"> 
-                    <div class="new-review">
-                        <h2 class="title">Review</h2>
-                        <div class="star-rating">
-                            <input type="hidden" name="starRating" id="starRating">
-                            <span data-value="1" class="star" onclick="setRating(1)">&#9733;</span>
-                            <span data-value="2" class="star" onclick="setRating(2)">&#9733;</span>
-                            <span data-value="3" class="star" onclick="setRating(3)">&#9733;</span>
-                            <span data-value="4" class="star" onclick="setRating(4)">&#9733;</span>
-                            <span data-value="5" class="star" onclick="setRating(5)">&#9733;</span>
+                <% 
+                    if (user != null) {
+                %>
+                    <form action="AddCommentServlet" method="post"> 
+                        <div class="new-review">
+                            <h2 class="title">Review</h2>
+                            <div class="star-rating">
+                                <input type="hidden" name="starRating" id="starRating">
+                                <span data-value="1" class="star" onclick="setRating(1)">&#9733;</span>
+                                <span data-value="2" class="star" onclick="setRating(2)">&#9733;</span>
+                                <span data-value="3" class="star" onclick="setRating(3)">&#9733;</span>
+                                <span data-value="4" class="star" onclick="setRating(4)">&#9733;</span>
+                                <span data-value="5" class="star" onclick="setRating(5)">&#9733;</span>
+                            </div>
+                            <textarea name="commentContent" class="decription" placeholder="Leave a comment"></textarea>
+                            <button class="submit-button" type="submit">Submit Review</button>
                         </div>
-                        <textarea name="commentContent" class="decription" placeholder="Leave a comment"></textarea>
-                        <button class="submit-button" type="submit">Submit Review</button>
-                    </div>
-                </form>
+                    </form>
+                <%
+                    }
+                %>
 
                 <div class="review-list">
                     <h3>Reviews</h3>
@@ -262,7 +254,7 @@ if (user != null) {
                         for (Comment com : commentList) {
                     %>
                     <div class="review-item">
-                        <div class="user-name"><%= user.getFullname() %></div>
+                        <div class="user-name"><%= UserDB.getFullNameByID(com.getUser_id()) %></div>
                         <div class="user-rating">
                             <% 
                                 int starCount = com.getStar();

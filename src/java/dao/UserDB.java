@@ -145,7 +145,7 @@ public class UserDB implements DatabaseInfo {
         }
         return false;
     }
-
+    
     public static boolean userExistsEmail(String email) {
         try (Connection con = getConnect()) {
             PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM Users WHERE User_email = ?");
@@ -336,7 +336,23 @@ public class UserDB implements DatabaseInfo {
 
         return user;  // Return the user object or null if not found
     }
+    
+    public static String getFullNameByID(int id){
+        String fullName = "";
+        try (Connection con = getConnect()) {
+            String query = "SELECT * FROM Users WHERE ID = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setInt(1, id);  // Set the email parameter
 
+            ResultSet rs = stmt.executeQuery();  
+            if (rs.next()){
+                fullName = rs.getString("User_fullname");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fullName;
+    }
     public static void main(String[] args) {
         User user = new User("tran ngoc thien", 1, "male", "0702411147", "ngocthien2902@gmail.com", "user");
         System.out.println(UserDB.UpdateUser(user));
